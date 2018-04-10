@@ -1,0 +1,4 @@
+bin/*.jam
+bin/WizardBrawl
+*.log
+darwin-*

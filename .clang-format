@@ -1,0 +1,25 @@
+BasedOnStyle: Google
+IndentWidth: 2
+Language: Cpp
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Left
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignEscapedNewlines: Left
+AlignAfterOpenBracket: Align
+AccessModifierOffset: -1
+AlignOperands: true
+AlignTrailingComments: true
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: true
+AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakTemplateDeclarations: true
+BinPackArguments: true
+BinPackParameters: true
+SpaceBeforeAssignmentOperators: true
+# BreakBeforeBraces: Custom
+# BraceWrapping:
+#   AfterEnum: true
