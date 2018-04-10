@@ -3,6 +3,17 @@
 #include "globals.hpp"
 #include "image.hpp"
 
+/*  Scene
+  - Information about what to draw
+  - Other relevant information, such as, selected menu item, or health
+  - Get input
+*/
+
+/*  SceneManager
+  - Ability to change scene
+  - Ability to add scenes
+*/
+
 int main(int argc, char* argv[]) {
   // Global variables
   Globals globals;
