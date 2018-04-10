@@ -38,6 +38,7 @@ int main(int argc, char* argv[]) {
           globals.width  = event.window.data1;
           globals.height = event.window.data2;
           GPU_SetWindowResolution(event.window.data1, event.window.data2);
+          // scale lol
           GPU_SetVirtualResolution(window, 1920, 1080);
         }
       }
