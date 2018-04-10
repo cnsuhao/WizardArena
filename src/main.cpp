@@ -1,50 +1,7 @@
 // Copyright 2018 Anas Idiab, Sebastian Winding.
 // Includes
-#include "includes.hpp"
-
-// Game states enum
-enum GameState { MENU = 0, GAME = 1, QUIT = 2 };
-
-// Structure of globals
-struct Globals {
-  byte gameState = MENU;  // stores data
-  // Screen dimensions
-  uint width = 1280, height = 720;
-};
-
-/*
-  Handles images
- */
-class Image {
- public:
-  // Loads image
-  Image(const char* filename) {
-    image    = GPU_LoadImage(filename);
-    Position = vec2(0, 0);
-  }
-  // Load with position
-  Image(const char* filename, vec2 Position) {
-    image          = GPU_LoadImage(filename);
-    this->Position = Position;
-  }
-  // Load with position
-  Image(const char* filename, float x, float y) {
-    image          = GPU_LoadImage(filename);
-    this->Position = vec2(x, y);
-  }
-  // Destructor
-  ~Image() { GPU_FreeImage(image); }
-
-  // Draw
-  void Draw(GPU_Target* target) {
-    GPU_Blit(image, NULL, target, Position.x, Position.y);
-  }
-
-  vec2 Position;  // Image position
-
- private:
-  GPU_Image* image;  // Image pointer
-};
+#include "globals.hpp"
+#include "image.hpp"
 
 int main(int argc, char* argv[]) {
   // Global variables
@@ -60,6 +17,9 @@ int main(int argc, char* argv[]) {
   // Allocate event memory
   SDL_Event event;
 
+  // Scaling coordinates
+  GPU_SetVirtualResolution(window, 1920, 1080);
+
   // Main game loop
   while (globals.gameState != QUIT) {
     // Loop through polled events
@@ -69,13 +29,16 @@ int main(int argc, char* argv[]) {
       // Checks if mouse motion
       if (event.type == SDL_MOUSEMOTION) {
         // Moving the image to the cursor
-        image.Position = vec2(event.motion.x, event.motion.y);
+        image.Position = vec2(1920 * event.motion.x / globals.width,
+                              1080 * event.motion.y / globals.height);
       }
       // Checks if window event
       if (event.type == SDL_WINDOWEVENT) {
         if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+          globals.width  = event.window.data1;
+          globals.height = event.window.data2;
           GPU_SetWindowResolution(event.window.data1, event.window.data2);
-          // GPU_SetVirtualResolution(frametarget, 1920, 1080);
+          GPU_SetVirtualResolution(window, 1920, 1080);
         }
       }
     }

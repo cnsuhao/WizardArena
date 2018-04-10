@@ -1,4 +1,5 @@
 bin/*.jam
 bin/WizardBrawl
+bin/WizardArena
 *.log
 darwin-*
