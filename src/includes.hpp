@@ -14,6 +14,7 @@
 // Using statements
 using glm::vec2;
 using std::vector;
+using std::string;
 
 // Type definitions
 typedef uint8_t  byte;
