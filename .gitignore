@@ -1,5 +1,11 @@
+bin/*.dll
+bin/*.pdb
+bin/*.exe
 bin/*.jam
 bin/WizardBrawl
 bin/WizardArena
 *.log
 darwin-*
+msvc-*
+gcc-*
+

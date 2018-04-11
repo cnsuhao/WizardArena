@@ -22,9 +22,11 @@ void SceneManager::ChangePrimaryScene(Scene* scene) {
 void SceneManager::AddScene(Scene* scene) { scenes.push_back(scene); }
 
 void SceneManager::Draw() {
-  for (auto scene : scenes) { scene.Draw(); }
+  // TODO: Uncomment once implemented
+  // for (auto scene : scenes) { scene.Draw(); }
 }
 
 void SceneManager::Update() {
-  for (auto scene : scenes) { scene.Update(); }
+  // TODO: Uncomment once implemented
+  // for (auto scene : scenes) { scene.Update(); }
 }
