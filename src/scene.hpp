@@ -8,6 +8,8 @@ class Scene {
  public:
   Scene();
   virtual ~Scene();
+  void Draw();
+  void Update();
 
  protected:
   vector<Image*> gameObjects;
@@ -15,6 +17,8 @@ class Scene {
   vector<string> messages;
 
   bool dead;
+
+  GPU_Target* target;
 };
 
 #endif /* SCENE_HPP */

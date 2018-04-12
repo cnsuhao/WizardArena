@@ -23,10 +23,10 @@ void SceneManager::AddScene(Scene* scene) { scenes.push_back(scene); }
 
 void SceneManager::Draw() {
   // TODO: Uncomment once implemented
-  // for (auto scene : scenes) { scene.Draw(); }
+  for (auto scene : scenes) { scene.Draw(); }
 }
 
 void SceneManager::Update() {
   // TODO: Uncomment once implemented
-  // for (auto scene : scenes) { scene.Update(); }
+  for (auto scene : scenes) { scene.Update(); }
 }
