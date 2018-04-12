@@ -1,11 +1,13 @@
 #include "scenemanager.hpp"
 
 SceneManager::SceneManager(Scene* PrimaryScene) {
+  // Initialize vector and add the primary scene;
   scenes = vector<Scene*>();
   scenes.push_back(PrimaryScene);
 }
 
 SceneManager::~SceneManager() {
+  // Delete all scenes
   for (auto scene : scenes) { delete scene; }
   scenes.clear();
 }
@@ -22,11 +24,9 @@ void SceneManager::ChangePrimaryScene(Scene* scene) {
 void SceneManager::AddScene(Scene* scene) { scenes.push_back(scene); }
 
 void SceneManager::Draw() {
-  // TODO: Uncomment once implemented
-  for (auto scene : scenes) { scene.Draw(); }
+  for (auto scene : scenes) { scene->Draw(); }
 }
 
 void SceneManager::Update() {
-  // TODO: Uncomment once implemented
-  for (auto scene : scenes) { scene.Update(); }
+  for (auto scene : scenes) { scene->Update(); }
 }
