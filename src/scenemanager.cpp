@@ -1,7 +1,12 @@
 #include "scenemanager.hpp"
 
+SceneManager::SceneManager() {
+  // Initialize vector
+  scenes = vector<Scene*>();
+}
+
 SceneManager::SceneManager(Scene* PrimaryScene) {
-  // Initialize vector and add the primary scene;
+  // Initialize vector and add the primary scene
   scenes = vector<Scene*>();
   scenes.push_back(PrimaryScene);
 }
@@ -22,6 +27,15 @@ void SceneManager::ChangePrimaryScene(Scene* scene) {
 }
 
 void SceneManager::AddScene(Scene* scene) { scenes.push_back(scene); }
+
+void SceneManager::Tick() {
+  Update();
+  Draw();
+}
+
+void SceneManager::Input(SDL_Event event) {
+  for (auto scene : scenes) { scene->Input(event); }
+}
 
 void SceneManager::Draw() {
   for (auto scene : scenes) { scene->Draw(); }

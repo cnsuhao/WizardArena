@@ -8,20 +8,25 @@
 */
 class SceneManager {
  public:
-  // Constructor
+  // Constructors
+  SceneManager();
   SceneManager(Scene* PrimaryScene);
   // Destructor
-  virtual ~SceneManager();
+  ~SceneManager();
   // Change the primary and bottom scene
   void ChangePrimaryScene(Scene* scene);
   // Add a scene on top
   void AddScene(Scene* scene);
+  // Call tick functions
+  void Tick();
+  // Call appropriate input functions
+  void Input(SDL_Event event);
+
+ private:
   // Draw appropriate scenes
   void Draw();
   // Update the appropriate scenes
   void Update();
-
- private:
   // Store scenes
   vector<Scene*> scenes;
 };

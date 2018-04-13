@@ -13,9 +13,11 @@ class Scene {
   // Destructor
   virtual ~Scene();
   // Draws scene
-  void Draw();
+  virtual void Draw();
   // Updates scene
-  void Update();
+  virtual void Update();
+  // Processes input
+  virtual void Input(SDL_Event event);
 
  protected:
   // Variables
