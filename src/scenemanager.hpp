@@ -1,6 +1,6 @@
 #ifndef SCENEMANAGER_HPP
 #define SCENEMANAGER_HPP
-#include "includes.hpp"
+#include "globals.hpp"
 #include "scene.hpp"
 
 /*
@@ -10,7 +10,7 @@ class SceneManager {
  public:
   // Constructors
   SceneManager();
-  SceneManager(Scene* PrimaryScene);
+  explicit SceneManager(Scene* PrimaryScene);
   // Destructor
   ~SceneManager();
   // Change the primary and bottom scene
