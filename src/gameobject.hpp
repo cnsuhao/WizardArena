@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H
 
 #include "globals.hpp"
+
 /*
   Game object class
  */
@@ -15,6 +16,8 @@ class GameObject {
   virtual void Draw();
   // Update GameObject
   virtual void Update();
+  // Input function
+  virtual void Input(SDL_Event event);
 
   // Static variables
   static Globals* globals;

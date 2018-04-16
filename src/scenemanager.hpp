@@ -1,6 +1,6 @@
 #ifndef SCENEMANAGER_HPP
 #define SCENEMANAGER_HPP
-#include "includes.hpp"
+#include "globals.hpp"
 #include "scene.hpp"
 
 /*
@@ -8,22 +8,27 @@
 */
 class SceneManager {
  public:
-  // Constructor
-  SceneManager(Scene* PrimaryScene);
+  // Constructors
+  SceneManager();
+  explicit SceneManager(Scene* PrimaryScene);
   // Destructor
-  virtual ~SceneManager();
+  ~SceneManager();
   // Change the primary and bottom scene
   void ChangePrimaryScene(Scene* scene);
   // Add a scene on top
   void AddScene(Scene* scene);
+  // Call tick functions
+  void Tick();
+  // Call appropriate input functions
+  void Input(SDL_Event event);
+
+ private:
   // Draw appropriate scenes
   void Draw();
   // Update the appropriate scenes
   void Update();
   // Trigger input for the appropriate scenes
   void Input(SDL_Event* event);
-
- private:
   // Store scenes
   vector<Scene*> scenes;
 };
