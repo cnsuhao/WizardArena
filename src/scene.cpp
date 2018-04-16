@@ -5,7 +5,11 @@ Scene::Scene() {
   gameObjects = vector<GameObject*>();
   messages    = vector<string>();
 }
-// Draw gameObject
+
+Scene::~Scene() {
+  for (auto gameObject : gameObjects) { delete gameObject; }
+}
+
 void Scene::Draw() {
   for (auto gameObject : gameObjects) { gameObject->Draw(); }
 }
@@ -14,7 +18,6 @@ void Scene::Update() {
   for (auto gameObject : gameObjects) { gameObject->Update(); }
 }
 
-// Free scene memory
-Scene::~Scene() {
-  for (auto gameObject : gameObjects) { delete gameObject; }
+void Scene::Input(SDL_Event* event) {
+  for (auto gameObject : gameObjects) { gameObject->Input(); }
 }

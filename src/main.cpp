@@ -3,26 +3,7 @@
 #include "globals.hpp"
 #include "image.hpp"
 
-/* GameObject
-   - Position
-   - Size
-   - Rotation
-   - Draw function
-   - Update function
-   - Holds a static globals pointer
-*/
-
-/* Scene
-   - Information about what to draw
-   - Other relevant information, such as, selected menu item, or health
-   - Get input
-*/
-
-/* SceneManager
-   - Ability to change scene
-   - Ability to add scenes
-*/
-
+// Main entry point
 int main(int argc, char* argv[]) {
   // Global variables
   Globals globals;

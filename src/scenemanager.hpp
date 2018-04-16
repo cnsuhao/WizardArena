@@ -20,6 +20,8 @@ class SceneManager {
   void Draw();
   // Update the appropriate scenes
   void Update();
+  // Trigger input for the appropriate scenes
+  void Input(SDL_Event* event);
 
  private:
   // Store scenes

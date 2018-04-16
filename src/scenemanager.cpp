@@ -30,3 +30,7 @@ void SceneManager::Draw() {
 void SceneManager::Update() {
   for (auto scene : scenes) { scene->Update(); }
 }
+
+void SceneManager::Input(SDL_Event* event) {
+  for (auto scene : scenes) { scene->Input(event); }
+}

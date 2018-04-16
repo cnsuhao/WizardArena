@@ -16,6 +16,8 @@ class Scene {
   void Draw();
   // Updates scene
   void Update();
+  // Trigger input for the appropriate scenes
+  void Input(SDL_Event* event);
 
  protected:
   // Variables
