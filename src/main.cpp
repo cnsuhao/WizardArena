@@ -4,6 +4,7 @@
 #include "image.hpp"
 #include "input.hpp"
 
+// Main entry point
 int main(int argc, char* argv[]) {
   // Global variables
   Globals globals;

@@ -3,32 +3,51 @@
 #include "globals.hpp"
 #include "scene.hpp"
 
-/*
-   Class to handle and manage multiple scenes
-*/
+/**
+ *  Class to handle and manage multiple scenes. It keeps a stack of scenes,
+ *  wherein the primary scene is the scene at the bottom of the stack.
+ */
 class SceneManager {
  public:
-  // Constructors
+  /** Constructor that only initializes the vector of scene pointers. */
   SceneManager();
+  /** Constructor that initializes the vector of scene pointers and pushes a
+     primary scene to the vector.
+      @param PrimaryScene Scene pointer to push to the stack.
+      @see Scene
+   */
   explicit SceneManager(Scene* PrimaryScene);
-  // Destructor
+  /** Destructor that deletes all scenes.
+      @see Scene
+  */
   ~SceneManager();
-  // Change the primary and bottom scene
+  /** Changes the primary and bottom scene.
+      @param scene The scene pointer which should be at the bottom of the stack.
+      @see Scene
+   */
   void ChangePrimaryScene(Scene* scene);
-  // Add a scene on top
+
+  /** Adds a scene on top.
+      @param scene A scene pointer to push to the stack.
+   */
   void AddScene(Scene* scene);
-  // Call tick functions
+
+  /** Calls tick functions of all handled scenes. */
   void Tick();
-  // Call appropriate input functions
+
+  /** Calls input functions of all handled scenes.
+      @param event The event to pass to each scene.
+   */
   void Input(SDL_Event event);
 
  private:
-  // Draw appropriate scenes
+  /** Calls draw functions of all handled scenes. */
   void Draw();
-  // Update the appropriate scenes
+  /** Calls update functions of all handled scenes. */
   void Update();
-  // Store scenes
-  vector<Scene*> scenes;
+
+  // Variables
+  vector<Scene*> scenes;  ///< Stack that holds pointers to all handled scenes.
 };
 
 #endif /* SCENEMANAGER_HPP */
