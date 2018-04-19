@@ -34,6 +34,7 @@ class SceneManager {
 
   /** Calls tick functions of all handled scenes. */
   void Tick();
+
   /** Calls input functions of all handled scenes.
       @param event The event to pass to each scene.
    */
