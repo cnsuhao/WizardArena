@@ -14,6 +14,8 @@ struct Globals {
   uint width = 1280, height = 720;
   // Window pointer
   GPU_Target* window;
+  // Font
+  TTF_Font* font;
 };
 
 #endif  // GLOBALS_HPP

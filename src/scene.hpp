@@ -28,15 +28,17 @@ class Scene {
   */
   virtual void Input(SDL_Event event);
 
+  /** Messages to pass to the SceneManager @see SceneManager */
+  vector<string> Messages;
+  /** Lets the SceneManager see if the current scene instance is dead
+   *  @see SceneManager */
+  bool Dead;
+
  protected:
   // Variables
   /** Vector of GameObject pointers @see GameObject*/
   vector<GameObject*> gameObjects;
-  /** Messages to pass to the SceneManager @see SceneManager */
-  vector<string> messages;
-  /** Lets the SceneManager see if the current scene instance is dead
-   *  @see SceneManager */
-  bool dead;
+
   // GPU_Target* target;
 };
 
