@@ -3,16 +3,16 @@
 
 #include "includes.hpp"
 
-// Game states enum
+/** This is a enumeration that describes the game state.*/
 enum GameState { MENU = 0, GAME = 1, QUIT = 2 };
 
-// Structure of globals
+/** This is the structure of the game that holds the the global variabels. */
 struct Globals {
-  // Current game state
-  byte gameState = MENU;  // stores data
-  // Screen dimensions
+  /** Describes the current game state. */
+  byte gameState = MENU;
+  /** The defult height and width of the game moniter. */
   uint width = 1280, height = 720;
-  // Window pointer
+  /** This is a pointer referring to the window. */
   GPU_Target* window;
   // Font
   TTF_Font* font;
