@@ -42,17 +42,21 @@ void SceneManager::Draw() {
 }
 
 void SceneManager::Update() {
-  for (int i = 0; i < scenes.size(); i++) {
+  for (uint i = 0; i < scenes.size(); i++) {
     scenes[i]->Update();
     vector<string> messages = scenes[i]->Messages;
     if (scenes[i]->Dead) {
       delete scenes[i];
+      scenes.erase(scenes.begin() + i);
       i--;
       if (messages.size() > 0) {
-        for (int j = 0; j < messages.size(); j++) {
+        for (uint j = 0; j < messages.size(); j++) {
           if (messages[j] == "Credits") {
             i++;
             scenes.insert(scenes.begin() + i, new Credits());
+          } else if (messages[j] == "Main Menu") {
+            i++;
+            scenes.insert(scenes.begin() + i, new MainMenu());
           }
         }
       }

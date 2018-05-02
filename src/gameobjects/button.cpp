@@ -1,6 +1,7 @@
 #include "button.hpp"
 
 GPU_Image* Button::buttonImages[3];
+bool       Button::loaded = false;
 
 Button::Button(string Text) : GameObject() {
   if (!loaded) {
@@ -20,9 +21,12 @@ Button::Button(string Text) : GameObject() {
 }
 
 Button::~Button() {
-  GPU_FreeImage(buttonImages[0]);
-  GPU_FreeImage(buttonImages[1]);
-  GPU_FreeImage(buttonImages[2]);
+  if (loaded) {
+    GPU_FreeImage(buttonImages[0]);
+    GPU_FreeImage(buttonImages[1]);
+    GPU_FreeImage(buttonImages[2]);
+    loaded = false;
+  }
   GPU_FreeImage(buttonText);
 }
 

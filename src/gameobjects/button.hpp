@@ -33,7 +33,7 @@ class Button : public GameObject {
    */
   static GPU_Image* buttonImages[3];
   GPU_Image*        buttonText;
-  bool              loaded = false;
+  static bool       loaded;
 
   // Current state
   byte state;

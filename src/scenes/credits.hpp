@@ -9,7 +9,20 @@ class Credits : public Scene {
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
   }
+
   virtual ~Credits() {}
+
+  void Draw() { Scene::Draw(); }
+
+  void Update() { Scene::Update(); }
+
+  void Input(SDL_Event event) {
+    if (event.type == SDL_KEYDOWN) {
+      Dead = true;
+      Messages.push_back("Main Menu");
+    }
+    Scene::Input(event);
+  }
 };
 
 #endif /* CREDITS_H */
