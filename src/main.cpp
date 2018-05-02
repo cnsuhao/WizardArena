@@ -1,10 +1,23 @@
 // Copyright 2018 Anas Idiab, Sebastian Winding.
+/**
+   @file main.cpp
+   @author Anas Idiab and Sebastian Winding
+   @date 19. Apr 2018
+ */
 // Includes
+// This source file contains the main entry point of the application, which is
+//  the main function.
 #include "globals.hpp"
 #include "image.hpp"
 #include "input.hpp"
 
-// Main entry point
+/** Main application entry point.
+    @param argc Amount of arguments passed to the program.
+    @param argv Argument C-string values.
+    @return Exit code of the application where an exit code of 0 means
+    error free.
+    @see https://en.wikipedia.org/wiki/Exit_status
+ */
 int main(int argc, char* argv[]) {
   // Global variables
   Globals globals;
