@@ -15,7 +15,8 @@ void InputManager::ProcessInput() {
       // Properly resize the framebuffer
       if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
         GPU_SetWindowResolution(event.window.data1, event.window.data2);
-        GPU_SetVirtualResolution(globals->window, 1920, 1080);
+        GPU_SetVirtualResolution(globals->window, globals->vwidth,
+                                 globals->vheight);
         // Store window size
         globals->width  = event.window.data1;
         globals->height = event.window.data2;

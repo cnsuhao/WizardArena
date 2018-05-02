@@ -10,12 +10,16 @@ enum GameState { MENU = 0, GAME = 1, QUIT = 2 };
 struct Globals {
   /** Describes the current game state. */
   byte gameState = MENU;
-  /** The defult height and width of the game moniter. */
+  /** The defult width and height of the game window. */
   uint width = 1280, height = 720;
+  /** Width and height of the viewport coordinate system */
+  const uint vwidth = 1280, vheight = 720;
   /** This is a pointer referring to the window. */
   GPU_Target* window;
-  // Font
+  /** Game font */
   TTF_Font* font;
+  /** Delta time */
+  double DeltaTime = 0.016;
 };
 
 #endif  // GLOBALS_HPP

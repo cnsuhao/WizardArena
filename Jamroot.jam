@@ -15,7 +15,8 @@ exe "WizardArena" : [ glob src/*.cpp ] [ glob src/gameobjects/*.cpp ] [ glob src
 <library>/WizardArena//SDL2_gpu
 <library>/WizardArena//SDL2_ttf
 <target-os>darwin:<framework>"OpenGL"
-<address-model>64 <optimization>speed
+<address-model>64
+# <optimization>speed
 <cflags>-std=c++11
 <define>DEBUG <variant>debug ;
 

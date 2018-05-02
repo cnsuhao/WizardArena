@@ -22,7 +22,6 @@ class GameObject {
   // Static variables
   static Globals* globals;
 
- protected:
   // Variables
   vec2  position;
   vec2  size;

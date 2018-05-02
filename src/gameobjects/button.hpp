@@ -14,7 +14,16 @@ class Button : public GameObject {
   // Input function
   void Input(SDL_Event event) override;
 
+  // Set button state
   void SetState(byte state);
+
+  // Hook a specific function
+  void Hook(void (*f)(void));
+
+  // Call the hooked function
+  void Click() {
+    if (hooked) func();
+  };
 
  private:
   /* 0: default
@@ -22,10 +31,16 @@ class Button : public GameObject {
      2: down
      3: text
    */
-  GPU_Image* buttonImages[4];
+  static GPU_Image* buttonImages[3];
+  GPU_Image*        buttonText;
+  bool              loaded = false;
 
   // Current state
   byte state;
+
+  // Hooked function
+  void (*func)(void);
+  bool hooked = false;
 };
 
 #endif /* BUTTON_H */
