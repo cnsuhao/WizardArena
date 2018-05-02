@@ -1,7 +1,8 @@
 #ifndef SCENEMANAGER_HPP
 #define SCENEMANAGER_HPP
 #include "globals.hpp"
-#include "scene.hpp"
+#include "scenes/credits.hpp"
+#include "scenes/mainmenu.hpp"
 
 /**
  *  Class to handle and manage multiple scenes. It keeps a stack of scenes,

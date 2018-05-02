@@ -1,5 +1,8 @@
 #include "gameobject.hpp"
 
+// Static member declarations
+Globals* GameObject::globals;
+
 GameObject::GameObject() {}
 
 void GameObject::Draw() {}

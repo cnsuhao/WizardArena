@@ -3,17 +3,23 @@
 
 #include "includes.hpp"
 
-// Game states enum
+/** This is a enumeration that describes the game state.*/
 enum GameState { MENU = 0, GAME = 1, QUIT = 2 };
 
-// Structure of globals
+/** This is the structure of the game that holds the the global variabels. */
 struct Globals {
-  // Current game state
-  byte gameState = MENU;  // stores data
-  // Screen dimensions
+  /** Describes the current game state. */
+  byte gameState = MENU;
+  /** The defult width and height of the game window. */
   uint width = 1280, height = 720;
-  // Window pointer
+  /** Width and height of the viewport coordinate system */
+  const uint vwidth = 1280, vheight = 720;
+  /** This is a pointer referring to the window. */
   GPU_Target* window;
+  /** Game font */
+  TTF_Font* font;
+  /** Delta time */
+  double DeltaTime = 0.016;
 };
 
 #endif  // GLOBALS_HPP

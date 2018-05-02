@@ -1,9 +1,9 @@
 #include "scene.hpp"
 
 Scene::Scene() {
-  dead        = false;
+  Dead        = false;
+  Messages    = vector<string>();
   gameObjects = vector<GameObject*>();
-  messages    = vector<string>();
 }
 // Free scene memory
 Scene::~Scene() {

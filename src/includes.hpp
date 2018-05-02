@@ -2,11 +2,13 @@
 #define INCLUDES_HPP
 
 // STL
+#include <map>
 #include <string>
 #include <vector>
 
 // SDL2 and SDL_gpu
 #include <SDL2/SDL_gpu.h>
+#include <SDL2/SDL_ttf.h>
 
 // GLM
 #include <glm/glm.hpp>

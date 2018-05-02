@@ -10,6 +10,7 @@
 #include "globals.hpp"
 #include "image.hpp"
 #include "input.hpp"
+#include "scenes/mainmenu.hpp"
 
 /** Main application entry point.
     @param argc Amount of arguments passed to the program.
@@ -21,20 +22,22 @@
 int main(int argc, char* argv[]) {
   // Global variables
   Globals globals;
+  GameObject::globals = &globals;
 
-  // Initialize window
+  // Initialize window and SDL_ttf
   globals.window =
       GPU_Init(globals.width, globals.height, SDL_WINDOW_RESIZABLE);
+  TTF_Init();
+
+  // Load font
+  globals.font = TTF_OpenFont("Content/UI/alagard.ttf", 48);
 
   // Create scene and input manager
-  SceneManager sceneManager = SceneManager();
+  SceneManager sceneManager = SceneManager(new MainMenu());
   InputManager inputManager(&sceneManager, &globals);
 
-  // Create image
-  Image image("Content/test_image.png", 300, 200);
-
   // Scaling coordinates
-  GPU_SetVirtualResolution(globals.window, 1920, 1080);
+  GPU_SetVirtualResolution(globals.window, globals.vwidth, globals.vheight);
 
   // Main game loop
   while (globals.gameState != QUIT) {
@@ -44,9 +47,6 @@ int main(int argc, char* argv[]) {
     // Clear screen
     GPU_ClearRGB(globals.window, 30, 30, 30);
 
-    // Draw image
-    image.Draw(globals.window);
-
     // Call scene manager tick functions
     sceneManager.Tick();
 
@@ -55,6 +55,8 @@ int main(int argc, char* argv[]) {
   }
 
   // Quit SDL2 and SDL_gpu
+  TTF_CloseFont(globals.font);
+  TTF_Quit();
   GPU_Quit();
   return 0;
 }

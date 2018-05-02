@@ -42,5 +42,20 @@ void SceneManager::Draw() {
 }
 
 void SceneManager::Update() {
-  for (auto scene : scenes) { scene->Update(); }
+  for (int i = 0; i < scenes.size(); i++) {
+    scenes[i]->Update();
+    vector<string> messages = scenes[i]->Messages;
+    if (scenes[i]->Dead) {
+      delete scenes[i];
+      i--;
+      if (messages.size() > 0) {
+        for (int j = 0; j < messages.size(); j++) {
+          if (messages[j] == "Credits") {
+            i++;
+            scenes.insert(scenes.begin() + i, new Credits());
+          }
+        }
+      }
+    }
+  }
 }
