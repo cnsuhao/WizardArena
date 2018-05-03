@@ -6,10 +6,12 @@
 class Text : public GameObject {
  public:
   Text(string text);
+  Text(string text, bool useSmallFont);
   Text(string text, SDL_Color color);
   virtual ~Text();
   void Draw();
   void SetText(string text);
+  void SetText(string text, bool useSmallFont);
   void SetText(string text, SDL_Color color);
 
  private:

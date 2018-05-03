@@ -11,6 +11,7 @@
 #include "image.hpp"
 #include "input.hpp"
 #include "scenes/mainmenu.hpp"
+#include "scenes/stats.hpp"
 
 /** Main application entry point.
     @param argc Amount of arguments passed to the program.
@@ -29,11 +30,16 @@ int main(int argc, char* argv[]) {
       GPU_Init(globals.width, globals.height, SDL_WINDOW_RESIZABLE);
   TTF_Init();
 
-  // Load font
-  globals.font = TTF_OpenFont("Content/UI/alagard.ttf", 48);
+  // Load fonts
+  globals.font      = TTF_OpenFont("Content/UI/alagard.ttf", 48);
+  globals.smallFont = TTF_OpenFont("Content/UI/alagard.ttf", 24);
 
   // Create scene and input manager
   SceneManager sceneManager = SceneManager(new MainMenu());
+#ifdef DEBUG
+  sceneManager.AddScene(new Stats());
+#endif
+
   InputManager inputManager(&sceneManager, &globals);
 
   // Scaling coordinates
@@ -56,6 +62,7 @@ int main(int argc, char* argv[]) {
 
   // Quit SDL2 and SDL_gpu
   TTF_CloseFont(globals.font);
+  TTF_CloseFont(globals.smallFont);
   TTF_Quit();
   GPU_Quit();
   return 0;

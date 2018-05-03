@@ -2,6 +2,7 @@
 #define INCLUDES_HPP
 
 // STL
+#include <stdint.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -21,5 +22,6 @@ using std::string;
 // Type definitions
 typedef uint8_t  byte;
 typedef uint32_t uint;
+typedef uint64_t uint64;
 
 #endif  // INCLUDES_HPP

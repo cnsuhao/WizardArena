@@ -11,9 +11,8 @@ class Panel : public GameObject {
   // Draw GameObject
   void Draw();
 
-private:
+ private:
   GPU_Image* panel;
-
 };
 
 #endif  // PANEL_H

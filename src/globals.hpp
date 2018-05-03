@@ -18,6 +18,8 @@ struct Globals {
   GPU_Target* window;
   /** Game font */
   TTF_Font* font;
+  /** Smaller font */
+  TTF_Font* smallFont;
   /** Delta time */
   double DeltaTime = 0.016;
 };
