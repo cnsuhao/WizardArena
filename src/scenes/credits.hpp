@@ -1,5 +1,6 @@
 #ifndef CREDITS_H
 #define CREDITS_H
+#include "../gameobjects/creditstext.hpp"
 #include "../gameobjects/skybg.hpp"
 #include "../scene.hpp"
 
@@ -8,6 +9,7 @@ class Credits : public Scene {
   Credits() {
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
+    gameObjects.push_back(new CreditsText());
   }
 
   virtual ~Credits() {}

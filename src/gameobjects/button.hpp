@@ -2,10 +2,11 @@
 #define BUTTON_H
 #include "../gameobject.hpp"
 #include "../includes.hpp"
+#include "text.hpp"
 
 class Button : public GameObject {
  public:
-  Button(string Text);
+  Button(string text);
   virtual ~Button();
   // Draw GameObject
   void Draw() override;
@@ -32,8 +33,9 @@ class Button : public GameObject {
      3: text
    */
   static GPU_Image* buttonImages[3];
-  GPU_Image*        buttonText;
-  static bool       loaded;
+  // GPU_Image*        buttonText;
+  Text*       buttonText;
+  static bool loaded;
 
   // Current state
   byte state;
