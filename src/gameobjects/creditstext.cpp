@@ -7,9 +7,14 @@ CreditsText::CreditsText() {
   uint          counter = 0;
   if (creditsFile.is_open()) {
     while (std::getline(creditsFile, line)) {
-      lines.push_back(new Text(line));
+      if (line[0] == '-') {
+        line = line.substr(1, line.size() - 1);
+        lines.push_back(new Text(line, {255, 255, 100, 255}));
+      } else {
+        lines.push_back(new Text(line));
+      }
       lines[counter]->position.x = globals->vwidth / 2;
-      lines[counter]->position.y = 100 + counter * 100;
+      lines[counter]->position.y = 100 + counter * 80;
       counter++;
     }
   }
@@ -23,7 +28,8 @@ CreditsText::~CreditsText() {
 void CreditsText::Draw() {
   for (uint i = 0; i < lines.size(); i++) {
     lines[i]->Draw();
-    lines[i]->position.y -= 10 * globals->DeltaTime;
+    lines[i]->position.y -= 40 * globals->DeltaTime;
   }
 }
+
 void CreditsText::Update() {}

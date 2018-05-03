@@ -2,30 +2,36 @@
 #define MAINMENU_H
 #include <iostream>
 #include "../gameobjects/button.hpp"
+#include "../gameobjects/panel.hpp"
 #include "../gameobjects/skybg.hpp"
 
 class MainMenu : public Scene {
  public:
   MainMenu() {
-    // Create the buttons
+    // Create the buttons and panel
     buttons[0] = new Button("Play");
     buttons[1] = new Button("Options");
     buttons[2] = new Button("Credits");
     buttons[3] = new Button("Exit");
+    bgpanel    = new Panel();
 
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
+    gameObjects.push_back(bgpanel);
     gameObjects.push_back(buttons[0]);
     gameObjects.push_back(buttons[1]);
     gameObjects.push_back(buttons[2]);
     gameObjects.push_back(buttons[3]);
 
-    // Set button positions
+    // Set button and panel positions
     buttons[0]->position = vec2(GameObject::globals->vwidth / 2, 300);
     buttons[1]->position = vec2(GameObject::globals->vwidth / 2, 400);
     buttons[2]->position = vec2(GameObject::globals->vwidth / 2, 500);
     buttons[3]->position = vec2(GameObject::globals->vwidth / 2, 600);
-  };
+    bgpanel->position.y  = (GameObject::globals->vheight / 4.0) * 2.5;
+    bgpanel->size        = vec2(GameObject::globals->vwidth / 3.25,
+                         (GameObject::globals->vheight / 4.0) * 3);
+  }
 
   virtual ~MainMenu(){};
 
@@ -70,6 +76,7 @@ class MainMenu : public Scene {
     3: Exit button
    */
   Button* buttons[4];
+  Panel*  bgpanel;
   byte    selected = 0;
 
   // Button functions
