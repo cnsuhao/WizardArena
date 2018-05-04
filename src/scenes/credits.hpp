@@ -25,7 +25,7 @@ class Credits : public Scene {
   void Update() { Scene::Update(); }
 
   void Input(SDL_Event event) {
-    if (event.type == SDL_KEYDOWN) {
+    if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN) {
       Dead = true;
       Messages.push_back("Main Menu");
     }
