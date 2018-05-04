@@ -3,7 +3,8 @@
 
 // STL
 #include <stdint.h>  // uint64_t
-#include <iomanip>   // setprecision
+#include <chrono>
+#include <iomanip>  // setprecision
 #include <map>
 #include <sstream>
 #include <string>
