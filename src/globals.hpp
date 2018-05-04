@@ -22,6 +22,10 @@ struct Globals {
   TTF_Font* smallFont;
   /** Delta time */
   double DeltaTime = 0.016;
+  /** Draw time */
+  double drawTime = 0;
+  /** Update time */
+  double updateTime = 0;
 };
 
 #endif  // GLOBALS_HPP

@@ -19,10 +19,12 @@ Stats::Stats() {
   gameObjects.push_back(new Text("FPS: ", true));
   gameObjects.push_back(new Text("CPU Freq: ", true));
   gameObjects.push_back(new Text("Delta Time: ", true));
+  gameObjects.push_back(new Text("Update Time: ", true));
+  gameObjects.push_back(new Text("Draw Time: ", true));
 
   textHeight                   = gameObjects[FPS]->size.y;
-  gameObjects[PANEL]->size.x   = 250;
-  gameObjects[PANEL]->size.y   = (1 + textHeight) * gameObjects.size();
+  gameObjects[PANEL]->size.x   = 270;
+  gameObjects[PANEL]->size.y   = (1 + textHeight) * gameObjects.size() + 5;
   gameObjects[PANEL]->position = gameObjects[PANEL]->size * vec2(0.5);
 
   setPositions();
@@ -37,10 +39,13 @@ void Stats::Draw() {
   Scene::Draw();
   frames++;
   sumDeltaTime += GameObject::globals->DeltaTime;
+  sumUpdateTime += GameObject::globals->updateTime;
+  sumDrawTime += GameObject::globals->drawTime;
 }
 
 void Stats::Update() {
   Scene::Update();
+  // Every second
   if ((uint)floor(SDL_GetTicks() / 1000.0) != lastSecond) {
     std::stringstream strstream;
     // Set FPS Text
@@ -60,10 +65,24 @@ void Stats::Update() {
               << (sumDeltaTime * 1000.0) / ((double)frames) << " ms";
     ((Text*)gameObjects[DELTATIME])->SetText(strstream.str(), true);
 
+    // Set update time text
+    strstream.str("");
+    strstream << "Update Time: " << std::fixed << std::setprecision(3)
+              << (sumUpdateTime) / ((double)frames) << " ms";
+    ((Text*)gameObjects[UPDATETIME])->SetText(strstream.str(), true);
+
+    // Set draw time text
+    strstream.str("");
+    strstream << "Draw Time: " << std::fixed << std::setprecision(3)
+              << (sumDrawTime) / ((double)frames) << " ms";
+    ((Text*)gameObjects[DRAWTIME])->SetText(strstream.str(), true);
+
     // Reset counters
-    frames       = 0;
-    lastCycles   = rdtsc();
-    sumDeltaTime = 0.0;
+    frames        = 0;
+    lastCycles    = rdtsc();
+    sumDeltaTime  = 0.0;
+    sumUpdateTime = 0.0;
+    sumDrawTime   = 0.0;
 
     // Set text positions
     setPositions();

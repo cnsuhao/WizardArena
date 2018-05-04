@@ -29,8 +29,21 @@ void SceneManager::ChangePrimaryScene(Scene* scene) {
 void SceneManager::AddScene(Scene* scene) { scenes.push_back(scene); }
 
 void SceneManager::Tick() {
+  // Update and measure time to update
+  auto updatestart = std::chrono::system_clock::now();
   Update();
+  auto updateend = std::chrono::system_clock::now();
+
+  // Draw and measure time to draw
+  auto drawstart = std::chrono::system_clock::now();
   Draw();
+  auto drawend = std::chrono::system_clock::now();
+
+  // Save times to globals
+  GameObject::globals->updateTime =
+      ((double)(updateend - updatestart).count()) / 1000000.0;
+  GameObject::globals->drawTime =
+      ((double)(drawend - drawstart).count()) / 1000000.0;
 }
 
 void SceneManager::Input(SDL_Event event) {
