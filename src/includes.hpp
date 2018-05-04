@@ -2,8 +2,10 @@
 #define INCLUDES_HPP
 
 // STL
-#include <stdint.h>
+#include <stdint.h>  // uint64_t
+#include <iomanip>   // setprecision
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -16,8 +18,8 @@
 
 // Using statements
 using glm::vec2;
-using std::vector;
 using std::string;
+using std::vector;
 
 // Type definitions
 typedef uint8_t  byte;

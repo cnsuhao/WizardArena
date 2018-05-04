@@ -43,11 +43,17 @@ void Stats::Draw() {
 void Stats::Update() {
   Scene::Update();
   if ((uint)floor(SDL_GetTicks() / 1000.0) != lastSecond) {
+    double            cpufreq = ((double)(rdtsc() - lastCycles)) / 1000000000.0;
+    std::stringstream strstream;
+    strstream.str("");
+    strstream << "CPU freq: " << std::fixed << std::setprecision(2) << cpufreq
+              << " GHz";
     ((Text*)gameObjects[FPS])->SetText("FPS: " + std::to_string(frames), true);
-    ((Text*)gameObjects[CYCLES])
-        ->SetText("Cycles: " + std::to_string((rdtsc() - lastCycles)), true);
-    frames                          = 0;
-    lastCycles                      = rdtsc();
+    ((Text*)gameObjects[CYCLES])->SetText(strstream.str(), true);
+    frames     = 0;
+    lastCycles = rdtsc();
+
+    // Set text positions
     gameObjects[FPS]->position.x    = gameObjects[FPS]->size.x / 2.0 + 5;
     gameObjects[FPS]->position.y    = gameObjects[FPS]->size.y / 2.0 + 5;
     gameObjects[CYCLES]->position.x = gameObjects[CYCLES]->size.x / 2.0 + 5;
