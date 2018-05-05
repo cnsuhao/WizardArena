@@ -1,6 +1,5 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
-#include <iostream>
 #include "../gameobjects/button.hpp"
 #include "../gameobjects/image.hpp"
 #include "../gameobjects/panel.hpp"
@@ -94,7 +93,10 @@ class MainMenu : public Scene {
 
   // Button functions
   void buttonPlay() {}
-  void buttonOptions() {}
+  void buttonOptions() {
+    Dead = true;
+    Messages.push_back("Options");
+  }
   void buttonCredits() {
     Dead = true;
     Messages.push_back("Credits");

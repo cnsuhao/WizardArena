@@ -25,6 +25,7 @@ using std::vector;
 
 // Type definitions
 typedef uint8_t  byte;
+typedef uint8_t  ubyte;
 typedef uint32_t uint;
 typedef uint64_t uint64;
 

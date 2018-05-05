@@ -3,10 +3,14 @@
 
 #include "includes.hpp"
 
+struct OptionVariables {
+  double MusicVolume = 1;
+};
+
 /** This is a enumeration that describes the game state.*/
 enum GameState { MENU = 0, LOBBY = 1, GAME = 2, QUIT = 3 };
 
-/** This is the structure of the game that holds the the global variabels. */
+/** This is the structure of the game that holds the the global variables. */
 struct Globals {
   /** Describes the current game state. */
   byte gameState = MENU;
@@ -26,6 +30,8 @@ struct Globals {
   double drawTime = 0;
   /** Update time */
   double updateTime = 0;
+  /** Options variables */
+  OptionVariables options;
 };
 
 #endif  // GLOBALS_HPP

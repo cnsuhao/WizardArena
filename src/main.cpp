@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
     // Frame end time
     auto end          = std::chrono::system_clock::now();
     auto elapsed      = end - start;
-    globals.DeltaTime = ((double)elapsed.count()) / 1000000000;
+    globals.DeltaTime = ((double)elapsed.count()) / 1000000000.0;
   }
 
   // Quit SDL2 and SDL_gpu

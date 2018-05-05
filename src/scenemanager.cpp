@@ -70,6 +70,9 @@ void SceneManager::Update() {
           } else if (messages[j] == "Main Menu") {
             i++;
             scenes.insert(scenes.begin() + i, new MainMenu());
+          } else if (messages[j] == "Options") {
+            i++;
+            scenes.insert(scenes.begin() + i, new Options());
           }
         }
       }

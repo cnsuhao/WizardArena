@@ -8,11 +8,13 @@ class Text : public GameObject {
   Text(string text);
   Text(string text, bool useSmallFont);
   Text(string text, SDL_Color color);
+  Text(string text, SDL_Color color, bool useSmallFont);
   virtual ~Text();
   void Draw();
   void SetText(string text);
   void SetText(string text, bool useSmallFont);
   void SetText(string text, SDL_Color color);
+  void SetText(string text, SDL_Color color, bool useSmallFont);
 
  private:
   GPU_Image* textimg;

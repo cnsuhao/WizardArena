@@ -3,6 +3,7 @@
 #include "globals.hpp"
 #include "scenes/credits.hpp"
 #include "scenes/mainmenu.hpp"
+#include "scenes/options.hpp"
 
 /**
  *  Class to handle and manage multiple scenes. It keeps a stack of scenes,
