@@ -9,6 +9,9 @@ class Music : public Scene {
 
   void Update();
 
+  // Init SDL_Mixer
+  static void Init();
+
   // Remove content from draw and input
   void Input(SDL_Event scene){};
   void Draw(){};

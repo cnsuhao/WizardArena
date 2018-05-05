@@ -87,7 +87,11 @@ class MainMenu : public Scene {
     Dead = true;
     Messages.push_back("Credits");
   }
-  void buttonExit() { GameObject::globals->gameState = QUIT; }
+  void buttonExit() {
+    Mix_FadeOutMusic(400);
+    SDL_Delay(450);
+    GameObject::globals->gameState = QUIT;
+  }
 };
 
 #endif /* MAINMENU_H */

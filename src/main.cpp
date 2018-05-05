@@ -11,6 +11,7 @@
 #include "image.hpp"
 #include "input.hpp"
 #include "scenes/mainmenu.hpp"
+#include "scenes/music.hpp"
 #include "scenes/stats.hpp"
 
 /** Main application entry point.
@@ -30,6 +31,8 @@ int main(int argc, char* argv[]) {
       GPU_Init(globals.width, globals.height, SDL_WINDOW_RESIZABLE);
   TTF_Init();
 
+  // Init music and sound
+  Music::Init();
 
   // Load fonts
   globals.font      = TTF_OpenFont("Content/UI/alagard.ttf", 48);
@@ -37,6 +40,7 @@ int main(int argc, char* argv[]) {
 
   // Create scene and input manager
   SceneManager sceneManager = SceneManager(new MainMenu());
+  sceneManager.AddScene(new Music());
 #ifdef DEBUG
   sceneManager.AddScene(new Stats());
 #endif

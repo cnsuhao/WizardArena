@@ -1,11 +1,17 @@
 #include "music.hpp"
 
-Music::Music() {
+void Music::Init() {
   Mix_Init(MIX_INIT_MP3);
   if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
     printf("Mix_OpenAudio: %s\n", Mix_GetError());
     GameObject::globals->gameState = QUIT;
   }
+}
+
+Music::Music() {
+  MenuMusic = Mix_LoadMUS("Content/Music/Menu.mp3");
+  GameMusic = Mix_LoadMUS("Content/Music/Menu.mp3");
+  Mix_PlayMusic(MenuMusic, -1);
 }
 
 Music::~Music() {
