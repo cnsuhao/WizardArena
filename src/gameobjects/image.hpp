@@ -1,36 +1,38 @@
 #ifndef IMAGE_HPP
 #define IMAGE_HPP
-#include "includes.hpp"
+#include "../gameobject.hpp"
+#include "../includes.hpp"
 
 /*
   Handles images
 */
-class Image {
+class Image : public GameObject {
  public:
   // Loads image
   Image(const char* filename) {
-    image    = GPU_LoadImage(filename);
-    Position = vec2(0, 0);
+    image      = GPU_LoadImage(filename);
+    this->size = vec2(1);
   }
   // Load with position
   Image(const char* filename, vec2 Position) {
     image          = GPU_LoadImage(filename);
-    this->Position = Position;
+    this->position = Position;
+    this->size     = vec2(1);
   }
   // Load with position
   Image(const char* filename, float x, float y) {
     image          = GPU_LoadImage(filename);
-    this->Position = vec2(x, y);
+    this->position = vec2(x, y);
+    this->size     = vec2(1);
   }
   // Destructor
   ~Image() { GPU_FreeImage(image); }
 
   // Draw
-  void Draw(GPU_Target* target) {
-    GPU_Blit(image, NULL, target, Position.x, Position.y);
+  void Draw() {
+    GPU_BlitScale(image, NULL, globals->window, position.x, position.y, size.x,
+                  size.y);
   }
-
-  vec2 Position;  // Image position
 
  private:
   GPU_Image* image;  // Image pointer

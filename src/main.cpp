@@ -8,7 +8,6 @@
 // This source file contains the main entry point of the application, which is
 //  the main function.
 #include "globals.hpp"
-#include "image.hpp"
 #include "input.hpp"
 #include "scenes/mainmenu.hpp"
 #include "scenes/music.hpp"

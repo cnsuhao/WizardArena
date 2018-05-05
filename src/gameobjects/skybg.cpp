@@ -1,7 +1,7 @@
 #include "skybg.hpp"
 
 SkyBG::SkyBG() {
-  sky = GPU_LoadImage("Content/SkyBG.png");
+  sky = GPU_LoadImage("Content/Textures/SkyBG.png");
   for (int i = 0; i < 2; i++) {
     rects[i].x = globals->vwidth * i;
     rects[i].x -= globals->vwidth;
