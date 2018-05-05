@@ -4,6 +4,7 @@
 #include "../gameobjects/button.hpp"
 #include "../gameobjects/panel.hpp"
 #include "../gameobjects/skybg.hpp"
+#include "../scene.hpp"
 
 class MainMenu : public Scene {
  public:

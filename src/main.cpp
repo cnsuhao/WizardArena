@@ -30,6 +30,7 @@ int main(int argc, char* argv[]) {
       GPU_Init(globals.width, globals.height, SDL_WINDOW_RESIZABLE);
   TTF_Init();
 
+
   // Load fonts
   globals.font      = TTF_OpenFont("Content/UI/alagard.ttf", 48);
   globals.smallFont = TTF_OpenFont("Content/UI/alagard.ttf", 24);

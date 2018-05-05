@@ -14,7 +14,7 @@ CreditsText::CreditsText() {
         lines.push_back(new Text(line));
       }
       lines[counter]->position.x = globals->vwidth / 2;
-      lines[counter]->position.y = 100 + counter * 80;
+      lines[counter]->position.y = 500 + counter * 80;
       counter++;
     }
   }
@@ -29,6 +29,11 @@ void CreditsText::Draw() {
   for (uint i = 0; i < lines.size(); i++) {
     lines[i]->Draw();
     lines[i]->position.y -= 40 * globals->DeltaTime;
+    // Clean up when out of screen space
+    if (lines[i]->position.y <= -200) {
+      delete lines[i];
+      lines.erase(lines.begin() + i);
+    }
   }
 }
 

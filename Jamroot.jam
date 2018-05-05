@@ -8,15 +8,17 @@ project WizardArena ;
 lib SDL2 : : <name>SDL2 <target-os>darwin:<search>/usr/local/lib <target-os>windows:<file>"C:/Dependencies/x64/lib/SDL2.lib" <target-os>windows:<file>"C:/Dependencies/x64/lib/SDL2main.lib" : : <target-os>darwin:<include>/usr/local/include <target-os>windows:<include>"C:/Dependencies/x64/include" ;
 lib SDL2_gpu : : <name>SDL2_gpu <target-os>darwin:<search>/usr/local/lib <target-os>windows:<search>"C:/Dependencies/x64/lib" : : ;
 lib SDL2_ttf : : <name>SDL2_ttf <target-os>darwin:<search>/usr/local/lib <target-os>windows:<search>"C:/Dependencies/x64/lib" : : ;
+lib SDL2_mixer : : <name>SDL2_mixer <target-os>darwin:<search>/usr/local/lib <target-os>windows:<search>"C:/Dependencies/x64/lib" : : ;
 
 
 exe "WizardArena" : [ glob src/*.cpp ] [ glob src/gameobjects/*.cpp ] [ glob src/scenes/*.cpp ] :
-<library>/WizardArena//SDL2
-<library>/WizardArena//SDL2_gpu
-<library>/WizardArena//SDL2_ttf
+<library>SDL2
+<library>SDL2_gpu
+<library>SDL2_ttf
+<library>SDL2_mixer
 <target-os>darwin:<framework>"OpenGL"
 <address-model>64
-# <optimization>speed
+<optimization>speed
 <cflags>-std=c++11
 <define>DEBUG <variant>debug ;
 

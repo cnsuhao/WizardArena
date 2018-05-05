@@ -10,8 +10,9 @@
 #include <string>
 #include <vector>
 
-// SDL2 and SDL_gpu
+// SDL2, SDL_mixer and SDL_gpu
 #include <SDL2/SDL_gpu.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
 // GLM
