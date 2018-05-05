@@ -6,14 +6,18 @@ Designers
 -Anas Youssef Idiab
 -Sebastian Cmiljanic Winding
 
-Button art
+ART
+Button
 -StumpyStrust
 
-Background sky art
+Background sky
 -Paulina Riva
 
-MUSIC
+SOUND
+Menu Selection Click
+-NenadSimic
 
+MUSIC
 Glorious Morning 2
 -Waterflame
 

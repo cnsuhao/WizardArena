@@ -32,9 +32,12 @@ class MainMenu : public Scene {
     bgpanel->position.y  = (GameObject::globals->vheight / 4.0) * 2.5;
     bgpanel->size        = vec2(GameObject::globals->vwidth / 3.25,
                          (GameObject::globals->vheight / 4.0) * 3);
+
+    // Load menu sounds
+    menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
   }
 
-  virtual ~MainMenu(){};
+  virtual ~MainMenu() { Mix_FreeChunk(menuselection); };
 
   void Update() {
     for (byte i = 0; i < 4; i++) {
@@ -49,12 +52,13 @@ class MainMenu : public Scene {
     if (event.type == SDL_KEYDOWN) {
       if (event.key.keysym.sym == SDLK_UP) {
         selected--;
-        selected %= 4;
+        Mix_PlayChannel(0, menuselection, 0);
       }
       if (event.key.keysym.sym == SDLK_DOWN) {
         selected++;
-        selected %= 4;
+        Mix_PlayChannel(0, menuselection, 0);
       }
+      selected %= 4;
       if (event.key.keysym.sym == SDLK_RETURN ||
           event.key.keysym.sym == SDLK_SPACE) {
         switch (selected) {
@@ -70,6 +74,9 @@ class MainMenu : public Scene {
   }
 
  private:
+  // Menu selection sound
+  Mix_Chunk* menuselection;
+
   /**
     0: Play button
     1: Options button
