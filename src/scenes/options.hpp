@@ -4,42 +4,40 @@
 #include "../gameobjects/image.hpp"
 #include "../gameobjects/panel.hpp"
 #include "../gameobjects/skybg.hpp"
-#include "../gameobjects/text.hpp"
+#include "../gameobjects/slider.hpp"
 #include "../scene.hpp"
 #include "../utils.hpp"
 
 class Options : public Scene {
  public:
   Options() {
-    // Highlighted color
-    highlighted = {255, 255, 100, 255};
-
     // Create the buttons and panel
     bgpanel    = new Panel();
     logo       = new Image("Content/Textures/Logo.png",
                      GameObject::globals->vwidth / 2.0, 125);
     backbutton = new Button("Back");
-    std::stringstream ss;
-    ss.str("");
-    ss << "Music: "
-       << (int)std::round(GameObject::globals->options.MusicVolume * 100)
-       << "%";
-    musicText = new Text(ss.str(), highlighted, false);
+    sliderMusic =
+        new Slider("Music", &GameObject::globals->options.MusicVolume);
+    sliderMusic->SetHighlighted(true);
+    sliderSound =
+        new Slider("Sound", &GameObject::globals->options.SoundVolume);
 
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
     gameObjects.push_back(bgpanel);
     gameObjects.push_back(logo);
     gameObjects.push_back(backbutton);
-    gameObjects.push_back(musicText);
+    gameObjects.push_back(sliderMusic);
+    gameObjects.push_back(sliderSound);
 
     // Set button and panel positions
-    bgpanel->position.y  = GameObject::globals->vheight - 225;
-    bgpanel->size        = vec2(375, 450);
-    logo->size           = vec2(0.8);
-    backbutton->position = vec2(GameObject::globals->vwidth / 2,
+    bgpanel->position.y   = GameObject::globals->vheight - 225;
+    bgpanel->size         = vec2(375, 450);
+    logo->size            = vec2(0.8);
+    backbutton->position  = vec2(GameObject::globals->vwidth / 2,
                                 GameObject::globals->vheight - 60);
-    musicText->position  = vec2(GameObject::globals->vwidth / 2, 350);
+    sliderMusic->position = vec2(GameObject::globals->vwidth / 2, 350);
+    sliderSound->position = vec2(GameObject::globals->vwidth / 2, 410);
 
     // Load menu sounds
     menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
@@ -52,6 +50,9 @@ class Options : public Scene {
   }
 
   void Input(SDL_Event event) {
+    // Call parent input function
+    Scene::Input(event);
+
     if (event.type == SDL_KEYDOWN) {
       if (event.key.keysym.sym == SDLK_UP) {
         selected--;
@@ -61,52 +62,35 @@ class Options : public Scene {
         selected++;
         Mix_PlayChannel(0, menuselection, 0);
       }
-      selected %= 2;
+      selected %= 3;
 
-      if (selected == 1)
-        backbutton->SetState(1);
-      else
-        backbutton->SetState(0);
+      sliderSound->SetHighlighted(false);
+      sliderMusic->SetHighlighted(false);
+      backbutton->SetState(0);
+      switch (selected) {
+        case 0: sliderMusic->SetHighlighted(true); break;
+        case 1:
+          sliderSound->SetHighlighted(true);
+          if (event.key.keysym.sym == SDLK_LEFT ||
+              event.key.keysym.sym == SDLK_RIGHT) {
+            Mix_PlayChannel(0, menuselection, 0);
+          }
 
-      if (selected == 0) {
-        if (event.key.keysym.sym == SDLK_LEFT) {
-          GameObject::globals->options.MusicVolume -= 0.05;
-          Mix_VolumeMusic(GameObject::globals->options.MusicVolume *
-                          MIX_MAX_VOLUME);
-        }
-        if (event.key.keysym.sym == SDLK_RIGHT) {
-          GameObject::globals->options.MusicVolume += 0.05;
-          Mix_VolumeMusic(GameObject::globals->options.MusicVolume *
-                          MIX_MAX_VOLUME);
-        }
-        GameObject::globals->options.MusicVolume =
-            clamp(GameObject::globals->options.MusicVolume, 0.0, 1.0);
-
-        std::stringstream ss;
-        ss.str("");
-        ss << "Music: "
-           << (int)std::round(GameObject::globals->options.MusicVolume * 100)
-           << "%";
-        musicText->SetText(ss.str(), highlighted);
-      } else {
-        std::stringstream ss;
-        ss.str("");
-        ss << "Music: "
-           << (int)std::round(GameObject::globals->options.MusicVolume * 100)
-           << "%";
-        musicText->SetText(ss.str());
+          break;
+        case 2:
+          backbutton->SetState(1);
+          if (event.key.keysym.sym == SDLK_RETURN ||
+              event.key.keysym.sym == SDLK_SPACE) {
+            Dead = true;
+            Messages.push_back("Main Menu");
+          }
+          break;
       }
 
-      if (event.key.keysym.sym == SDLK_RETURN ||
-          event.key.keysym.sym == SDLK_SPACE) {
-        if (selected == 1) {
-          Dead = true;
-          Messages.push_back("Main Menu");
-        }
-      }
+      Mix_Volume(-1, GameObject::globals->options.SoundVolume * MIX_MAX_VOLUME);
+      Mix_VolumeMusic(GameObject::globals->options.MusicVolume *
+                      MIX_MAX_VOLUME);
     }
-    // Call parent input function
-    Scene::Input(event);
   }
 
  private:
@@ -114,12 +98,12 @@ class Options : public Scene {
   Mix_Chunk* menuselection;
 
   // Game objects
-  Button*   backbutton;
-  Panel*    bgpanel;
-  Image*    logo;
-  byte      selected = 0;
-  Text*     musicText;
-  SDL_Color highlighted;
+  Button* backbutton;
+  Panel*  bgpanel;
+  Image*  logo;
+  ubyte   selected = 0;
+  Slider* sliderMusic;
+  Slider* sliderSound;
 };
 
 #endif  // OPTIONS_H

@@ -73,6 +73,9 @@ void SceneManager::Update() {
           } else if (messages[j] == "Options") {
             i++;
             scenes.insert(scenes.begin() + i, new Options());
+          } else if (messages[j] == "Connect") {
+            i++;
+            scenes.insert(scenes.begin() + i, new Connect());
           }
         }
       }

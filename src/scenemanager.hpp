@@ -1,6 +1,7 @@
 #ifndef SCENEMANAGER_HPP
 #define SCENEMANAGER_HPP
 #include "globals.hpp"
+#include "scenes/connect.hpp"
 #include "scenes/credits.hpp"
 #include "scenes/mainmenu.hpp"
 #include "scenes/options.hpp"

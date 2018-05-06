@@ -5,6 +5,7 @@
 
 struct OptionVariables {
   double MusicVolume = 1;
+  double SoundVolume = 1;
 };
 
 /** This is a enumeration that describes the game state.*/
