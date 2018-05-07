@@ -28,9 +28,9 @@ struct Globals {
   /** Delta time */
   double DeltaTime = 0.016;
   /** Draw time */
-  double drawTime = 0;
+  double drawTime = 0.02;
   /** Update time */
-  double updateTime = 0;
+  double updateTime = 0.02;
   /** Options variables */
   OptionVariables options;
 };

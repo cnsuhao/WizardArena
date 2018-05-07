@@ -74,7 +74,12 @@ int main(int argc, char* argv[]) {
     // Frame end time
     auto end          = std::chrono::system_clock::now();
     auto elapsed      = end - start;
-    globals.DeltaTime = ((double)elapsed.count()) / 1000000000.0;
+
+    #ifdef __APPLE__
+    globals.DeltaTime = ((double)elapsed.count()) / 1000000.0; // microseconds to seconds
+    #else
+    globals.DeltaTime = ((double)elapsed.count()) / 1000000000.0; // nanoseconds to seconds
+    #endif
   }
 
   // Quit SDL2 and SDL_gpu
