@@ -1,5 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
+#include "includes.hpp"
 
 template <class T>
 T clamp(T val, T min, T max) {
