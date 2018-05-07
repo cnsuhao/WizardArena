@@ -13,6 +13,12 @@
 #include "scenes/music.hpp"
 #include "scenes/stats.hpp"
 
+/* TODO:
+  - Shader interface
+  - point/gameobject intersection function
+  - mouseover support
+*/
+
 /** Main application entry point.
     @param argc Amount of arguments passed to the program.
     @param argv Argument C-string values.

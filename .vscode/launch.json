@@ -34,7 +34,8 @@
             "cwd": "${workspaceFolder}/bin",
             "environment": [],
             "externalConsole": true,
-            "MIMode": "lldb"
+            "MIMode": "lldb",
+            "preLaunchTask": "build"
         }
     ]
 }

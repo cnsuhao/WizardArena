@@ -21,10 +21,9 @@ void SkyBG::Draw() {
 }
 
 void SkyBG::Update() {
-  for (int i = 0; i < 2; i++) {
-    rects[i].x += 20.0 * globals->DeltaTime;
-    if (rects[i].x >= globals->vwidth) {
-      rects[i].x -= (2 * globals->vwidth) - 1;
-    }
-  }
+  rects[0].x += 20.0 * globals->DeltaTime;
+  if (rects[0].x >= globals->vwidth) rects[0].x -= (2 * globals->vwidth) - 1;
+
+  rects[1].x += 20.0 * globals->DeltaTime;
+  if (rects[1].x >= globals->vwidth) rects[1].x -= (2 * globals->vwidth) - 1;
 }
