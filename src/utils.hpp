@@ -12,7 +12,11 @@ T clamp(T val, T min, T max) {
 }
 
 /**
-  Point-rectangle intersection
+  Point-rectangle intersection, that checks if a point intersects with a
+  rectangle.
+  @param point is a point placed on the screen.
+  @param size describes the size of the rectangle that is made.
+  @param center describes the center coordinates of the rectangle.
  */
 bool PointRectIntersect(vec2 point, vec2 size, vec2 center);
 
