@@ -17,6 +17,8 @@ CreditsText::CreditsText() {
       lines[counter]->position.y = 500 + counter * 80;
       counter++;
     }
+  } else {
+    printf("failed to open Content/Credits.txt");
   }
   creditsFile.close();
 }
