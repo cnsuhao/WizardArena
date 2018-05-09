@@ -7,6 +7,7 @@
 #include "../gameobjects/text.hpp"
 #include "../scene.hpp"
 
+/** The connect class*/
 class Connect : public Scene {
  public:
   Connect() {
@@ -44,9 +45,12 @@ class Connect : public Scene {
     // Load menu sounds
     menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
   }
-
+  /** The connect destructor*/
   virtual ~Connect() { Mix_FreeChunk(menuselection); }
 
+  /** Calls input functions of all handled GameObject pointers.
+      @param event The event to pass to each GameObject.
+      @see GameObject*/
   void Input(SDL_Event event) {
     if (event.type == SDL_KEYDOWN) {
       if (event.key.keysym.sym == SDLK_UP) {

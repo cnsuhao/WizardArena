@@ -45,6 +45,11 @@ void SceneManager::Tick() {
       ((double)(updateend - updatestart).count()) / 1000.0;
   GameObject::globals->drawTime =
       ((double)(drawend - drawstart).count()) / 1000.0;
+#elif defined(_WIN32)
+  GameObject::globals->updateTime =
+      ((double)(updateend - updatestart).count()) / 10000.0;
+  GameObject::globals->drawTime =
+      ((double)(drawend - drawstart).count()) / 10000.0;
 #else
   GameObject::globals->updateTime =
       ((double)(updateend - updatestart).count()) / 1000000.0;

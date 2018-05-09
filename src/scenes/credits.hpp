@@ -5,6 +5,7 @@
 #include "../gameobjects/skybg.hpp"
 #include "../scene.hpp"
 
+/** This is the credit class*/
 class Credits : public Scene {
  public:
   Credits() {
@@ -18,17 +19,23 @@ class Credits : public Scene {
     gameObjects[1]->size.y = GameObject::globals->vheight;
   }
 
+  /** The destructor of Credits*/
   virtual ~Credits() {}
 
+  /** This function draws the scene*/
   void Draw() { Scene::Draw(); }
 
   void Update() { Scene::Update(); }
 
+  /** Kills the scene if a key or mouse button is pressed.
+      @param event variable to hold event memory to avoid multiple allocations and deletions*/
   void Input(SDL_Event event) {
     if (event.type == SDL_KEYDOWN || event.type == SDL_MOUSEBUTTONDOWN) {
       Dead = true;
+      // Returns the scene back to main menu.
       Messages.push_back("Main Menu");
     }
+    // Calls super input function
     Scene::Input(event);
   }
 };
