@@ -62,9 +62,6 @@ int main(int argc, char* argv[]) {
     // Process input
     inputManager.ProcessInput();
 
-    // Clear screen
-    GPU_ClearRGB(globals.window, 30, 30, 30);
-
     // Call scene manager tick functions
     sceneManager.Tick();
 
@@ -72,18 +69,8 @@ int main(int argc, char* argv[]) {
     GPU_Flip(globals.window);
 
     // Frame end time
-    auto elapsed = std::chrono::system_clock::now() - start;
-
-#ifdef __APPLE__
-    globals.DeltaTime = static_cast<double>(elapsed.count()) /
-                        1000000.0;  // microseconds to seconds
-#elif defined(_WIN32)
-    globals.DeltaTime = static_cast<double>(elapsed.count()) /
-                        10000000.0;  // 100 nanoseconds to seconds
-#else
-    globals.DeltaTime = static_cast<double>(elapsed.count()) /
-                        1000000000.0;  // nanoseconds to seconds
-#endif
+    auto elapsed      = std::chrono::system_clock::now() - start;
+    globals.DeltaTime = CountToSeconds(elapsed.count());
   }
 
   // Quit SDL2 and SDL_gpu

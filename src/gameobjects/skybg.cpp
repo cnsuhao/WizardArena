@@ -2,28 +2,17 @@
 
 SkyBG::SkyBG() {
   sky = GPU_LoadImage("Content/Textures/SkyBG.png");
-  for (int i = 0; i < 2; i++) {
-    rects[i].x = globals->vwidth * i;
-    rects[i].x -= globals->vwidth;
-    rects[i].y = 0;
-    rects[i].w = globals->vwidth + i;
-    rects[i].h = globals->vheight;
-  }
-  rects[0].x++;
+
+  rects.x = 0;
+  rects.y = 0;
+  rects.w = globals->vwidth;
+  rects.h = globals->vheight;
+
   GPU_SetImageFilter(sky, GPU_FILTER_NEAREST);
 }
 
 SkyBG::~SkyBG() { GPU_FreeImage(sky); }
 
-void SkyBG::Draw() {
-  GPU_BlitRect(sky, nullptr, globals->window, &rects[0]);
-  GPU_BlitRect(sky, nullptr, globals->window, &rects[1]);
-}
+void SkyBG::Draw() { GPU_BlitRect(sky, nullptr, globals->window, &rects); }
 
-void SkyBG::Update() {
-  rects[0].x += 20.0 * globals->DeltaTime;
-  if (rects[0].x >= globals->vwidth) rects[0].x -= (2 * globals->vwidth) - 1;
-
-  rects[1].x += 20.0 * globals->DeltaTime;
-  if (rects[1].x >= globals->vwidth) rects[1].x -= (2 * globals->vwidth) - 1;
-}
+void SkyBG::Update() {}

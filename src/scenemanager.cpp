@@ -39,23 +39,11 @@ void SceneManager::Tick() {
   Draw();
   auto drawend = std::chrono::system_clock::now();
 
-// Save times to globals
-#ifdef __APPLE__
+  // Save times to globals
   GameObject::globals->updateTime =
-      ((double)(updateend - updatestart).count()) / 1000.0;
+      CountToMilliseconds((updateend - updatestart).count());
   GameObject::globals->drawTime =
-      ((double)(drawend - drawstart).count()) / 1000.0;
-#elif defined(_WIN32)
-  GameObject::globals->updateTime =
-      ((double)(updateend - updatestart).count()) / 10000.0;
-  GameObject::globals->drawTime =
-      ((double)(drawend - drawstart).count()) / 10000.0;
-#else
-  GameObject::globals->updateTime =
-      ((double)(updateend - updatestart).count()) / 1000000.0;
-  GameObject::globals->drawTime =
-      ((double)(drawend - drawstart).count()) / 1000000.0;
-#endif
+      CountToMilliseconds((drawend - drawstart).count());
 }
 
 void SceneManager::Input(SDL_Event event) {

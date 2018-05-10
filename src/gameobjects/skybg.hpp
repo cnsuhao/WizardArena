@@ -13,7 +13,8 @@ class SkyBG : public GameObject {
 
  private:
   GPU_Image* sky;
-  GPU_Rect   rects[2];
+  GPU_Rect   rects;
+  
 };
 
 #endif /* SKYBG_H */
