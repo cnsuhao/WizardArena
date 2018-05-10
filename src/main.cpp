@@ -58,7 +58,8 @@ int main(int argc, char* argv[]) {
   // Main game loop
   while (globals.gameState != QUIT) {
     // Frame start time
-    auto start = std::chrono::system_clock::now();
+    auto start = TIME();
+
     // Process input
     inputManager.ProcessInput();
 
@@ -69,8 +70,7 @@ int main(int argc, char* argv[]) {
     GPU_Flip(globals.window);
 
     // Frame end time
-    auto elapsed      = std::chrono::system_clock::now() - start;
-    globals.DeltaTime = CountToSeconds(elapsed.count());
+    globals.DeltaTime = CTOS((TIME() - start).count());
   }
 
   // Quit SDL2 and SDL_gpu

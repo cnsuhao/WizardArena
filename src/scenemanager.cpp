@@ -30,20 +30,14 @@ void SceneManager::AddScene(Scene* scene) { scenes.push_back(scene); }
 
 void SceneManager::Tick() {
   // Update and measure time to update
-  auto updatestart = std::chrono::system_clock::now();
+  auto updatestart = TIME();
   Update();
-  auto updateend = std::chrono::system_clock::now();
+  GameObject::globals->updateTime = CTOMS((TIME() - updatestart).count());
 
   // Draw and measure time to draw
   auto drawstart = std::chrono::system_clock::now();
   Draw();
-  auto drawend = std::chrono::system_clock::now();
-
-  // Save times to globals
-  GameObject::globals->updateTime =
-      CountToMilliseconds((updateend - updatestart).count());
-  GameObject::globals->drawTime =
-      CountToMilliseconds((drawend - drawstart).count());
+  GameObject::globals->drawTime = CTOMS((TIME() - drawstart).count());
 }
 
 void SceneManager::Input(SDL_Event event) {

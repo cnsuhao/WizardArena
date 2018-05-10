@@ -4,17 +4,18 @@
 // Macros
 #ifdef __APPLE__
 // microseconds to seconds
-#define CountToSeconds(x) static_cast<double>(x) / 1000000.0
-#define CountToMilliseconds(x) static_cast<double>(x) / 1000.0
+#define CTOS(x) static_cast<double>(x) / 1000000.0
+#define CTOMS(x) static_cast<double>(x) / 1000.0
 #elif defined(_WIN32)
 // 100 nanoseconds to seconds
-#define CountToSeconds(x) static_cast<double>(x) / 10000000.0
-#define CountToMilliseconds(x) static_cast<double>(x) / 10000.0
+#define CTOS(x) static_cast<double>(x) / 10000000.0
+#define CTOMS(x) static_cast<double>(x) / 10000.0
 #else
 // nanoseconds to seconds
-#define CountToSeconds(x) static_cast<double>(x) / 1000000000.0
-#define CountToMilliseconds(x) static_cast<double>(x) / 1000000.0
+#define CTOS(x) static_cast<double>(x) / 1000000000.0
+#define CTOMS(x) static_cast<double>(x) / 1000000.0
 #endif
+#define TIME() std::chrono::system_clock::now()
 
 // STL
 #include <stdint.h>  // uint64_t
