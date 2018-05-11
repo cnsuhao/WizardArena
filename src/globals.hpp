@@ -6,6 +6,7 @@
 struct OptionVariables {
   double MusicVolume = 1.0;
   double SoundVolume = 1.0;
+  double SSCAAmount  = 1.0;
 };
 
 /** This is a enumeration that describes the game state.*/
@@ -21,6 +22,10 @@ struct Globals {
   const uint vwidth = 1280, vheight = 720;
   /** This is a pointer referring to the window. */
   GPU_Target* window;
+  /** backbuffer to allow for passes*/
+  GPU_Target* backbuffer;
+  /** backbuffer to allow for passes*/
+  GPU_Image* backbufferImage;
   /** Game font */
   TTF_Font* font;
   /** Smaller font */

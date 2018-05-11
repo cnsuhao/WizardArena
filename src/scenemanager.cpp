@@ -9,12 +9,16 @@ SceneManager::SceneManager(Scene* PrimaryScene) {
   // Initialize vector and add the primary scene
   scenes = vector<Scene*>();
   scenes.push_back(PrimaryScene);
+  SSCA         = new Shader("SSCA", {"SSCAAmount"});
+  SSCAUniforms = SSCA->GetUniforms();
 }
 
 SceneManager::~SceneManager() {
   // Delete all scenes
   for (auto scene : scenes) { delete scene; }
   scenes.clear();
+
+  delete SSCA;
 }
 
 void SceneManager::ChangePrimaryScene(Scene* scene) {
@@ -38,6 +42,15 @@ void SceneManager::Tick() {
   auto drawstart = std::chrono::system_clock::now();
   Draw();
   GameObject::globals->drawTime = CTOMS((TIME() - drawstart).count());
+
+  // Draw backbuffer to screen
+  SSCA->Activate();
+  GPU_SetUniformf(SSCAUniforms["SSCAAmount"],
+                  0.2 * GameObject::globals->options.SSCAAmount);
+  GPU_Blit(GameObject::globals->backbufferImage, nullptr,
+           GameObject::globals->window, GameObject::globals->width / 2,
+           GameObject::globals->height / 2);
+  SSCA->Deactivate();
 }
 
 void SceneManager::Input(SDL_Event event) {

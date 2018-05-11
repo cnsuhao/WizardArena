@@ -14,12 +14,24 @@ void InputManager::ProcessInput() {
     if (event.type == SDL_WINDOWEVENT) {
       // Properly resize the framebuffer
       if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
-        GPU_SetWindowResolution(event.window.data1, event.window.data2);
-        GPU_SetVirtualResolution(globals->window, globals->vwidth,
-                                 globals->vheight);
         // Store window size
         globals->width  = event.window.data1;
         globals->height = event.window.data2;
+
+        // Recreate backbuffer
+        GPU_FreeTarget(globals->backbuffer);
+        GPU_FreeImage(globals->backbufferImage);
+        globals->backbufferImage =
+            GPU_CreateImage(globals->width, globals->height, GPU_FORMAT_RGB);
+        globals->backbuffer = GPU_LoadTarget(globals->backbufferImage);
+        GPU_SetImageFilter(globals->backbufferImage, GPU_FILTER_NEAREST);
+
+        // Set resolutions
+        GPU_SetWindowResolution(globals->width, globals->height);
+        GPU_SetVirtualResolution(globals->backbuffer, globals->vwidth,
+                                 globals->vheight);
+        GPU_SetVirtualResolution(globals->window, globals->width,
+                                 globals->height);
       }
     }
     // Checks if relevant SDL event

@@ -20,5 +20,5 @@ Panel::~Panel() { GPU_FreeImage(panel); }
 void Panel::Draw() {
   GPU_Rect dest = {position.x - (size.x / 2), position.y - (size.y / 2), size.x,
                    size.y};
-  GPU_BlitRect(panel, nullptr, globals->window, &dest);
+  GPU_BlitRect(panel, nullptr, globals->backbuffer, &dest);
 }

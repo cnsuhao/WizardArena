@@ -28,7 +28,7 @@ Button::~Button() {
 
 void Button::Draw() {
   buttonText->position = position;
-  GPU_Blit(buttonImages[state], nullptr, globals->window, position.x,
+  GPU_Blit(buttonImages[state], nullptr, globals->backbuffer, position.x,
            position.y);
   buttonText->Draw();
 }

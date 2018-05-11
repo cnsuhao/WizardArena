@@ -21,6 +21,7 @@ class Options : public Scene {
     sliderMusic->SetHighlighted(true);
     sliderSound =
         new Slider("Sound", &GameObject::globals->options.SoundVolume);
+    sliderSSCA = new Slider("SSCA", &GameObject::globals->options.SSCAAmount);
 
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
@@ -29,15 +30,18 @@ class Options : public Scene {
     gameObjects.push_back(backbutton);
     gameObjects.push_back(sliderMusic);
     gameObjects.push_back(sliderSound);
+    gameObjects.push_back(sliderSSCA);
 
     // Set button and panel positions
-    bgpanel->position.y   = GameObject::globals->vheight - 225;
-    bgpanel->size         = vec2(375, 450);
-    logo->size            = vec2(0.8);
-    backbutton->position  = vec2(GameObject::globals->vwidth / 2,
+    bgpanel->position.y  = GameObject::globals->vheight - 225;
+    bgpanel->size        = vec2(375, 450);
+    logo->size           = vec2(0.8);
+    backbutton->position = vec2(GameObject::globals->vwidth / 2,
                                 GameObject::globals->vheight - 60);
+    // Sliders and switches
     sliderMusic->position = vec2(GameObject::globals->vwidth / 2, 350);
     sliderSound->position = vec2(GameObject::globals->vwidth / 2, 410);
+    sliderSSCA->position  = vec2(GameObject::globals->vwidth / 2, 470);
 
     // Load menu sounds
     menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
@@ -62,10 +66,11 @@ class Options : public Scene {
         selected++;
         Mix_PlayChannel(0, menuselection, 0);
       }
-      selected %= 3;
+      selected %= 4;
 
       sliderSound->SetHighlighted(false);
       sliderMusic->SetHighlighted(false);
+      sliderSSCA->SetHighlighted(false);
       backbutton->SetState(0);
       switch (selected) {
         case 0: sliderMusic->SetHighlighted(true); break;
@@ -75,9 +80,9 @@ class Options : public Scene {
               event.key.keysym.sym == SDLK_RIGHT) {
             Mix_PlayChannel(0, menuselection, 0);
           }
-
           break;
-        case 2:
+        case 2: sliderSSCA->SetHighlighted(true); break;
+        case 3:
           backbutton->SetState(1);
           if (event.key.keysym.sym == SDLK_RETURN ||
               event.key.keysym.sym == SDLK_SPACE) {
@@ -104,6 +109,7 @@ class Options : public Scene {
   ubyte   selected = 0;
   Slider* sliderMusic;
   Slider* sliderSound;
+  Slider* sliderSSCA;
 };
 
 #endif  // OPTIONS_H

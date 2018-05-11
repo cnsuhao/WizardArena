@@ -65,7 +65,7 @@ Text::Text(string text, SDL_Color color, bool useSmallFont) {
 
 Text::~Text() { GPU_FreeImage(textimg); }
 void Text::Draw() {
-  GPU_Blit(textimg, nullptr, globals->window, position.x, position.y);
+  GPU_Blit(textimg, nullptr, globals->backbuffer, position.x, position.y);
 }
 
 void Text::SetText(string text) {

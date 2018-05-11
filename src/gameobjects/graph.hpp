@@ -36,7 +36,7 @@ class Graph : public GameObject {
     //    GPU_SetBlendMode(graph, GPU_BLEND_SET);
     GPU_SetBlendFunction(graph, GPU_FUNC_ONE, GPU_FUNC_ONE_MINUS_SRC,
                          GPU_FUNC_SRC_ALPHA, GPU_FUNC_DST_ALPHA);
-    GPU_Blit(graph, nullptr, globals->window, 270 / 2, position.y);
+    GPU_Blit(graph, nullptr, globals->backbuffer, 270 / 2, position.y);
   }
 
  private:

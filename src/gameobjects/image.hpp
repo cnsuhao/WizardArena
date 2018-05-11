@@ -30,8 +30,8 @@ class Image : public GameObject {
 
   // Draw
   void Draw() {
-    GPU_BlitScale(image, NULL, globals->window, position.x, position.y, size.x,
-                  size.y);
+    GPU_BlitScale(image, NULL, globals->backbuffer, position.x, position.y,
+                  size.x, size.y);
   }
 
  private:

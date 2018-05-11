@@ -25,7 +25,7 @@ SkyBG::~SkyBG() {
 void SkyBG::Draw() {
   shader->Activate();
   GPU_SetUniformf(uniforms["time"], globals->Time);
-  GPU_BlitRect(sky, nullptr, globals->window, &rects);
+  GPU_BlitRect(sky, nullptr, globals->backbuffer, &rects);
   shader->Deactivate();
 }
 

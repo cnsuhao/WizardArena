@@ -36,6 +36,12 @@ int main(int argc, char* argv[]) {
       GPU_Init(globals.width, globals.height, SDL_WINDOW_RESIZABLE);
   TTF_Init();
 
+  // init backbuffer
+  globals.backbufferImage =
+      GPU_CreateImage(globals.width, globals.height, GPU_FORMAT_RGBA);
+  globals.backbuffer = GPU_LoadTarget(globals.backbufferImage);
+  GPU_SetImageFilter(globals.backbufferImage, GPU_FILTER_NEAREST);
+
   // Init music and sound
   Music::Init();
 
@@ -53,6 +59,7 @@ int main(int argc, char* argv[]) {
   InputManager inputManager(&sceneManager, &globals);
 
   // Scaling coordinates
+  GPU_SetVirtualResolution(globals.backbuffer, globals.vwidth, globals.vheight);
   GPU_SetVirtualResolution(globals.window, globals.vwidth, globals.vheight);
 
   // Frame start time
@@ -78,6 +85,8 @@ int main(int argc, char* argv[]) {
   }
 
   // Quit SDL2 and SDL_gpu
+  GPU_FreeTarget(globals.backbuffer);
+  GPU_FreeImage(globals.backbufferImage);
   TTF_CloseFont(globals.font);
   TTF_CloseFont(globals.smallFont);
   TTF_Quit();

@@ -5,6 +5,7 @@
 #include "scenes/credits.hpp"
 #include "scenes/mainmenu.hpp"
 #include "scenes/options.hpp"
+#include "shader.hpp"
 
 /**
  *  Class to handle and manage multiple scenes. It keeps a stack of scenes,
@@ -51,6 +52,9 @@ class SceneManager {
 
   // Variables
   vector<Scene*> scenes;  ///< Stack that holds pointers to all handled scenes.
+
+  Shader*           SSCA;  ///< Screen space chromatic aberration pass shader
+  map<string, uint> SSCAUniforms;
 };
 
 #endif /* SCENEMANAGER_HPP */
