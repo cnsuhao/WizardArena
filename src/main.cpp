@@ -31,10 +31,11 @@ int main(int argc, char* argv[]) {
   Globals globals;
   GameObject::globals = &globals;
 
-  // Initialize window and SDL_ttf
+  // Initialize window along with SDL2, SDL_gpu, SDL_ttf, SDL_net
   globals.window =
       GPU_Init(globals.width, globals.height, SDL_WINDOW_RESIZABLE);
   TTF_Init();
+  SDLNet_Init();
 
   // init backbuffer
   globals.backbufferImage =
@@ -84,11 +85,14 @@ int main(int argc, char* argv[]) {
     globals.Time      = CTOS((TIME() - appstart).count());
   }
 
-  // Quit SDL2 and SDL_gpu
+  // Free global resources
   GPU_FreeTarget(globals.backbuffer);
   GPU_FreeImage(globals.backbufferImage);
   TTF_CloseFont(globals.font);
   TTF_CloseFont(globals.smallFont);
+
+  // Quit SDL2, SDL_gpu, SDL_ttf and SDL_net
+  SDLNet_Quit();
   TTF_Quit();
   GPU_Quit();
   return 0;

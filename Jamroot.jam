@@ -9,12 +9,14 @@ lib SDL2 : : <name>SDL2 <target-os>windows:<file>"C:/Dependencies/x64/lib/SDL2.l
 lib SDL2_gpu : : <name>SDL2_gpu : : ;
 lib SDL2_ttf : : <name>SDL2_ttf : : ;
 lib SDL2_mixer : : <name>SDL2_mixer : : ;
+lib SDL2_net : : <name>SDL2_net : : ;
 
 exe "WizardArena" : [ glob src/*.cpp ] [ glob src/gameobjects/*.cpp ] [ glob src/scenes/*.cpp ] :
 <library>SDL2
 <library>SDL2_gpu
 <library>SDL2_ttf
 <library>SDL2_mixer
+<library>SDL2_net
 <target-os>darwin:<framework>"OpenGL"
 <target-os>linux:<cflags>-std=c++11
 <target-os>darwin:<cflags>-std=c++11

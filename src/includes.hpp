@@ -31,6 +31,7 @@
 // SDL2, SDL_mixer and SDL_gpu
 #include <SDL2/SDL_gpu.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_net.h>
 #include <SDL2/SDL_ttf.h>
 
 // GLM
