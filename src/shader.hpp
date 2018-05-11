@@ -15,7 +15,7 @@ class Shader {
   ~Shader();
 
   /** Get map of uniforms */
-  std::map<string, uint> GetUniforms() { return uniforms; };
+  map<string, uint> GetUniforms() { return uniforms; };
 
   /** This function activates the shader*/
   void Activate();
@@ -24,7 +24,7 @@ class Shader {
   static void Deactivate();
 
  private:
-  std::map<string, uint> uniforms;
+  map<string, uint> uniforms;
 
   // Shader ids and shaderblock
   uint shaderID[2];

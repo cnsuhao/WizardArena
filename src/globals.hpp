@@ -4,8 +4,8 @@
 #include "includes.hpp"
 
 struct OptionVariables {
-  double MusicVolume = 1;
-  double SoundVolume = 1;
+  double MusicVolume = 1.0;
+  double SoundVolume = 1.0;
 };
 
 /** This is a enumeration that describes the game state.*/
@@ -31,6 +31,8 @@ struct Globals {
   double drawTime = 0.02;
   /** Update time */
   double updateTime = 0.02;
+  /** Application runtime */
+  double Time = 0.0;
   /** Options variables */
   OptionVariables options;
 };

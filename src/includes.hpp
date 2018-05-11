@@ -36,6 +36,7 @@
 
 // Using statements
 using glm::vec2;
+using std::map;
 using std::string;
 using std::vector;
 

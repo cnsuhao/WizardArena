@@ -1,6 +1,7 @@
 #ifndef SKYBG_H
 #define SKYBG_H
 #include "../gameobject.hpp"
+#include "../shader.hpp"
 
 class SkyBG : public GameObject {
  public:
@@ -14,7 +15,9 @@ class SkyBG : public GameObject {
  private:
   GPU_Image* sky;
   GPU_Rect   rects;
-  
+  Shader*    shader;
+
+  map<string, uint> uniforms;
 };
 
 #endif /* SKYBG_H */

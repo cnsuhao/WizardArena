@@ -1,5 +1,6 @@
 #ifndef STATS_H
 #define STATS_H
+#include "../gameobjects/graph.hpp"
 #include "../gameobjects/panel.hpp"
 #include "../gameobjects/text.hpp"
 #include "../includes.hpp"
@@ -36,12 +37,13 @@ class Stats : public Scene {
   void setPositions();
 
   enum statsObjects {
-    PANEL      = 0,
-    FPS        = 1,
-    CYCLES     = 2,
-    DELTATIME  = 3,
+    PANEL  = 0,
+    FPS    = 1,
+    CYCLES = 2,
+    GRAPH  = 3
+    /*    DELTATIME  = 3,
     UPDATETIME = 4,
-    DRAWTIME   = 5
+    DRAWTIME   = 5*/
   };
 };
 

@@ -1,7 +1,7 @@
 #include "shader.hpp"
 Shader::Shader(string shaderName, vector<string> uniformNames) {
   // Initialize uniform map
-  uniforms = std::map<string, uint>();
+  uniforms = map<string, uint>();
 
   // Load shaders
   shaderID[VERTEX] = GPU_LoadShader(

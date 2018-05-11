@@ -18,13 +18,16 @@ Stats::Stats() {
   gameObjects.push_back(new Panel());
   gameObjects.push_back(new Text("FPS: ", true));
   gameObjects.push_back(new Text("CPU Freq: ", true));
+  /*
   gameObjects.push_back(new Text("Delta Time: ", true));
   gameObjects.push_back(new Text("Update Time: ", true));
-  gameObjects.push_back(new Text("Draw Time: ", true));
+  gameObjects.push_back(new Text("Draw Time: ", true));*/
+  gameObjects.push_back(new Graph());
 
-  textHeight                   = gameObjects[FPS]->size.y;
-  gameObjects[PANEL]->size.x   = 270;
-  gameObjects[PANEL]->size.y   = (1 + textHeight) * gameObjects.size() + 5;
+  textHeight                 = gameObjects[FPS]->size.y;
+  gameObjects[PANEL]->size.x = 270;
+  gameObjects[PANEL]->size.y =
+      (1 + textHeight) * (gameObjects.size() - 1) + 5 + 70;
   gameObjects[PANEL]->position = gameObjects[PANEL]->size * vec2(0.5);
 
   setPositions();
@@ -38,9 +41,9 @@ Stats::~Stats() {}
 void Stats::Draw() {
   Scene::Draw();
   frames++;
-  sumDeltaTime += GameObject::globals->DeltaTime;
+  /*sumDeltaTime += GameObject::globals->DeltaTime;
   sumUpdateTime += GameObject::globals->updateTime;
-  sumDrawTime += GameObject::globals->drawTime;
+  sumDrawTime += GameObject::globals->drawTime;*/
 }
 
 void Stats::Update() {
@@ -59,6 +62,7 @@ void Stats::Update() {
               << " GHz";
     ((Text*)gameObjects[CYCLES])->SetText(strstream.str(), true);
 
+    /*
     // Set deltatime text
     strstream.str("");
     strstream << "Delta Time: " << std::fixed << std::setprecision(3)
@@ -76,13 +80,14 @@ void Stats::Update() {
     strstream << "Draw Time: " << std::fixed << std::setprecision(3)
               << (sumDrawTime) / ((double)frames) << " ms";
     ((Text*)gameObjects[DRAWTIME])->SetText(strstream.str(), true);
+*/
 
     // Reset counters
-    frames        = 0;
-    lastCycles    = rdtsc();
-    sumDeltaTime  = 0.0;
+    frames     = 0;
+    lastCycles = rdtsc();
+    /*    sumDeltaTime  = 0.0;
     sumUpdateTime = 0.0;
-    sumDrawTime   = 0.0;
+    sumDrawTime   = 0.0;*/
 
     // Set text positions
     setPositions();
@@ -96,4 +101,6 @@ void Stats::setPositions() {
     gameObjects[i]->position.y =
         textHeight / 2.0 + 5 + (5 * (i - 1)) + (textHeight * (i - 1));
   }
+  gameObjects[GRAPH]->position =
+      vec2(0, ((1 + textHeight) * (gameObjects.size() - 1)) + 5 + 30);
 }

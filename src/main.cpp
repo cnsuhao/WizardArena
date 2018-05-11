@@ -55,6 +55,9 @@ int main(int argc, char* argv[]) {
   // Scaling coordinates
   GPU_SetVirtualResolution(globals.window, globals.vwidth, globals.vheight);
 
+  // Frame start time
+  auto appstart = TIME();
+
   // Main game loop
   while (globals.gameState != QUIT) {
     // Frame start time
@@ -71,6 +74,7 @@ int main(int argc, char* argv[]) {
 
     // Frame end time
     globals.DeltaTime = CTOS((TIME() - start).count());
+    globals.Time      = CTOS((TIME() - appstart).count());
   }
 
   // Quit SDL2 and SDL_gpu
