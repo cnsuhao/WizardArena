@@ -18,10 +18,6 @@ Stats::Stats() {
   gameObjects.push_back(new Panel());
   gameObjects.push_back(new Text("FPS: ", true));
   gameObjects.push_back(new Text("CPU Freq: ", true));
-  /*
-  gameObjects.push_back(new Text("Delta Time: ", true));
-  gameObjects.push_back(new Text("Update Time: ", true));
-  gameObjects.push_back(new Text("Draw Time: ", true));*/
   gameObjects.push_back(new Graph());
 
   textHeight                 = gameObjects[FPS]->size.y;
@@ -41,9 +37,6 @@ Stats::~Stats() {}
 void Stats::Draw() {
   Scene::Draw();
   frames++;
-  /*sumDeltaTime += GameObject::globals->DeltaTime;
-  sumUpdateTime += GameObject::globals->updateTime;
-  sumDrawTime += GameObject::globals->drawTime;*/
 }
 
 void Stats::Update() {
@@ -62,32 +55,9 @@ void Stats::Update() {
               << " GHz";
     ((Text*)gameObjects[CYCLES])->SetText(strstream.str(), true);
 
-    /*
-    // Set deltatime text
-    strstream.str("");
-    strstream << "Delta Time: " << std::fixed << std::setprecision(3)
-              << (sumDeltaTime * 1000.0) / ((double)frames) << " ms";
-    ((Text*)gameObjects[DELTATIME])->SetText(strstream.str(), true);
-
-    // Set update time text
-    strstream.str("");
-    strstream << "Update Time: " << std::fixed << std::setprecision(3)
-              << (sumUpdateTime) / ((double)frames) << " ms";
-    ((Text*)gameObjects[UPDATETIME])->SetText(strstream.str(), true);
-
-    // Set draw time text
-    strstream.str("");
-    strstream << "Draw Time: " << std::fixed << std::setprecision(3)
-              << (sumDrawTime) / ((double)frames) << " ms";
-    ((Text*)gameObjects[DRAWTIME])->SetText(strstream.str(), true);
-*/
-
     // Reset counters
     frames     = 0;
     lastCycles = rdtsc();
-    /*    sumDeltaTime  = 0.0;
-    sumUpdateTime = 0.0;
-    sumDrawTime   = 0.0;*/
 
     // Set text positions
     setPositions();

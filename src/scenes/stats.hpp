@@ -25,26 +25,12 @@ class Stats : public Scene {
   uint lastSecond;
   /** The amount of frames counted*/
   uint frames;
-  /** The sum of deltatime*/
-  double sumDeltaTime;
-  /** The sum of time to update the scene*/
-  double sumUpdateTime;
-  /** The sum of time to draw the scene*/
-  double sumDrawTime;
   /** Defines the size of the stats text*/
   double textHeight;
   /** Sets the position of the stats table*/
   void setPositions();
 
-  enum statsObjects {
-    PANEL  = 0,
-    FPS    = 1,
-    CYCLES = 2,
-    GRAPH  = 3
-    /*    DELTATIME  = 3,
-    UPDATETIME = 4,
-    DRAWTIME   = 5*/
-  };
+  enum statsObjects { PANEL = 0, FPS = 1, CYCLES = 2, GRAPH = 3 };
 };
 
 #endif  // STATS_H
