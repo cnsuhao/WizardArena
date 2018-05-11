@@ -5,6 +5,7 @@
 #include "../gameobjects/panel.hpp"
 #include "../gameobjects/skybg.hpp"
 #include "../gameobjects/text.hpp"
+#include "../gameobjects/textbox.hpp"
 #include "../scene.hpp"
 
 /** The connect class*/
@@ -15,9 +16,8 @@ class Connect : public Scene {
     buttons[0] = new Button("Connect");
     buttons[1] = new Button("Host");
     buttons[2] = new Button("Back");
-    iptext     = new Text("255.255.255.255");
+    txtbox     = new Textbox("0.0.0.0", true);
     bgpanel    = new Panel();
-    txtpanel   = new Panel();
     logo       = new Image("Content/Textures/Logo.png",
                      GameObject::globals->vwidth / 2.0, 125);
 
@@ -27,8 +27,7 @@ class Connect : public Scene {
     gameObjects.push_back(buttons[0]);
     gameObjects.push_back(buttons[1]);
     gameObjects.push_back(buttons[2]);
-    gameObjects.push_back(txtpanel);
-    gameObjects.push_back(iptext);
+    gameObjects.push_back(txtbox);
     gameObjects.push_back(logo);
 
     // Set button and panel positions
@@ -38,9 +37,8 @@ class Connect : public Scene {
     bgpanel->position.y  = GameObject::globals->vheight - 225;
     bgpanel->size        = vec2(375, 450);
     logo->size           = vec2(0.8);
-    iptext->position     = vec2(GameObject::globals->vwidth / 2, 340);
-    txtpanel->position.y = 335;
-    txtpanel->size       = vec2(375, 65);
+    txtbox->position     = vec2(GameObject::globals->vwidth / 2, 340);
+    txtbox->size         = vec2(375, 65);
 
     // Load menu sounds
     menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
@@ -61,6 +59,12 @@ class Connect : public Scene {
         Mix_PlayChannel(0, menuselection, 0);
       }
       selected %= 4;
+
+      if (!selected)
+        txtbox->SetHighlighted(true);
+      else
+        txtbox->SetHighlighted(false);
+
       for (ubyte i = 0; i < 3; i++) {
         if (selected == i + 1)
           buttons[i]->SetState(1);
@@ -90,12 +94,12 @@ class Connect : public Scene {
      1: Host button
      2: Back button
   */
-  Button* buttons[3];
-  Panel*  bgpanel;
-  Panel*  txtpanel;
-  Image*  logo;
-  Text*   iptext;
-  ubyte   selected = 0;
+  Button*  buttons[3];
+  Panel*   bgpanel;
+  Textbox* txtbox;
+  Image*   logo;
+
+  ubyte selected = 0;
 
   // Button functions
   void buttonConnect() {

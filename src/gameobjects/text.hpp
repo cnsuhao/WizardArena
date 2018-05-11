@@ -16,8 +16,11 @@ class Text : public GameObject {
   void SetText(string text, SDL_Color color);
   void SetText(string text, SDL_Color color, bool useSmallFont);
 
+  string GetLastText() { return lastText; }
+
  private:
   GPU_Image* textimg;
+  string     lastText;
 };
 
 #endif /* TEXT_H */

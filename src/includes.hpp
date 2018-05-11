@@ -22,8 +22,10 @@
 #include <chrono>
 #include <iomanip>  // setprecision
 #include <map>
+#include <mutex>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 // SDL2, SDL_mixer and SDL_gpu
@@ -37,7 +39,9 @@
 // Using statements
 using glm::vec2;
 using std::map;
+using std::mutex;
 using std::string;
+using std::thread;
 using std::vector;
 
 // Type definitions

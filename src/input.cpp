@@ -35,6 +35,7 @@ void InputManager::ProcessInput() {
       }
     }
     // Checks if relevant SDL event
+    if (event.type == SDL_TEXTINPUT) { sceneManager->Input(event); }
     if (event.type == SDL_MOUSEMOTION) { sceneManager->Input(event); }
     if (event.type == SDL_MOUSEBUTTONUP) { sceneManager->Input(event); }
     if (event.type == SDL_MOUSEBUTTONDOWN) { sceneManager->Input(event); }
