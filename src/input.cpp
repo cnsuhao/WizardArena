@@ -40,6 +40,8 @@ void InputManager::ProcessInput() {
     if (event.type == SDL_MOUSEBUTTONDOWN) { sceneManager->Input(event); }
     if (event.type == SDL_KEYUP) {
       sceneManager->Input(event);
+      if (event.key.keysym.sym == SDLK_F11)
+        GPU_SetFullscreen(!GPU_GetFullscreen(), true);
 #ifdef DEBUG
       if (event.key.keysym.sym == SDLK_ESCAPE) { globals->gameState = QUIT; }
 #endif  // DEBUG

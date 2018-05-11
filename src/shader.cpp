@@ -24,7 +24,7 @@ Shader::Shader(string shaderName, vector<string> uniformNames) {
 
 #ifdef DEBUG
   // Print shader message
-  printf("Shader message: %s\n", GPU_GetShaderMessage());
+  printf("%s\n", GPU_GetShaderMessage());
 #endif
 
   // Get attributes and uniforms
