@@ -7,6 +7,7 @@
 #include "../gameobjects/text.hpp"
 #include "../gameobjects/textbox.hpp"
 #include "../scene.hpp"
+#include "../server.hpp"
 
 /** The connect class*/
 class Connect : public Scene {
@@ -45,6 +46,8 @@ class Connect : public Scene {
   }
   /** The connect destructor*/
   virtual ~Connect() { Mix_FreeChunk(menuselection); }
+
+  void Update() {}
 
   /** Calls input functions of all handled GameObject pointers.
       @param event The event to pass to each GameObject.
@@ -98,17 +101,17 @@ class Connect : public Scene {
   Panel*   bgpanel;
   Textbox* txtbox;
   Image*   logo;
-
-  ubyte selected = 0;
+  ubyte    selected = 0;
 
   // Button functions
   void buttonConnect() {
     Dead = true;
-    Messages.push_back("Options");
+    Messages.push_back("Lobby CLIENT");
+    Messages.push_back(txtbox->GetText());
   }
   void buttonHost() {
     Dead = true;
-    Messages.push_back("Credits");
+    Messages.push_back("Lobby HOST");
   }
   void buttonBack() {
     Dead = true;

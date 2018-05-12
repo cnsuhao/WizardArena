@@ -2,6 +2,7 @@
 #define BUTTON_H
 #include "../gameobject.hpp"
 #include "../includes.hpp"
+#include "../shader.hpp"
 #include "text.hpp"
 
 class Button : public GameObject {
@@ -33,9 +34,8 @@ class Button : public GameObject {
      3: text
    */
   static GPU_Image* buttonImages[3];
-  // GPU_Image*        buttonText;
-  Text*       buttonText;
-  static bool loaded;
+  Text*             buttonText;
+  static bool       loaded;
 
   // Current state
   byte state;
@@ -43,6 +43,9 @@ class Button : public GameObject {
   // Hooked function
   void (*func)(void);
   bool hooked = false;
+
+  // Disabled shader
+  Shader* disabledShader;
 };
 
 #endif /* BUTTON_H */

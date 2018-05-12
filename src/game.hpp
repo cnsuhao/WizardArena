@@ -4,16 +4,31 @@
 
 class Game {
  public:
-  Game() { playerPositions = vector<vec2>(); };
-  virtual ~Game();
+  Game() {
+    playerPositions = vector<vec2>();
+    playerRotations = vector<float>();
+  };
 
-  vector<vec2> GetPlayerPositions() { return playerPositions; }
+  virtual ~Game() {}
+
+  virtual void StartGame() {}
+  virtual void Update() {}
+  virtual void Input(SDL_Event event) {}
+
+  vector<vec2>  GetPlayerPositions() { return playerPositions; }
+  vector<float> GetPlayerRotations() { return playerRotations; }
 
  protected:
-  volatile vector<vec2> playerPositions;
+  // Game
+  vector<vec2>  playerPositions;
+  vector<float> playerRotations;
 
+  // Threading
   thread* gameThread;
   mutex*  sharedMutex;
+
+  // Networking
+  TCPsocket socket;
 };
 
 #endif

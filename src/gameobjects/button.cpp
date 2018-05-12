@@ -12,6 +12,9 @@ Button::Button(string text) : GameObject() {
   }
   buttonText = new Text(text);
 
+  // Load shader
+  disabledShader = new Shader("Disabled", {""});
+
   // Set default state
   state = 0;
 }
@@ -24,13 +27,16 @@ Button::~Button() {
     loaded = false;
   }
   delete buttonText;
+  delete disabledShader;
 }
 
 void Button::Draw() {
+  if (state == 2) disabledShader->Activate();
   buttonText->position = position;
   GPU_Blit(buttonImages[state], nullptr, globals->backbuffer, position.x,
            position.y);
   buttonText->Draw();
+  if (state == 2) disabledShader->Deactivate();
 }
 
 void Button::SetState(byte state) {

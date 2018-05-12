@@ -83,6 +83,12 @@ void SceneManager::Update() {
           } else if (messages[j] == "Connect") {
             i++;
             scenes.insert(scenes.begin() + i, new Connect());
+          } else if (messages[j] == "Lobby HOST") {
+            i++;
+            scenes.insert(scenes.begin() + i, new Lobby(new Server(), true));
+          } else if (messages[j] == "Lobby CLIENT") {
+            i++;
+            scenes.insert(scenes.begin() + i, new Lobby(new Server(), false));
           }
         }
       }
