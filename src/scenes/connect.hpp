@@ -92,6 +92,19 @@ class Connect : public Scene {
         }
       }
     }
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+      // If the left mouse button was pressed
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        if (PointRectIntersect(
+                vec2(((double)event.motion.x / GameObject::globals->width) *
+                         GameObject::globals->vwidth,
+                     ((double)event.motion.y / GameObject::globals->height) *
+                         GameObject::globals->vheight),
+                txtbox->size, txtbox->position)) {
+          selected = 0;
+        }
+      }
+    }
 
     if (event.type == SDL_KEYDOWN) {
       if (event.key.keysym.sym == SDLK_UP) {
