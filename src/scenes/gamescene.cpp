@@ -13,7 +13,10 @@ GameScene::GameScene(Game* game) {
   gameObjects.push_back(platform);
 }
 
-GameScene::~GameScene() { delete game; }
+GameScene::~GameScene() {
+  delete game;
+  exit(0);
+}
 
 void GameScene::Update() {
   game->Update();
