@@ -31,5 +31,5 @@ void GameScene::Update() {
 
 void GameScene::Draw() {
   Scene::Draw();
-  for (ubyte i = 0; i < game->Players.size(); i++) { game->Players[i]; }
+  for (ubyte i = 0; i < game->Players.size(); i++) { game->Players[i]->Draw(); }
 }

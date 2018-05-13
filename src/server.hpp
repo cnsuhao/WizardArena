@@ -31,8 +31,9 @@ class Server : public Game {
 
   SDLNet_SocketSet socketSet;
 
-  void SendMessage(TCPsocket socket, string msg);
   void SendMessage(int id, string msg);
   void SendMessageAll(string msg);
+
+  string playersToString();
 };
 #endif  // SERVER_H

@@ -7,6 +7,7 @@ using std::endl;
 Client::Client(string ipAddress) {
   serverName  = ipAddress;
   playerCount = 0;
+  playerIndex = 0;
 
   // Create the socket set
   socketSet = SDLNet_AllocSocketSet(1);
@@ -86,15 +87,54 @@ void Client::Update() {
       // Convert to c++ string
       string msg(buffer, msglen);
       if (msg[0] == 'C') playerCount = std::stoi(msg.substr(1, msg.size() - 1));
-      if (msg.substr(0, 2) == "GS") { GameStarted = true; }
+      if (GameStarted) ProcessMessage(msg);
+      if (msg.substr(0, 2) == "GS") { startGame(msg); }
     }
   }
 }
 
-int Client::GetPlayerIndex() { return 0; }
+int Client::GetPlayerIndex() { return playerIndex; }
 int Client::GetPlayerCount() { return playerCount; }
 
 void Client::SendMessage(string message) {
   strcpy(buffer, message.c_str());
   SDLNet_TCP_Send(clientSocket, (void*)buffer, strlen(buffer) + 1);
+}
+
+void Client::ProcessMessage(string message) {}
+
+void Client::addPlayer(string info) {
+  if (info == "") return;
+  vector<string> parts;
+  string         buf = "";
+  for (uint i = 1; i < info.size(); i++) {
+    if (info[i] == '|') {
+      parts.push_back(buf);
+      buf = "";
+    } else {
+      buf += info[i];
+    }
+  }
+  parts.push_back(buf);
+  Players.push_back(new Player(vec2(std::stof(parts[0]), std::stof(parts[1]))));
+}
+
+void Client::startGame(string message) {
+  GameStarted = true;
+
+  // Get player index
+  string buf  = {message[2]};
+  playerIndex = std::stoi(buf);
+  buf         = "";
+
+  // Add players to local vector
+  for (uint i = 3; i < message.size(); i++) {
+    if (message[i] == 'P') {
+      addPlayer(buf);
+      buf = "";
+    } else {
+      buf += message[i];
+    }
+  }
+  addPlayer(buf);
 }

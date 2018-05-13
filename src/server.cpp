@@ -3,6 +3,7 @@
 
 using std::cout;
 using std::endl;
+using std::to_string;
 
 Server::Server() {
   receivedByteCount = 0;
@@ -50,11 +51,6 @@ Server::Server() {
   SDLNet_TCP_AddSocket(socketSet, socket);
 }
 
-void Server::StartGame() {
-  SendMessageAll("GS");
-  GameStarted = true;
-}
-
 void Server::Update() {
   //  0: dont wait
   //  any other number is a number of milliseconds
@@ -69,7 +65,6 @@ void Server::Update() {
       int freeSpot = -99;
       for (int i = 0; i < MAX_CLIENTS; i++) {
         if (socketIsFree[i] == true) {
-          // cout << "Found a free spot at element: " << i << endl;
           socketIsFree[i] = false;
           freeSpot        = i;
           break;
@@ -135,6 +130,16 @@ void Server::Update() {
   }
 }
 
+void Server::StartGame() {
+  for (int i = 0; i < clientCount + 1; i++) {
+    Players.push_back(new Player(vec2(400 + 200 * i, 50 + 300 * i)));
+  }
+  for (int i = 0; i < MAX_CLIENTS; i++) {
+    SendMessage(i, "GS" + std::to_string(i + 1) + playersToString());
+  }
+  GameStarted = true;
+}
+
 Server::~Server() {
   // DC everyone
   for (int j = 0; j < MAX_CLIENTS; j++) {
@@ -150,12 +155,8 @@ Server::~Server() {
 int Server::GetPlayerIndex() { return 0; }
 int Server::GetPlayerCount() { return clientCount + 1; }
 
-void Server::SendMessage(TCPsocket socket, string msg) {
-  strcpy(buffer, msg.c_str());
-  SDLNet_TCP_Send(socket, (void*)buffer, strlen(buffer) + 1);
-}
-
 void Server::SendMessage(int id, string msg) {
+  if (socketIsFree[id]) return;
   strcpy(buffer, msg.c_str());
   SDLNet_TCP_Send(clientSocket[id], (void*)buffer, strlen(buffer) + 1);
 }
@@ -163,4 +164,14 @@ void Server::SendMessageAll(string msg) {
   for (int j = 0; j < MAX_CLIENTS; j++) {
     if (!socketIsFree[j]) { SendMessage(j, msg); }
   }
+}
+
+string Server::playersToString() {
+  string tmp = "";
+  for (int i = 0; i < Players.size(); i++) {
+    tmp += "P" + to_string(i) + to_string(Players[i]->position.x) + "|" +
+           to_string(Players[i]->position.y) + "|" +
+           to_string(Players[i]->rotation) + "|" + to_string(Players[i]->speed);
+  }
+  return tmp;
 }

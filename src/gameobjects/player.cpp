@@ -1,8 +1,10 @@
 #include "player.hpp"
 
-Player::Player() {
+Player::Player(vec2 pos) {
   image    = GPU_LoadImage("Content/Textures/Player.png");
   rotation = 0;
+  position = pos;
+  speed    = 0;
 }
 
 Player::~Player() { GPU_FreeImage(image); }

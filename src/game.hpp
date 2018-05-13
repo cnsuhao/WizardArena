@@ -7,7 +7,10 @@ class Game {
  public:
   Game() { Players = vector<Player*>(); };
 
-  virtual ~Game() {}
+  virtual ~Game() {
+    for (int i = 0; i < Players.size(); i++) delete Players[i];
+    Players.clear();
+  }
 
   virtual void StartGame() {}
   virtual void Update() {}

@@ -26,8 +26,12 @@ class Client : public Game {
 
   // Lobby
   int playerCount;
+  int playerIndex;
 
   void SendMessage(string message);
+  void ProcessMessage(string message);
+  void startGame(string message);
+  void addPlayer(string info);
 };
 
 #endif
