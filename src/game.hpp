@@ -14,9 +14,14 @@ class Game {
   virtual void StartGame() {}
   virtual void Update() {}
   virtual void Input(SDL_Event event) {}
+  virtual int  GetPlayerIndex() { return 0; }
+  virtual int  GetPlayerCount() { return 0; }
 
   vector<vec2>  GetPlayerPositions() { return playerPositions; }
   vector<float> GetPlayerRotations() { return playerRotations; }
+
+  bool FailedToConnect = false;
+  bool Disconnected    = false;
 
  protected:
   // Game

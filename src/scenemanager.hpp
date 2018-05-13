@@ -5,6 +5,7 @@
 #include "scenes/credits.hpp"
 #include "scenes/lobby.hpp"
 #include "scenes/mainmenu.hpp"
+#include "scenes/messagebox.hpp"
 #include "scenes/options.hpp"
 #include "shader.hpp"
 

@@ -2,13 +2,8 @@
 #define SERVER_H
 #include "game.hpp"
 
-const unsigned short MAX_SOCKETS = 4;
-const unsigned short MAX_CLIENTS = MAX_SOCKETS - 1;
 const unsigned short PORT        = 1248;
 const unsigned short BUFFER_SIZE = 512;
-
-const string SERVER_NOT_FULL = "OK";
-const string SERVER_FULL     = "FULL";
 
 class Server : public Game {
  public:
@@ -17,8 +12,16 @@ class Server : public Game {
 
   void StartGame();
   void Update();
+  int  GetPlayerIndex();
+  int  GetPlayerCount();
 
  private:
+  static const unsigned short MAX_SOCKETS = 4;
+  static const unsigned short MAX_CLIENTS = MAX_SOCKETS - 1;
+
+  const string SERVER_NOT_FULL = "OK";
+  const string SERVER_FULL     = "FULL";
+
   IPaddress serverIP;
   TCPsocket clientSocket[MAX_CLIENTS];
   bool      socketIsFree[MAX_CLIENTS];
@@ -27,6 +30,9 @@ class Server : public Game {
   int       clientCount       = 0;
 
   SDLNet_SocketSet socketSet;
+
+  void SendMessage(TCPsocket socket, string msg);
+  void SendMessage(int id, string msg);
 };
 
 #endif  // SERVER_H

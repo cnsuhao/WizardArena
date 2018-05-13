@@ -53,15 +53,9 @@ Server::Server() {
 void Server::StartGame() {}
 
 void Server::Update() {
-  //  0 means do not wait (high CPU!)
-  // -1 means wait for up to 49 days
-  // any other number is a number of milliseconds
+  //  0: dont wait
+  //  any other number is a number of milliseconds
   int numActiveSockets = SDLNet_CheckSockets(socketSet, 0);
-
-  if (numActiveSockets != 0) {
-    cout << "There are currently " << numActiveSockets
-         << " socket(s) with data to be processed." << endl;
-  }
 
   // Check if our server socket has received any data
   int serverSocketActivity = SDLNet_SocketReady(socket);
@@ -87,17 +81,15 @@ void Server::Update() {
       // Increase our client count
       clientCount++;
       // Send "OK" to client
-      strcpy(buffer, SERVER_NOT_FULL.c_str());
-      int msgLength = strlen(buffer) + 1;
-      SDLNet_TCP_Send(clientSocket[freeSpot], (void*)buffer, msgLength);
-
-      cout << "Client connected. There are now " << clientCount
-           << " client(s) connected." << endl
-           << endl;
+      SendMessage(freeSpot, SERVER_NOT_FULL);
+      // Update player count
+      for (int j = 0; j < MAX_CLIENTS; j++) {
+        if (!socketIsFree[j]) {
+          SendMessage(j, "C" + std::to_string(GetPlayerCount()));
+        }
+      }
     } else {
-      cout << "*** Maximum client count reached - rejecting client connection "
-              "***"
-           << endl;
+      cout << "Maximum client count reached" << endl;
 
       // Accept, reject and disconnect from client
       TCPsocket tmpSock = SDLNet_TCP_Accept(socket);
@@ -130,25 +122,16 @@ void Server::Update() {
         socketIsFree[clientNumber] = true;
         clientCount--;
 
-        cout << "Server is now connected to: " << clientCount << " client(s)."
-             << endl
-             << endl;
-      } else {
-        // Output the message the server received to the screen
-        cout << "Received: >>>> " << buffer
-             << " from client number: " << clientNumber << endl;
-
-        // Send message to all other connected clients
-        int originatingClient = clientNumber;
-
+        // Update player count
         for (int j = 0; j < MAX_CLIENTS; j++) {
-          int msgLength = strlen(buffer) + 1;
-
-          if (msgLength > 1 && j != originatingClient && !socketIsFree[j]) {
-            cout << "Retransmitting message: " << buffer << " (" << msgLength
-                 << " bytes) to client number: " << j << endl;
-            SDLNet_TCP_Send(clientSocket[j], (void*)buffer, msgLength);
+          if (!socketIsFree[j]) {
+            SendMessage(j, "C" + std::to_string(GetPlayerCount()));
           }
+        }
+      } else {
+        // Process messages
+        if (!strcmp(buffer, "PC")) {
+          SendMessage(clientNumber, "C" + std::to_string(GetPlayerCount()));
         }
       }
     }
@@ -156,9 +139,26 @@ void Server::Update() {
 }
 
 Server::~Server() {
+  // DC everyone
+  for (int j = 0; j < MAX_CLIENTS; j++) {
+    if (!socketIsFree[j]) { SendMessage(j, "DC"); }
+  }
   // Free socket set
   SDLNet_FreeSocketSet(socketSet);
 
   // Close server socket
   SDLNet_TCP_Close(socket);
+}
+
+int Server::GetPlayerIndex() { return 0; }
+int Server::GetPlayerCount() { return clientCount + 1; }
+
+void Server::SendMessage(TCPsocket socket, string msg) {
+  strcpy(buffer, msg.c_str());
+  SDLNet_TCP_Send(socket, (void*)buffer, strlen(buffer) + 1);
+}
+
+void Server::SendMessage(int id, string msg) {
+  strcpy(buffer, msg.c_str());
+  SDLNet_TCP_Send(clientSocket[id], (void*)buffer, strlen(buffer) + 1);
 }

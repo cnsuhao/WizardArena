@@ -1,5 +1,6 @@
 #ifndef LOBBY_H
 #define LOBBY_H
+#include "../client.hpp"
 #include "../gameobjects/button.hpp"
 #include "../gameobjects/image.hpp"
 #include "../gameobjects/panel.hpp"
@@ -7,7 +8,6 @@
 #include "../gameobjects/text.hpp"
 #include "../gameobjects/textbox.hpp"
 #include "../scene.hpp"
-#include "../server.hpp"
 
 /** The lobby class*/
 class Lobby : public Scene {
@@ -15,13 +15,24 @@ class Lobby : public Scene {
   Lobby(Game* game, bool isServer) {
     this->game     = game;
     this->isServer = isServer;
+    if (!isServer) {
+      if (game->FailedToConnect) {
+        Dead = true;
+        Messages.push_back("Connect");
+        Messages.push_back("Message");
+        Messages.push_back("Failed to connect");
+      }
+    }
+
+    lastPlayers = game->GetPlayerCount();
 
     // Create the buttons and panel
-    buttons[0] = new Button("Start game");
-    buttons[1] = new Button("Disconnect");
-    bgpanel    = new Panel();
-    logo       = new Image("Content/Textures/Logo.png",
+    buttons[0]   = new Button("Start game");
+    buttons[1]   = new Button("Disconnect");
+    bgpanel      = new Panel();
+    logo         = new Image("Content/Textures/Logo.png",
                      GameObject::globals->vwidth / 2.0, 125);
+    playerAmount = new Text("Players: " + std::to_string(lastPlayers));
 
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
@@ -29,6 +40,7 @@ class Lobby : public Scene {
     gameObjects.push_back(buttons[0]);
     gameObjects.push_back(buttons[1]);
     gameObjects.push_back(logo);
+    gameObjects.push_back(playerAmount);
 
     // Set button and panel positions
     buttons[0]->position = vec2(GameObject::globals->vwidth / 2, 550);
@@ -44,8 +56,7 @@ class Lobby : public Scene {
       buttons[1]->SetState(1);
       selected = 1;
     }
-    // txtbox->position     = vec2(GameObject::globals->vwidth / 2, 340);
-    //    txtbox->size         = vec2(375, 65);
+    playerAmount->position = vec2(GameObject::globals->vwidth / 2, 340);
 
     // Load menu sounds
     menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
@@ -56,7 +67,19 @@ class Lobby : public Scene {
     delete game;
   }
 
-  void Update() { game->Update(); }
+  void Update() {
+    game->Update();
+    if (game->GetPlayerCount() != lastPlayers) {
+      lastPlayers = game->GetPlayerCount();
+      playerAmount->SetText("Players: " + std::to_string(lastPlayers));
+    }
+    if (game->Disconnected) {
+      Dead = true;
+      Messages.push_back("Connect");
+      Messages.push_back("Message");
+      Messages.push_back("Disconnected");
+    }
+  }
 
   /** Calls input functions of all handled GameObject pointers.
       @param event The event to pass to each GameObject.
@@ -103,6 +126,8 @@ class Lobby : public Scene {
   Button* buttons[2];
   Panel*  bgpanel;
   Image*  logo;
+  Text*   playerAmount;
+  ubyte   lastPlayers;
 
   ubyte selected = 0;
 

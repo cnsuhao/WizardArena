@@ -88,7 +88,11 @@ void SceneManager::Update() {
             scenes.insert(scenes.begin() + i, new Lobby(new Server(), true));
           } else if (messages[j] == "Lobby CLIENT") {
             i++;
-            scenes.insert(scenes.begin() + i, new Lobby(new Server(), false));
+            scenes.insert(scenes.begin() + i,
+                          new Lobby(new Client(messages[j + 1]), false));
+          } else if (messages[j] == "Message") {
+            i++;
+            AddScene(new MessageBox(messages[j + 1], 3000));
           }
         }
       }
