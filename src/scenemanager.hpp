@@ -3,6 +3,7 @@
 #include "globals.hpp"
 #include "scenes/connect.hpp"
 #include "scenes/credits.hpp"
+#include "scenes/gamescene.hpp"
 #include "scenes/lobby.hpp"
 #include "scenes/mainmenu.hpp"
 #include "scenes/messagebox.hpp"

@@ -50,20 +50,21 @@ Server::Server() {
   SDLNet_TCP_AddSocket(socketSet, socket);
 }
 
-void Server::StartGame() {}
+void Server::StartGame() {
+  SendMessageAll("GS");
+  GameStarted = true;
+}
 
 void Server::Update() {
   //  0: dont wait
   //  any other number is a number of milliseconds
-  int numActiveSockets = SDLNet_CheckSockets(socketSet, 0);
+  SDLNet_CheckSockets(socketSet, 0);
 
   // Check if our server socket has received any data
   int serverSocketActivity = SDLNet_SocketReady(socket);
-
-  // If there is activity on server socket
   if (serverSocketActivity) {
     // If we have room for more clients...
-    if (clientCount < MAX_CLIENTS) {
+    if (clientCount < MAX_CLIENTS && !GameStarted) {
       // Find the first free socket in our array of client sockets
       int freeSpot = -99;
       for (int i = 0; i < MAX_CLIENTS; i++) {
@@ -89,15 +90,15 @@ void Server::Update() {
         }
       }
     } else {
-      cout << "Maximum client count reached" << endl;
-
-      // Accept, reject and disconnect from client
       TCPsocket tmpSock = SDLNet_TCP_Accept(socket);
-
-      strcpy(buffer, SERVER_FULL.c_str());
-      int msgLength = strlen(buffer) + 1;
-      SDLNet_TCP_Send(tmpSock, (void*)buffer, msgLength);
-
+      // Accept, reject and disconnect from client
+      if (GameStarted) {
+        strcpy(buffer, "GP");
+      } else {
+        cout << "Maximum client count reached" << endl;
+        strcpy(buffer, SERVER_FULL.c_str());
+      }
+      SDLNet_TCP_Send(tmpSock, (void*)buffer, strlen(buffer) + 1);
       SDLNet_TCP_Close(tmpSock);
     }
   }
@@ -123,11 +124,7 @@ void Server::Update() {
         clientCount--;
 
         // Update player count
-        for (int j = 0; j < MAX_CLIENTS; j++) {
-          if (!socketIsFree[j]) {
-            SendMessage(j, "C" + std::to_string(GetPlayerCount()));
-          }
-        }
+        SendMessageAll("C" + std::to_string(GetPlayerCount()));
       } else {
         // Process messages
         if (!strcmp(buffer, "PC")) {
@@ -161,4 +158,9 @@ void Server::SendMessage(TCPsocket socket, string msg) {
 void Server::SendMessage(int id, string msg) {
   strcpy(buffer, msg.c_str());
   SDLNet_TCP_Send(clientSocket[id], (void*)buffer, strlen(buffer) + 1);
+}
+void Server::SendMessageAll(string msg) {
+  for (int j = 0; j < MAX_CLIENTS; j++) {
+    if (!socketIsFree[j]) { SendMessage(j, msg); }
+  }
 }

@@ -64,7 +64,7 @@ class Lobby : public Scene {
   /** The connect destructor*/
   virtual ~Lobby() {
     Mix_FreeChunk(menuselection);
-    delete game;
+    if (!game->GameStarted) delete game;
   }
 
   void Update() {
@@ -78,6 +78,13 @@ class Lobby : public Scene {
       Messages.push_back("Connect");
       Messages.push_back("Message");
       Messages.push_back("Disconnected");
+    }
+    if (game->GameStarted) {
+      Dead = true;
+      Messages.push_back("Game");
+      GameObject::globals->ptr = (void*)game;
+      Messages.push_back("Message");
+      Messages.push_back("Game started!");
     }
   }
 
@@ -132,7 +139,7 @@ class Lobby : public Scene {
   ubyte selected = 0;
 
   // Button functions
-  void buttonStart() {}
+  void buttonStart() { game->StartGame(); }
   void buttonBack() {
     Dead = true;
     Messages.push_back("Main Menu");

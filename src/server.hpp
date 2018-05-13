@@ -33,6 +33,6 @@ class Server : public Game {
 
   void SendMessage(TCPsocket socket, string msg);
   void SendMessage(int id, string msg);
+  void SendMessageAll(string msg);
 };
-
 #endif  // SERVER_H

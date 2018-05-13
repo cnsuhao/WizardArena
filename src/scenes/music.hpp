@@ -18,7 +18,9 @@ class Music : public Scene {
 
  private:
   Mix_Music* GameMusic;
+  Mix_Music* LobbyMusic;
   Mix_Music* MenuMusic;
+  int        currentTrack;
 };
 
 #endif

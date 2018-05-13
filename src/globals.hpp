@@ -40,6 +40,10 @@ struct Globals {
   double Time = 0.0;
   /** Options variables */
   OptionVariables options;
+  /** Pointer as a buffer for general purpose use.
+      Note: so far its only used for handing off game pointer to a different
+      scene. */
+  void* ptr;
 };
 
 #endif  // GLOBALS_HPP
