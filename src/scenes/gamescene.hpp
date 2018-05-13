@@ -4,6 +4,7 @@
 #include "../gameobjects/gamebg.hpp"
 #include "../gameobjects/image.hpp"
 #include "../scene.hpp"
+#include "../utils.hpp"
 
 class GameScene : public Scene {
  public:
@@ -11,10 +12,14 @@ class GameScene : public Scene {
   ~GameScene();
   void Update();
   void Draw();
+  void Input(SDL_Event event);
 
  private:
-  Game*  game;
-  Image* platform;
+  Game*   game;
+  Image*  platform;
+  Player* player;
+
+  GPU_Camera cam;
 };
 
 #endif  // GAMESCENE_H

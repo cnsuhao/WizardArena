@@ -171,7 +171,9 @@ string Server::playersToString() {
   for (int i = 0; i < Players.size(); i++) {
     tmp += "P" + to_string(i) + to_string(Players[i]->position.x) + "|" +
            to_string(Players[i]->position.y) + "|" +
-           to_string(Players[i]->rotation) + "|" + to_string(Players[i]->speed);
+           to_string(Players[i]->rotation) + "|" +
+           to_string(Players[i]->velocity.x) + "|" +
+           to_string(Players[i]->velocity.y);
   }
   return tmp;
 }

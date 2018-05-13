@@ -3,6 +3,8 @@
 #include "gameobjects/player.hpp"
 #include "includes.hpp"
 
+#define MAX_SPEED 1000.0f
+
 class Game {
  public:
   Game() { Players = vector<Player*>(); };

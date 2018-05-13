@@ -11,7 +11,8 @@ class Player : public GameObject {
   void Draw();
 
   float rotation;
-  float speed;
+  vec2  velocity;
+  bool  dead;
 
  private:
   GPU_Image* image;

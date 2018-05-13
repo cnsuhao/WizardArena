@@ -35,6 +35,8 @@ class Image : public GameObject {
                   size.x, size.y);
   }
 
+  GPU_Image* getImage() { return image; }
+
  private:
   GPU_Image* image;  // Image pointer
 };

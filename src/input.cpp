@@ -39,6 +39,7 @@ void InputManager::ProcessInput() {
     if (event.type == SDL_MOUSEMOTION) { sceneManager->Input(event); }
     if (event.type == SDL_MOUSEBUTTONUP) { sceneManager->Input(event); }
     if (event.type == SDL_MOUSEBUTTONDOWN) { sceneManager->Input(event); }
+    if (event.type == SDL_MOUSEWHEEL) { sceneManager->Input(event); }
     if (event.type == SDL_KEYUP) {
       sceneManager->Input(event);
       if (event.key.keysym.sym == SDLK_F11)

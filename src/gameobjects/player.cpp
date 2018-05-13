@@ -4,7 +4,8 @@ Player::Player(vec2 pos) {
   image    = GPU_LoadImage("Content/Textures/Player.png");
   rotation = 0;
   position = pos;
-  speed    = 0;
+  velocity = vec2(0);
+  dead     = false;
 }
 
 Player::~Player() { GPU_FreeImage(image); }
