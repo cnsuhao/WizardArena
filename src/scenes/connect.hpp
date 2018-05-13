@@ -48,11 +48,7 @@ class Connect : public Scene {
   /** The connect destructor*/
   virtual ~Connect() { Mix_FreeChunk(menuselection); }
 
-  void Update() {
-    for (byte i = 0; i < 4; i++) {
-      buttons[i]->SetState(i == selected ? 1 : 0);
-    }
-  }
+  void Update() {}
 
   /** Calls input functions of all handled GameObject pointers.
       @param event The event to pass to each GameObject.
@@ -60,7 +56,7 @@ class Connect : public Scene {
   void Input(SDL_Event event) {
     // If the mouse moved
     if (event.type == SDL_MOUSEMOTION) {
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 3; i++) {
         // If the mouse is inside the button
         if (PointRectIntersect(
                 vec2(((double)event.motion.x / GameObject::globals->width) *
@@ -68,23 +64,26 @@ class Connect : public Scene {
                      ((double)event.motion.y / GameObject::globals->height) *
                          GameObject::globals->vheight),
                 buttons[i]->size, buttons[i]->position)) {
-          selected = i;
+          selected = i + 1;
+          for (ubyte i = 0; i < 3; i++) {
+            buttons[i]->SetState(i == selected - 1 ? 1 : 0);
+          }
         }
       }
     }
+
     if (event.type == SDL_MOUSEBUTTONDOWN) {
       // If the left mouse button was pressed
       if (event.button.button == SDL_BUTTON_LEFT) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
           if (PointRectIntersect(
                   vec2(((double)event.motion.x / GameObject::globals->width) *
                            GameObject::globals->vwidth,
                        ((double)event.motion.y / GameObject::globals->height) *
                            GameObject::globals->vheight),
                   buttons[i]->size, buttons[i]->position)) {
-            selected = i;
+            selected = i + 1;
             switch (selected) {
-              case 0: break;
               case 1: buttonConnect(); break;
               case 2: buttonHost(); break;
               case 3: buttonBack(); break;
@@ -108,13 +107,10 @@ class Connect : public Scene {
         txtbox->SetHighlighted(true);
       else
         txtbox->SetHighlighted(false);
-
       for (ubyte i = 0; i < 3; i++) {
-        if (selected == i + 1)
-          buttons[i]->SetState(1);
-        else
-          buttons[i]->SetState(0);
+        buttons[i]->SetState(i == selected - 1 ? 1 : 0);
       }
+
       if (event.key.keysym.sym == SDLK_RETURN ||
           event.key.keysym.sym == SDLK_SPACE) {
         switch (selected) {
