@@ -8,6 +8,7 @@
 #include "../gameobjects/textbox.hpp"
 #include "../scene.hpp"
 #include "../server.hpp"
+#include "../utils.hpp"
 
 /** The connect class*/
 class Connect : public Scene {
@@ -47,12 +48,52 @@ class Connect : public Scene {
   /** The connect destructor*/
   virtual ~Connect() { Mix_FreeChunk(menuselection); }
 
-  void Update() {}
+  void Update() {
+    for (byte i = 0; i < 4; i++) {
+      buttons[i]->SetState(i == selected ? 1 : 0);
+    }
+  }
 
   /** Calls input functions of all handled GameObject pointers.
       @param event The event to pass to each GameObject.
       @see GameObject*/
   void Input(SDL_Event event) {
+    // If the mouse moved
+    if (event.type == SDL_MOUSEMOTION) {
+      for (int i = 0; i < 4; i++) {
+        // If the mouse is inside the button
+        if (PointRectIntersect(
+                vec2(((double)event.motion.x / GameObject::globals->width) *
+                         GameObject::globals->vwidth,
+                     ((double)event.motion.y / GameObject::globals->height) *
+                         GameObject::globals->vheight),
+                buttons[i]->size, buttons[i]->position)) {
+          selected = i;
+        }
+      }
+    }
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+      // If the left mouse button was pressed
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        for (int i = 0; i < 4; i++) {
+          if (PointRectIntersect(
+                  vec2(((double)event.motion.x / GameObject::globals->width) *
+                           GameObject::globals->vwidth,
+                       ((double)event.motion.y / GameObject::globals->height) *
+                           GameObject::globals->vheight),
+                  buttons[i]->size, buttons[i]->position)) {
+            selected = i;
+            switch (selected) {
+              case 0: break;
+              case 1: buttonConnect(); break;
+              case 2: buttonHost(); break;
+              case 3: buttonBack(); break;
+            }
+          }
+        }
+      }
+    }
+
     if (event.type == SDL_KEYDOWN) {
       if (event.key.keysym.sym == SDLK_UP) {
         selected--;
