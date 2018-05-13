@@ -54,6 +54,34 @@ class Options : public Scene {
   }
 
   void Input(SDL_Event event) {
+    // If the mouse moved
+    if (event.type == SDL_MOUSEMOTION) {
+      // If the mouse is inside the button
+      if (PointRectIntersect(
+              vec2(((double)event.motion.x / GameObject::globals->width) *
+                       GameObject::globals->vwidth,
+                   ((double)event.motion.y / GameObject::globals->height) *
+                       GameObject::globals->vheight),
+              backbutton->size, backbutton->position)) {
+        selected = 3;
+      }
+    }
+
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+      // If the left mouse button was pressed
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        if (PointRectIntersect(
+                vec2(((double)event.motion.x / GameObject::globals->width) *
+                         GameObject::globals->vwidth,
+                     ((double)event.motion.y / GameObject::globals->height) *
+                         GameObject::globals->vheight),
+                backbutton->size, backbutton->position)) {
+          Dead = true;
+          Messages.push_back("Main Menu");
+        }
+      }
+    }
+
     // Call parent input function
     Scene::Input(event);
 
