@@ -12,6 +12,10 @@ Button::Button(string text) : GameObject() {
   }
   buttonText = new Text(text);
 
+  // Save size
+  size.x = buttonImages[0]->w;
+  size.y = buttonImages[0]->h;
+
   // Load shader
   disabledShader = new Shader("Disabled", {""});
 
