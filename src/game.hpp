@@ -1,13 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
+#include "gameobjects/player.hpp"
 #include "includes.hpp"
 
 class Game {
  public:
-  Game() {
-    playerPositions = vector<vec2>();
-    playerRotations = vector<float>();
-  };
+  Game() { Players = vector<Player*>(); };
 
   virtual ~Game() {}
 
@@ -17,21 +15,17 @@ class Game {
   virtual int  GetPlayerIndex() { return 0; }
   virtual int  GetPlayerCount() { return 0; }
 
-  vector<vec2>  GetPlayerPositions() { return playerPositions; }
-  vector<float> GetPlayerRotations() { return playerRotations; }
+  vector<Player*> Players;
 
+  // Flags
   bool FailedToConnect = false;
   bool Disconnected    = false;
   bool GameStarted     = false;
 
  protected:
-  // Game
-  vector<vec2>  playerPositions;
-  vector<float> playerRotations;
-
   // Threading
-  thread* gameThread;
-  mutex*  sharedMutex;
+  // thread* gameThread;
+  // mutex*  sharedMutex;
 
   // Networking
   TCPsocket socket;

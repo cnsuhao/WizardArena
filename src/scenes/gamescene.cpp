@@ -19,6 +19,7 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Update() {
+  Scene::Update();
   game->Update();
   if (game->Disconnected) {
     Dead = true;
@@ -26,4 +27,9 @@ void GameScene::Update() {
     Messages.push_back("Message");
     Messages.push_back("Disconnected");
   }
+}
+
+void GameScene::Draw() {
+  Scene::Draw();
+  for (ubyte i = 0; i < game->Players.size(); i++) { game->Players[i]; }
 }
