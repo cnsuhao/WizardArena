@@ -71,14 +71,37 @@ class MainMenu : public Scene {
         }
       }
     }
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+      // If the left mouse button was pressed
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        for (int i = 0; i < 4; i++) {
+          if (PointRectIntersect(
+                  vec2(((double)event.motion.x / GameObject::globals->width) *
+                           GameObject::globals->vwidth,
+                       ((double)event.motion.y / GameObject::globals->height) *
+                           GameObject::globals->vheight),
+                  buttons[i]->size, buttons[i]->position)) {
+            selected = i;
+            switch (selected) {
+              case 0: buttonPlay(); break;
+              case 1: buttonOptions(); break;
+              case 2: buttonCredits(); break;
+              case 3: buttonExit(); break;
+            }
+          }
+        }
+      }
+    }
     // if a key is activated the function continues
     if (event.type == SDL_KEYDOWN) {
-      // if the up key is selected then "selected" is subtracted with 1.
+      // if the up key is selected then "selected" is subtracted
+      // with 1.
       if (event.key.keysym.sym == SDLK_UP) {
         selected--;
         Mix_PlayChannel(0, menuselection, 0);
       }
-      // if the down key is selected the buttons "selected" is added with 1.
+      // if the down key is selected the buttons "selected" is added
+      // with 1.
       if (event.key.keysym.sym == SDLK_DOWN) {
         selected++;
         Mix_PlayChannel(0, menuselection, 0);
@@ -117,26 +140,26 @@ class MainMenu : public Scene {
   /** The value of the selected button*/
   byte selected = 0;
 
-  /** If the Play button is selected, the program kills the @see mainmenu scene
-   * and redirects the scene to @see Connect*/
+  /** If the Play button is selected, the program kills the @see
+   * mainmenu scene and redirects the scene to @see Connect*/
   void buttonPlay() {
     Dead = true;
     Messages.push_back("Connect");
   }
-  /** If the Option button is selected, the program kills the @see mainmenu
-   * scene and redirects the scene to @see Option*/
+  /** If the Option button is selected, the program kills the @see
+   * mainmenu scene and redirects the scene to @see Option*/
   void buttonOptions() {
     Dead = true;
     Messages.push_back("Options");
   }
-  /** If the Credits button is selected, the program kills the @see mainmenu
-   * scene and redirects the scene to @see Credits*/
+  /** If the Credits button is selected, the program kills the @see
+   * mainmenu scene and redirects the scene to @see Credits*/
   void buttonCredits() {
     Dead = true;
     Messages.push_back("Credits");
   }
-  /** If the Exit button is selected, the @see gameState changes and quits the
-   * program*/
+  /** If the Exit button is selected, the @see gameState changes and
+   * quits the program*/
   void buttonExit() {
     Mix_FadeOutMusic(400);
     SDL_Delay(450);
