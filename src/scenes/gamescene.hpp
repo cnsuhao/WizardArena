@@ -10,6 +10,7 @@ class GameScene : public Scene {
   GameScene(Game* game);
   ~GameScene();
   void Update();
+  void Draw();
 
  private:
   Game*  game;
