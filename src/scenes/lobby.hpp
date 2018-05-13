@@ -8,6 +8,7 @@
 #include "../gameobjects/text.hpp"
 #include "../gameobjects/textbox.hpp"
 #include "../scene.hpp"
+#include "../utils.hpp"
 
 /** The lobby class*/
 class Lobby : public Scene {
@@ -92,6 +93,42 @@ class Lobby : public Scene {
       @param event The event to pass to each GameObject.
       @see GameObject*/
   void Input(SDL_Event event) {
+    // If the mouse moved
+    if (event.type == SDL_MOUSEMOTION) {
+      for (int i = 0; i < 2; i++) {
+        // If the mouse is inside the button
+        if (PointRectIntersect(
+                vec2(((double)event.motion.x / GameObject::globals->width) *
+                         GameObject::globals->vwidth,
+                     ((double)event.motion.y / GameObject::globals->height) *
+                         GameObject::globals->vheight),
+                buttons[i]->size, buttons[i]->position)) {
+          selected = i + 1;
+          for (ubyte i = 0; i < 2; i++) {
+            buttons[i]->SetState(i == selected - 1 ? 1 : 0);
+          }
+        }
+      }
+    }
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+      // If the left mouse button was pressed
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        for (int i = 0; i < 2; i++) {
+          if (PointRectIntersect(
+                  vec2(((double)event.motion.x / GameObject::globals->width) *
+                           GameObject::globals->vwidth,
+                       ((double)event.motion.y / GameObject::globals->height) *
+                           GameObject::globals->vheight),
+                  buttons[i]->size, buttons[i]->position)) {
+            selected = i;
+            switch (selected) {
+              case 0: buttonStart(); break;
+              case 1: buttonBack(); break;
+            }
+          }
+        }
+      }
+    }
     if (event.type == SDL_KEYDOWN) {
       if (isServer) {
         if (event.key.keysym.sym == SDLK_UP) {

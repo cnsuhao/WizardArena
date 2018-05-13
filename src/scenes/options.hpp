@@ -16,21 +16,20 @@ class Options : public Scene {
     logo       = new Image("Content/Textures/Logo.png",
                      GameObject::globals->vwidth / 2.0, 125);
     backbutton = new Button("Back");
-    sliderMusic =
-        new Slider("Music", &GameObject::globals->options.MusicVolume);
-    sliderMusic->SetHighlighted(true);
-    sliderSound =
-        new Slider("Sound", &GameObject::globals->options.SoundVolume);
-    sliderSSCA = new Slider("SSCA", &GameObject::globals->options.SSCAAmount);
+    // Slider array
+    sliders[0] = new Slider("Music", &GameObject::globals->options.MusicVolume);
+    sliders[0]->SetHighlighted(true);
+    sliders[1] = new Slider("Sound", &GameObject::globals->options.SoundVolume);
+    sliders[2] = new Slider("SSCA", &GameObject::globals->options.SSCAAmount);
 
     // Add our game objects to the stack and create the sky background
     gameObjects.push_back(new SkyBG());
     gameObjects.push_back(bgpanel);
     gameObjects.push_back(logo);
     gameObjects.push_back(backbutton);
-    gameObjects.push_back(sliderMusic);
-    gameObjects.push_back(sliderSound);
-    gameObjects.push_back(sliderSSCA);
+    gameObjects.push_back(sliders[0]);
+    gameObjects.push_back(sliders[1]);
+    gameObjects.push_back(sliders[2]);
 
     // Set button and panel positions
     bgpanel->position.y  = GameObject::globals->vheight - 225;
@@ -39,9 +38,9 @@ class Options : public Scene {
     backbutton->position = vec2(GameObject::globals->vwidth / 2,
                                 GameObject::globals->vheight - 60);
     // Sliders and switches
-    sliderMusic->position = vec2(GameObject::globals->vwidth / 2, 350);
-    sliderSound->position = vec2(GameObject::globals->vwidth / 2, 410);
-    sliderSSCA->position  = vec2(GameObject::globals->vwidth / 2, 470);
+    sliders[0]->position = vec2(GameObject::globals->vwidth / 2, 350);
+    sliders[1]->position = vec2(GameObject::globals->vwidth / 2, 410);
+    sliders[2]->position = vec2(GameObject::globals->vwidth / 2, 470);
 
     // Load menu sounds
     menuselection = Mix_LoadWAV("Content/Sound/UI/MenuSelectionClick.wav");
@@ -64,9 +63,9 @@ class Options : public Scene {
                        GameObject::globals->vheight),
               backbutton->size, backbutton->position)) {
         selected = 3;
+        backbutton->SetState(1);
       }
     }
-
     if (event.type == SDL_MOUSEBUTTONDOWN) {
       // If the left mouse button was pressed
       if (event.button.button == SDL_BUTTON_LEFT) {
@@ -78,6 +77,26 @@ class Options : public Scene {
                 backbutton->size, backbutton->position)) {
           Dead = true;
           Messages.push_back("Main Menu");
+        }
+      }
+    }
+
+    if (event.type == SDL_MOUSEBUTTONDOWN) {
+      for (byte i = 0; i < 3; i++) {
+        // If the left mouse button was pressed
+        if (event.button.button == SDL_BUTTON_LEFT) {
+          if (PointRectIntersect(
+                  vec2(((double)event.motion.x / GameObject::globals->width) *
+                           GameObject::globals->vwidth,
+                       ((double)event.motion.y / GameObject::globals->height) *
+                           GameObject::globals->vheight),
+                  sliders[i]->size, sliders[i]->position)) {
+            selected = i;
+            sliders[1]->SetHighlighted(false);
+            sliders[0]->SetHighlighted(false);
+            sliders[2]->SetHighlighted(false);
+            sliders[i]->SetHighlighted(true);
+          }
         }
       }
     }
@@ -96,20 +115,20 @@ class Options : public Scene {
       }
       selected %= 4;
 
-      sliderSound->SetHighlighted(false);
-      sliderMusic->SetHighlighted(false);
-      sliderSSCA->SetHighlighted(false);
+      sliders[1]->SetHighlighted(false);
+      sliders[0]->SetHighlighted(false);
+      sliders[2]->SetHighlighted(false);
       backbutton->SetState(0);
       switch (selected) {
-        case 0: sliderMusic->SetHighlighted(true); break;
+        case 0: sliders[0]->SetHighlighted(true); break;
         case 1:
-          sliderSound->SetHighlighted(true);
+          sliders[1]->SetHighlighted(true);
           if (event.key.keysym.sym == SDLK_LEFT ||
               event.key.keysym.sym == SDLK_RIGHT) {
             Mix_PlayChannel(0, menuselection, 0);
           }
           break;
-        case 2: sliderSSCA->SetHighlighted(true); break;
+        case 2: sliders[2]->SetHighlighted(true); break;
         case 3:
           backbutton->SetState(1);
           if (event.key.keysym.sym == SDLK_RETURN ||
@@ -129,15 +148,17 @@ class Options : public Scene {
  private:
   // Menu selection sound
   Mix_Chunk* menuselection;
-
+  /**
+     0: Music slider
+     1: Sound slider
+     2: SSCA slider
+  */
+  Slider* sliders[3];
   // Game objects
   Button* backbutton;
   Panel*  bgpanel;
   Image*  logo;
   ubyte   selected = 0;
-  Slider* sliderMusic;
-  Slider* sliderSound;
-  Slider* sliderSSCA;
 };
 
 #endif  // OPTIONS_H
