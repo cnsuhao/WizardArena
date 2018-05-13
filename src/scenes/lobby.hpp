@@ -94,7 +94,7 @@ class Lobby : public Scene {
       @see GameObject*/
   void Input(SDL_Event event) {
     // If the mouse moved
-    if (event.type == SDL_MOUSEMOTION) {
+    if (event.type == SDL_MOUSEMOTION && isServer) {
       for (int i = 0; i < 2; i++) {
         // If the mouse is inside the button
         if (PointRectIntersect(
@@ -110,6 +110,7 @@ class Lobby : public Scene {
         }
       }
     }
+
     if (event.type == SDL_MOUSEBUTTONDOWN) {
       // If the left mouse button was pressed
       if (event.button.button == SDL_BUTTON_LEFT) {
@@ -121,9 +122,13 @@ class Lobby : public Scene {
                            GameObject::globals->vheight),
                   buttons[i]->size, buttons[i]->position)) {
             selected = i;
-            switch (selected) {
-              case 0: buttonStart(); break;
-              case 1: buttonBack(); break;
+            if (isServer) {
+              switch (selected) {
+                case 0: buttonStart(); break;
+                case 1: buttonBack(); break;
+              }
+            } else {
+              if (selected == 1) buttonBack();
             }
           }
         }
