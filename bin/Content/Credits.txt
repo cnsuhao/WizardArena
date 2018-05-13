@@ -13,6 +13,12 @@ Button
 Background sky
 -Paulina Riva
 
+Game background
+-Westbeam
+
+Platform
+-Georges "TRaK" Grondin
+
 SOUND
 Menu Selection Click
 -NenadSimic
@@ -20,6 +26,9 @@ Menu Selection Click
 MUSIC
 Glorious Morning 2
 -Waterflame
+
+Dark Future
+HorrorPen
 
 Holy War
 -BoomKitty

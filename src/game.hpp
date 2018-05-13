@@ -22,6 +22,7 @@ class Game {
 
   bool FailedToConnect = false;
   bool Disconnected    = false;
+  bool GameStarted     = false;
 
  protected:
   // Game

@@ -68,6 +68,7 @@ class Connect : public Scene {
           for (ubyte i = 0; i < 3; i++) {
             buttons[i]->SetState(i == selected - 1 ? 1 : 0);
           }
+          txtbox->SetHighlighted(!selected);
         }
       }
     }
@@ -90,11 +91,6 @@ class Connect : public Scene {
             }
           }
         }
-      }
-    }
-    if (event.type == SDL_MOUSEBUTTONDOWN) {
-      // If the left mouse button was pressed
-      if (event.button.button == SDL_BUTTON_LEFT) {
         if (PointRectIntersect(
                 vec2(((double)event.motion.x / GameObject::globals->width) *
                          GameObject::globals->vwidth,
@@ -102,6 +98,10 @@ class Connect : public Scene {
                          GameObject::globals->vheight),
                 txtbox->size, txtbox->position)) {
           selected = 0;
+          txtbox->SetHighlighted(!selected);
+          for (ubyte i = 0; i < 3; i++) {
+            buttons[i]->SetState(i == selected - 1 ? 1 : 0);
+          }
         }
       }
     }
@@ -116,10 +116,7 @@ class Connect : public Scene {
       }
       selected %= 4;
 
-      if (!selected)
-        txtbox->SetHighlighted(true);
-      else
-        txtbox->SetHighlighted(false);
+      txtbox->SetHighlighted(!selected);
       for (ubyte i = 0; i < 3; i++) {
         buttons[i]->SetState(i == selected - 1 ? 1 : 0);
       }
@@ -127,7 +124,6 @@ class Connect : public Scene {
       if (event.key.keysym.sym == SDLK_RETURN ||
           event.key.keysym.sym == SDLK_SPACE) {
         switch (selected) {
-          case 0: break;
           case 1: buttonConnect(); break;
           case 2: buttonHost(); break;
           case 3: buttonBack(); break;

@@ -86,6 +86,7 @@ void Client::Update() {
       // Convert to c++ string
       string msg(buffer, msglen);
       if (msg[0] == 'C') playerCount = std::stoi(msg.substr(1, msg.size() - 1));
+      if (msg.substr(0, 2) == "GS") { GameStarted = true; }
     }
   }
 }

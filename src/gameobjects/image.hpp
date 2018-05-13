@@ -24,6 +24,7 @@ class Image : public GameObject {
     image          = GPU_LoadImage(filename);
     this->position = vec2(x, y);
     this->size     = vec2(1);
+    GPU_SetImageFilter(image, GPU_FILTER_NEAREST);
   }
   // Destructor
   ~Image() { GPU_FreeImage(image); }

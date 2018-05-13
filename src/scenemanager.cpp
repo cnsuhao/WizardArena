@@ -77,19 +77,28 @@ void SceneManager::Update() {
           } else if (messages[j] == "Main Menu") {
             i++;
             scenes.insert(scenes.begin() + i, new MainMenu());
+            GameObject::globals->gameState = MENU;
           } else if (messages[j] == "Options") {
             i++;
             scenes.insert(scenes.begin() + i, new Options());
           } else if (messages[j] == "Connect") {
             i++;
             scenes.insert(scenes.begin() + i, new Connect());
+            GameObject::globals->gameState = MENU;
           } else if (messages[j] == "Lobby HOST") {
             i++;
             scenes.insert(scenes.begin() + i, new Lobby(new Server(), true));
+            GameObject::globals->gameState = LOBBY;
           } else if (messages[j] == "Lobby CLIENT") {
             i++;
             scenes.insert(scenes.begin() + i,
                           new Lobby(new Client(messages[j + 1]), false));
+            GameObject::globals->gameState = LOBBY;
+          } else if (messages[j] == "Game") {
+            i++;
+            scenes.insert(scenes.begin() + i,
+                          new GameScene((Game*)GameObject::globals->ptr));
+            GameObject::globals->gameState = GAME;
           } else if (messages[j] == "Message") {
             i++;
             AddScene(new MessageBox(messages[j + 1], 3000));
