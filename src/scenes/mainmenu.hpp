@@ -61,8 +61,12 @@ class MainMenu : public Scene {
     if (event.type == SDL_MOUSEMOTION) {
       for (int i = 0; i < 4; i++) {
         // If the mouse is inside the button
-        if (PointRectIntersect(vec2(event.motion.x, event.motion.y),
-                               buttons[i]->size, buttons[i]->position)) {
+        if (PointRectIntersect(
+                vec2((event.motion.x / GameObject::globals->width) *
+                         GameObject::globals->vwidth,
+                     (event.motion.y / GameObject::globals->height) *
+                         GameObject::globals->vheight),
+                buttons[i]->size, buttons[i]->position)) {
           selected = i;
         }
       }
