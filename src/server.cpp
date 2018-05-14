@@ -139,7 +139,6 @@ void Server::Update() {
     for (int i = 0; i < connections.size(); i++) {
       msg = connections[i]->CheckForData();
       while (msg != "") {
-        cout << "Recieved: " << msg << endl;
         processPlayerMessage(i, msg);
         msg = connections[i]->CheckForData();
       }
@@ -180,11 +179,11 @@ void Server::StartGame() {
   for (int i = 0; i < MAX_CLIENTS; i++) {
     if (!socketIsFree[i]) {
       connections.push_back(new UDPConnection());
-      connections[i]->Init("0.0.0.0", 1248 + i + 10, 1248 + i);
+      connections[i]->Init("0.0.0.0", 1248 + i + 11, 1248 + i + 1);
       SendMessage(i, "GS" + std::to_string(i + 1) +
                          std::to_string(clientCount + 1) +
-                         std::to_string((uint)1248 + i + 10) +
-                         std::to_string((uint)1248 + i));
+                         std::to_string((uint)1248 + i + 11) +
+                         std::to_string((uint)1248 + i + 1));
     }
   }
 

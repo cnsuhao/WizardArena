@@ -6,6 +6,7 @@ class UDPConnection {
   UDPConnection() {}
   ~UDPConnection() {
     SDLNet_FreePacket(packet);
+    SDLNet_UDP_Close(ourSocket);
     SDLNet_Quit();
   }
 
