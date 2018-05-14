@@ -127,20 +127,38 @@ void Client::sendStatus() {
     for (int i = 0; i < actionStack->size(); i++) {
       connection->Send((*actionStack)[i]);
     }
+    actionStack->clear();
   }
 }
 
 void Client::ProcessMessage(string message) {
   string buf = "";
-  for (uint i = 0; i < message.size(); i++) {
-    if (message[i] == 'P') {
-      updatePlayer(buf);
-      buf = "";
-    } else {
-      buf += message[i];
+  if (message[0] == 'P') {
+    for (uint i = 0; i < message.size(); i++) {
+      if (message[i] == 'P') {
+        updatePlayer(buf);
+        buf = "";
+      } else {
+        buf += message[i];
+      }
     }
+    updatePlayer(buf);
+  } else if (message[0] == 'F') {
+    int    player = message[1] - '0';
+    string velx   = "";
+    for (uint i = 2; i < message.size(); i++) {
+      if (message[i] == '#') {
+        velx = buf;
+        buf  = "";
+      } else {
+        buf += message[i];
+      }
+    }
+    // Spawn fireball
+    vec2 vel = vec2(std::stof(velx), std::stof(buf));
+    activeObjects->push_back(
+        new Fireball(player, Players[player]->position + (vel / 6.0f), vel));
   }
-  updatePlayer(buf);
 }
 
 void Client::updatePlayer(string info) {

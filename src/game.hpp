@@ -44,6 +44,8 @@ class Game {
   vector<Active*>* activeObjects;
   vector<string>*  actionStack;
 
+  double gameStartTime;
+
   //
   void SetActiveObjectVec(vector<Active*>* actives) { activeObjects = actives; }
   void SetActionStackVec(vector<string>* ActionStack) {

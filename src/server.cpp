@@ -150,8 +150,11 @@ void Server::Update() {
 
 void Server::SendGameUpdate() {
   SendMessageAll(playersToString());
-  for (int i = 0; i < actionStack->size(); i++) {
-    // SendMessageAll(actionStack->at(i) + "0");
+  if (GameObject::globals->Time - gameStartTime > 0.2) {
+    for (int i = 0; i < actionStack->size(); i++) {
+      if (actionStack->at(i) == "A0") SendFireball(0);
+    }
+    actionStack->clear();
   }
 }
 
@@ -176,11 +179,13 @@ void Server::processPlayerMessage(int id, string msg) {
     Players[id + 1]->velocity.y = std::stof(parts[4]);
   } else if (msg[0] == 'A') {
     // SendMessageAll(buf);
-    // send fireball here
+    // Send fireball here
+    SendFireball(id + 1);
   }
 }
 
 void Server::StartGame() {
+  gameStartTime = GameObject::globals->Time;
   for (int i = 0; i < clientCount + 1; i++) {
     Players.push_back(new Player(vec2(400 + 200 * i, 50 + 300 * i)));
   }

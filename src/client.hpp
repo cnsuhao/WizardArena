@@ -26,9 +26,8 @@ class Client : public Game {
   char   buffer[BUFFER_SIZE];
 
   // Lobby
-  int    playerCount;
-  int    playerIndex;
-  double gameStartTime;
+  int playerCount;
+  int playerIndex;
 
   void SendMessage(string message);
   void ProcessMessage(string message);
