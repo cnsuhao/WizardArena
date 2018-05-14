@@ -10,14 +10,16 @@
 #define D SDL_SCANCODE_D
 
 GameScene::GameScene(Game* game) {
-  this->game = game;
+  ActiveObjects = vector<GameObject*>();
+  ActionStack   = vector<string>();
+  this->game    = game;
+  game->LinkStacks(&ActionStack, &ActiveObjects);
 
   platform = new Image("Content/Textures/Platform.png",
                        GameObject::globals->vwidth / 2.0,
                        GameObject::globals->vheight / 2.0);
 
   platform->size = vec2(5);
-
   gameObjects.push_back(new GameBG());
   gameObjects.push_back(platform);
 
@@ -28,6 +30,10 @@ GameScene::GameScene(Game* game) {
 
 GameScene::~GameScene() {
   delete game;
+  for (int i = 0; i < ActiveObjects.size(); i++) { delete ActiveObjects[i]; }
+  ActiveObjects.clear();
+  ActionStack.clear();
+
   // exit(0); // Debugging purposes
 }
 
@@ -35,12 +41,23 @@ void GameScene::Update() {
   Scene::Update();
   game->Update();
 
-  if (game->Disconnected) {
+  bool everyoneDead = true;
+  for (int i = 0; i < game->Players.size(); i++) {
+    if (!game->Players[i]->dead) {
+      everyoneDead = false;
+      break;
+    }
+  }
+
+  if (game->Disconnected || everyoneDead) {
     Dead = true;
     Messages.push_back("Connect");
     Messages.push_back("Message");
-    Messages.push_back("Disconnected");
+    if (everyoneDead) Messages.push_back("Game over");
+    if (game->Disconnected) Messages.push_back("Disconnected");
+    return;
   }
+
   cam.x = player->position.x - GameObject::globals->vwidth / 2;
   cam.y = player->position.y - GameObject::globals->vheight / 2;
 
@@ -89,5 +106,16 @@ void GameScene::Input(SDL_Event event) {
   if (event.type == SDL_MOUSEWHEEL) {
     cam.zoom += event.wheel.y / 15.0;
     cam.zoom = clamp(cam.zoom, 0.3f, 4.0f);
+  }
+
+  // Hit
+  if (event.type == SDL_MOUSEBUTTONDOWN && !player->coolingDown) {
+    if (event.button.button == SDL_BUTTON_LEFT) {
+      if (player->poweredUp) {
+        ActionStack.push_back("A1");
+      } else {
+        ActionStack.push_back("A0");
+      }
+    }
   }
 }

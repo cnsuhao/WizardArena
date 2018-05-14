@@ -117,11 +117,17 @@ void Client::SendMessage(string message) {
 }
 
 void Client::sendStatus() {
-  connection->Send(to_string(Players[playerIndex]->position.x) + "#" +
+  connection->Send("P" + to_string(Players[playerIndex]->position.x) + "#" +
                    to_string(Players[playerIndex]->position.y) + "#" +
                    to_string(Players[playerIndex]->rotation) + "#" +
                    to_string(Players[playerIndex]->velocity.x) + "#" +
                    to_string(Players[playerIndex]->velocity.y));
+
+  if (GameObject::globals->Time - gameStartTime > 0.2) {
+    for (int i = 0; i < actionStack->size(); i++) {
+      connection->Send((*actionStack)[i]);
+    }
+  }
 }
 
 void Client::ProcessMessage(string message) {
@@ -203,7 +209,8 @@ void Client::addPlayer(string info) {
 }
 
 void Client::startGame(string message) {
-  GameStarted = true;
+  GameStarted   = true;
+  gameStartTime = GameObject::globals->Time;
 
   // Get player index
   playerIndex = message[2] - '0';

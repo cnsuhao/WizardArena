@@ -15,6 +15,11 @@ class Game {
     Players.clear();
   }
 
+  void LinkStacks(vector<string>* ActionStack, vector<GameObject*>* actives) {
+    SetActiveObjectVec(actives);
+    SetActionStackVec(ActionStack);
+  }
+
   virtual void StartGame() {}
   virtual void Update() {}
   virtual void Input(SDL_Event event) {}
@@ -34,7 +39,16 @@ class Game {
   // mutex*  sharedMutex;
 
   // Networking
-  TCPsocket socket;
+  vector<GameObject*>* activeObjects;
+  vector<string>*      actionStack;
+
+  //
+  void SetActiveObjectVec(vector<GameObject*>* actives) {
+    activeObjects = actives;
+  }
+  void SetActionStackVec(vector<string>* ActionStack) {
+    actionStack = ActionStack;
+  }
 };
 
 #endif

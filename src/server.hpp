@@ -29,6 +29,7 @@ class Server : public Game {
   int       receivedByteCount = 0;
   int       clientCount       = 0;
 
+  TCPsocket        socket;
   SDLNet_SocketSet socketSet;
 
   void   SendMessage(int id, string msg);

@@ -14,10 +14,15 @@ class GameScene : public Scene {
   void Draw();
   void Input(SDL_Event event);
 
+  vector<GameObject*> ActiveObjects;
+  vector<string>      ActionStack;
+
  private:
   Game*   game;
   Image*  platform;
   Player* player;
+
+  double lastActionTime;  // Time of last action for cooldown purposes
 
   GPU_Camera cam;
 };
