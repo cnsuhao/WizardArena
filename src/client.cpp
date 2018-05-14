@@ -195,12 +195,14 @@ void Client::startGame(string message) {
   GameStarted = true;
 
   // Get player index
-  string buf  = {message[2]};
-  playerIndex = std::stoi(buf);
-  buf         = "";
+  playerIndex = message[2] - '0';
 
+  // playercount
+  playerCount = message[3] - '0';
+
+  string buf = "";
   // Add players to local vector
-  for (uint i = 3; i < message.size(); i++) {
+  for (uint i = 4; i < message.size(); i++) {
     if (message[i] == 'P') {
       addPlayer(buf);
       buf = "";
@@ -208,6 +210,9 @@ void Client::startGame(string message) {
       buf += message[i];
     }
   }
+
   addPlayer(buf);
+  cout << "Player Amount: " << Players.size() << endl;
+  cout << "Player Index: " << playerIndex << endl;
   sendStatus();
 }

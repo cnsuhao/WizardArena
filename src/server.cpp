@@ -166,7 +166,8 @@ void Server::StartGame() {
     Players.push_back(new Player(vec2(400 + 200 * i, 50 + 300 * i)));
   }
   for (int i = 0; i < MAX_CLIENTS; i++) {
-    SendMessage(i, "GS" + std::to_string(i + 1) + playersToString());
+    SendMessage(i, "GS" + std::to_string(i + 1) +
+                       std::to_string(clientCount + 1) + playersToString());
   }
   GameStarted = true;
   SDL_Delay(60);

@@ -18,7 +18,7 @@ class Connect : public Scene {
     buttons[0] = new Button("Connect");
     buttons[1] = new Button("Host");
     buttons[2] = new Button("Back");
-    txtbox     = new Textbox("192.168.0.6", true);
+    txtbox     = new Textbox("10.146.93.231", true);
     bgpanel    = new Panel();
     logo       = new Image("Content/Textures/Logo.png",
                      GameObject::globals->vwidth / 2.0, 125);
