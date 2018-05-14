@@ -80,7 +80,7 @@ void Client::Update() {
   if (GameStarted) sendStatus();
 
   // Check our socket set for activity.
-  if (SDLNet_CheckSockets(socketSet, 0) != 0) {
+  if (SDLNet_CheckSockets(socketSet, 3) != 0) {
     // Check if we got a response from the server
     if (SDLNet_SocketReady(clientSocket) != 0) {
       int msglen = SDLNet_TCP_Recv(clientSocket, buffer, BUFFER_SIZE);
@@ -154,12 +154,25 @@ void Client::updatePlayer(string info) {
     }
   }
   parts.push_back(buf);
-
-  Players[index]->position.x = std::stof(parts[0]);
-  Players[index]->position.y = std::stof(parts[1]);
-  Players[index]->rotation   = std::stof(parts[2]);
-  Players[index]->velocity.x = std::stof(parts[3]);
-  Players[index]->velocity.y = std::stof(parts[4]);
+  buf = "";
+  try {
+    Players[index]->position.x = std::stof(parts[0]);
+    buf += "a";
+    Players[index]->position.y = std::stof(parts[1]);
+    buf += "a";
+    Players[index]->rotation = std::stof(parts[2]);
+    buf += "a";
+    Players[index]->velocity.x = std::stof(parts[3]);
+    buf += "a";
+    Players[index]->velocity.y = std::stof(parts[4]);
+  } catch (const std::exception& e) {
+    cout << "EXCEPTION AT: " << buf << endl;
+    cout << "Part 0: " << parts[0] << endl;
+    cout << "Part 1: " << parts[1] << endl;
+    cout << "Part 2: " << parts[2] << endl;
+    cout << "Part 3: " << parts[3] << endl;
+    cout << "Part 4: " << parts[4] << endl;
+  }
 }
 
 void Client::addPlayer(string info) {
