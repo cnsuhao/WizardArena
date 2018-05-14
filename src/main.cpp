@@ -43,6 +43,8 @@ int main(int argc, char* argv[]) {
 
   // Init music and sound
   Music::Init();
+  Mix_VolumeMusic(globals.options.MusicVolume * MIX_MAX_VOLUME);
+  Mix_Volume(-1, GameObject::globals->options.SoundVolume * MIX_MAX_VOLUME);
 
   // Load fonts
   globals.font      = TTF_OpenFont("Content/UI/alagard.ttf", 48);
