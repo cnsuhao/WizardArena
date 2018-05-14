@@ -1,6 +1,7 @@
 #ifndef GAMESCENE_H
 #define GAMESCENE_H
 #include "../game.hpp"
+#include "../gameobjects/fireball.hpp"
 #include "../gameobjects/gamebg.hpp"
 #include "../gameobjects/image.hpp"
 #include "../scene.hpp"
@@ -14,8 +15,8 @@ class GameScene : public Scene {
   void Draw();
   void Input(SDL_Event event);
 
-  vector<GameObject*> ActiveObjects;
-  vector<string>      ActionStack;
+  vector<Active*> ActiveObjects;
+  vector<string>  ActionStack;
 
  private:
   Game*   game;

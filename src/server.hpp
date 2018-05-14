@@ -37,6 +37,7 @@ class Server : public Game {
   void   processPlayerMessage(int id, string msg);
   void   SendGameUpdate();
   string playersToString();
+  void   SendFireball(int player);
 
   vector<UDPConnection*> connections;
 };

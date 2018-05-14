@@ -10,7 +10,7 @@
 #define D SDL_SCANCODE_D
 
 GameScene::GameScene(Game* game) {
-  ActiveObjects = vector<GameObject*>();
+  ActiveObjects = vector<Active*>();
   ActionStack   = vector<string>();
   this->game    = game;
   game->LinkStacks(&ActionStack, &ActiveObjects);
@@ -69,14 +69,39 @@ void GameScene::Update() {
   if (kb[S]) player->velocity.y += 1;
   if (kb[D]) player->velocity.x += 1;
 
+  // Update or delete active objects
+  for (int i = 0; i < ActiveObjects.size(); i++) {
+    if (ActiveObjects[i]->expired) {
+      delete ActiveObjects[i];
+      ActiveObjects.erase(ActiveObjects.begin() + i);
+      i--;
+    } else {
+      ActiveObjects[i]->Update();
+    }
+  }
+
+  // Update players
   for (ubyte i = 0; i < game->Players.size(); i++) {
     game->Players[i]->Update();
+  }
+
+  // Check for active intersection
+  for (int i = 0; i < ActiveObjects.size(); i++) {
+    for (int j = 0; j < game->Players.size(); j++) {
+      if (ActiveObjects[i]->owner != i) {
+        if (ActiveObjects[i]->Intersect(game->Players[j]->position))
+          game->Players[j]->dead = true;
+      }
+    }
   }
 }
 
 void GameScene::Draw() {
   GPU_SetCamera(GameObject::globals->backbuffer, &cam);
   Scene::Draw();
+  // Draw active objects
+  for (int i = 0; i < ActiveObjects.size(); i++) { ActiveObjects[i]->Draw(); }
+  // Draw players
   for (ubyte i = 0; i < game->Players.size(); i++) { game->Players[i]->Draw(); }
   GPU_SetCamera(GameObject::globals->backbuffer, NULL);
 }
@@ -114,8 +139,14 @@ void GameScene::Input(SDL_Event event) {
       if (player->poweredUp) {
         ActionStack.push_back("A1");
       } else {
+        vec2 vel =
+            vec2(1000.0 * glm::cos((-90 + player->rotation) * 3.14159 / 180.0),
+                 1000.0 * glm::sin((-90 + player->rotation) * 3.14159 / 180.0));
+        ActiveObjects.push_back(new Fireball(
+            game->GetPlayerIndex(), player->position + (vel / 6.0f), vel));
         ActionStack.push_back("A0");
       }
+      player->Cooldown();
     }
   }
 }

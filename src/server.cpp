@@ -176,6 +176,7 @@ void Server::processPlayerMessage(int id, string msg) {
     Players[id + 1]->velocity.y = std::stof(parts[4]);
   } else if (msg[0] == 'A') {
     // SendMessageAll(buf);
+    // send fireball here
   }
 }
 
@@ -254,4 +255,14 @@ string Server::playersToString() {
     }
   }
   return tmp;
+}
+
+void Server::SendFireball(int player) {
+  vec2 vel = vec2(
+      1000.0 * glm::cos((-90 + Players[player]->rotation) * 3.14159 / 180.0),
+      1000.0 * glm::sin((-90 + Players[player]->rotation) * 3.14159 / 180.0));
+  activeObjects->push_back(
+      new Fireball(player, Players[player]->position + (vel / 6.0f), vel));
+  SendMessageAll("F" + std::to_string(player) + std::to_string(vel.x) + "#" +
+                 std::to_string(vel.y));
 }

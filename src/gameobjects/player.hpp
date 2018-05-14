@@ -4,7 +4,7 @@
 #include "panel.hpp"
 
 #define VOIDDEATHTIME 1
-#define COOLDOWNTIME 0.2
+#define COOLDOWNTIME 0.4
 
 class Player : public GameObject {
  public:

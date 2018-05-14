@@ -1,18 +1,15 @@
 #ifndef HIT_HPP
 #define HIT_HPP
+#include "../active.hpp"
 #include "player.hpp"
 
-class Hit : public GameObject {
+class Hit : public Active {
  public:
   Hit(int Owner);
   ~Hit();
-  int GetOwner();
 
   void Update();
   void Draw();
-
- private:
-  int owner;
 };
 
 #endif

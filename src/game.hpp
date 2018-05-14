@@ -1,5 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
+#include "active.hpp"
+#include "gameobjects/fireball.hpp"
 #include "gameobjects/player.hpp"
 #include "includes.hpp"
 #include "udp.hpp"
@@ -15,7 +17,7 @@ class Game {
     Players.clear();
   }
 
-  void LinkStacks(vector<string>* ActionStack, vector<GameObject*>* actives) {
+  void LinkStacks(vector<string>* ActionStack, vector<Active*>* actives) {
     SetActiveObjectVec(actives);
     SetActionStackVec(ActionStack);
   }
@@ -39,13 +41,11 @@ class Game {
   // mutex*  sharedMutex;
 
   // Networking
-  vector<GameObject*>* activeObjects;
-  vector<string>*      actionStack;
+  vector<Active*>* activeObjects;
+  vector<string>*  actionStack;
 
   //
-  void SetActiveObjectVec(vector<GameObject*>* actives) {
-    activeObjects = actives;
-  }
+  void SetActiveObjectVec(vector<Active*>* actives) { activeObjects = actives; }
   void SetActionStackVec(vector<string>* ActionStack) {
     actionStack = ActionStack;
   }

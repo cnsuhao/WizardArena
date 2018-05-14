@@ -19,6 +19,9 @@ Game background
 Platform
 -Georges "TRaK" Grondin
 
+Fireball
+-djantosh10
+
 SOUND
 Menu Selection Click
 -NenadSimic
