@@ -126,11 +126,21 @@ void Client::ProcessMessage(string message) {
 }
 
 void Client::updatePlayer(string info) {
+  // Check if there is something to process
   if (info == "") return;
 
   string buf   = {info[0]};
   int    index = std::stoi(buf);
+
+  // Check if dead
+  if (info[1] == 'D') {
+    Players[index]->dead = true;
+    return;
+  }
+
+  // Check if local player
   if (index == playerIndex || index >= Players.size()) return;
+  buf = "";
 
   vector<string> parts = vector<string>();
 

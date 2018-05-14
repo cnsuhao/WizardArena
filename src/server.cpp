@@ -111,6 +111,8 @@ void Server::Update() {
       if (receivedByteCount <= 0) {
         cout << "Client " << clientNumber << " disconnected." << endl << endl;
 
+        Players[clientNumber + 1]->dead = true;
+
         // Remove socket from socket set, close and reset socket
         SDLNet_TCP_DelSocket(socketSet, clientSocket[clientNumber]);
         SDLNet_TCP_Close(clientSocket[clientNumber]);
@@ -131,7 +133,7 @@ void Server::Update() {
     }
   }
   if (GameStarted) {
-    SDL_Delay(5);
+    SDL_Delay(2);
     SendGameUpdate();
   }
 }
@@ -199,11 +201,15 @@ void Server::SendMessageAll(string msg) {
 string Server::playersToString() {
   string tmp = "";
   for (int i = 0; i < Players.size(); i++) {
-    tmp += "P" + to_string(i) + to_string(Players[i]->position.x) + "|" +
-           to_string(Players[i]->position.y) + "|" +
-           to_string(Players[i]->rotation) + "|" +
-           to_string(Players[i]->velocity.x) + "|" +
-           to_string(Players[i]->velocity.y);
+    if (Players[i]->dead) {
+      tmp += "P" + to_string(i) + "D";
+    } else {
+      tmp += "P" + to_string(i) + to_string(Players[i]->position.x) + "|" +
+             to_string(Players[i]->position.y) + "|" +
+             to_string(Players[i]->rotation) + "|" +
+             to_string(Players[i]->velocity.x) + "|" +
+             to_string(Players[i]->velocity.y);
+    }
   }
   return tmp;
 }
