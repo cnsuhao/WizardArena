@@ -128,14 +128,11 @@ void Server::Update() {
           SendMessage(clientNumber, "C" + std::to_string(GetPlayerCount()));
         }
         string msg(buffer, receivedByteCount);
-        if (GameStarted) processPlayerMessage(clientNumber, msg);
+        // if (GameStarted) processPlayerMessage(clientNumber, msg);
       }
     }
   }
-  if (GameStarted) {
-    SDL_Delay(5);
-    SendGameUpdate();
-  }
+  if (GameStarted) { SendGameUpdate(); }
 }
 
 void Server::SendGameUpdate() { SendMessageAll(playersToString()); }
@@ -165,10 +162,18 @@ void Server::StartGame() {
   for (int i = 0; i < clientCount + 1; i++) {
     Players.push_back(new Player(vec2(400 + 200 * i, 50 + 300 * i)));
   }
+
   for (int i = 0; i < MAX_CLIENTS; i++) {
-    SendMessage(i, "GS" + std::to_string(i + 1) +
-                       std::to_string(clientCount + 1) + playersToString());
+    if (!socketIsFree[i]) {
+      connections.push_back(new UDPConnection());
+      connections[i]->Init("0.0.0.0", 1248 + i + 10, 1248 + i);
+      SendMessage(i, "GS" + std::to_string(i + 1) +
+                         std::to_string(clientCount + 1) +
+                         std::to_string((uint)1248 + i + 10) +
+                         std::to_string((uint)1248 + i));
+    }
   }
+
   GameStarted = true;
   SDL_Delay(60);
 }
@@ -178,6 +183,10 @@ Server::~Server() {
   for (int j = 0; j < MAX_CLIENTS; j++) {
     if (!socketIsFree[j]) { SendMessage(j, "DC"); }
   }
+
+  for (int i = 0; i < connections.size(); i++) { delete connections[i]; }
+  connections.clear();
+
   // Free socket set
   SDLNet_FreeSocketSet(socketSet);
 
@@ -194,10 +203,21 @@ void Server::SendMessage(int id, string msg) {
   SDLNet_TCP_Send(clientSocket[id], (void*)buffer, strlen(buffer) + 1);
 }
 void Server::SendMessageAll(string msg) {
+  if (GameStarted) {
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+      if (!socketIsFree[i]) { connections[i]->Send(msg); }
+    }
+  } else {
+    for (int j = 0; j < MAX_CLIENTS; j++) {
+      if (!socketIsFree[j]) { SendMessage(j, msg); }
+    }
+  }
+}
+/*void Server::SendMessageAll(string msg) {
   for (int j = 0; j < MAX_CLIENTS; j++) {
     if (!socketIsFree[j]) { SendMessage(j, msg); }
   }
-}
+}*/
 
 string Server::playersToString() {
   string tmp = "";

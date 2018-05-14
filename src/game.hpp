@@ -2,6 +2,7 @@
 #define GAME_H
 #include "gameobjects/player.hpp"
 #include "includes.hpp"
+#include "udp.hpp"
 
 #define MAX_SPEED 1000.0f
 

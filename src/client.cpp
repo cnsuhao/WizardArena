@@ -9,6 +9,7 @@ Client::Client(string ipAddress) {
   serverName  = ipAddress;
   playerCount = 0;
   playerIndex = 0;
+  Players     = vector<Player*>();
 
   // Create the socket set
   socketSet = SDLNet_AllocSocketSet(1);
@@ -74,7 +75,10 @@ Client::Client(string ipAddress) {
   }
 }
 
-Client::~Client() { SDLNet_TCP_Close(clientSocket); }
+Client::~Client() {
+  SDLNet_TCP_Close(clientSocket);
+  if (GameStarted) { delete connection; }
+}
 
 void Client::Update() {
   // Check our socket set for activity.
@@ -88,11 +92,20 @@ void Client::Update() {
       // Convert to c++ string
       string msg(buffer, msglen);
       if (msg[0] == 'C') playerCount = std::stoi(msg.substr(1, msg.size() - 1));
-      if (GameStarted) ProcessMessage(msg);
       if (msg.substr(0, 2) == "GS") {
         startGame(msg);
         sendStatus();
       }
+    }
+  }
+
+  // Get and process message over udp
+  if (GameStarted) {
+    string msg;
+    msg = connection->CheckForData();
+    while (msg != "") {
+      ProcessMessage(msg);
+      msg = connection->CheckForData();
     }
   }
 }
@@ -129,7 +142,6 @@ void Client::ProcessMessage(string message) {
 void Client::updatePlayer(string info) {
   // Check if there is something to process
   if (info == "") return;
-
   string buf   = {info[0]};
   int    index = std::stoi(buf);
 
@@ -199,21 +211,32 @@ void Client::startGame(string message) {
   playerIndex = message[2] - '0';
 
   // playercount
-  // playerCount = message[3] - '0';
+  playerCount = message[3] - '0';
 
+  int localport  = std::stoi(message.substr(4, 4));
+  int serverport = std::stoi(message.substr(8, 4));
+
+  cout << "MESSAGE WAS: " << message << "\n";
   string buf = "";
   // Add players to local vector
-  for (uint i = 4; i < message.size(); i++) {
+  /*for (uint i = 4; i < message.size(); i++) {
     if (message[i] == 'P') {
       addPlayer(buf);
       buf = "";
     } else {
       buf += message[i];
     }
+    }*/
+  // addPlayer(buf);
+  for (int i = 0; i < playerCount; i++) {
+    Players.push_back(new Player(vec2(300, 300)));
   }
 
-  addPlayer(buf);
   cout << "Player Amount: " << Players.size() << endl;
   cout << "Player Index: " << playerIndex << endl;
+  cout << "Server Port: " << serverport << endl;
+  cout << "Client Port: " << localport << endl;
+  connection = new UDPConnection();
+  connection->Init(serverName, serverport, localport);
   sendStatus();
 }

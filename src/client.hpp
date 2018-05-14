@@ -19,6 +19,7 @@ class Client : public Game {
   string    serverName;    ///< The server name
 
   SDLNet_SocketSet socketSet;
+  UDPConnection*   connection;
 
   string userInput   = "";  ///< A string to hold our packet data
   int    inputLength = 0;
