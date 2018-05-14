@@ -5,6 +5,7 @@
 #include "../gameobjects/panel.hpp"
 #include "../gameobjects/skybg.hpp"
 #include "../gameobjects/slider.hpp"
+#include "../options.hpp"
 #include "../scene.hpp"
 #include "../utils.hpp"
 
@@ -77,6 +78,7 @@ class Options : public Scene {
                 backbutton->size, backbutton->position)) {
           Dead = true;
           Messages.push_back("Main Menu");
+          SaveOptions(GameObject::globals);
         }
       }
     }
@@ -135,6 +137,7 @@ class Options : public Scene {
               event.key.keysym.sym == SDLK_SPACE) {
             Dead = true;
             Messages.push_back("Main Menu");
+            SaveOptions(GameObject::globals);
           }
           break;
       }

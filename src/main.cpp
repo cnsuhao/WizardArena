@@ -9,15 +9,10 @@
 //  the main function.
 #include "globals.hpp"
 #include "input.hpp"
+#include "options.hpp"
 #include "scenes/mainmenu.hpp"
 #include "scenes/music.hpp"
 #include "scenes/stats.hpp"
-
-/* TODO:
-  - Shader interface
-  - point/gameobject intersection function
-  - mouseover support
-*/
 
 /** Main application entry point.
     @param argc Amount of arguments passed to the program.
@@ -30,6 +25,9 @@ int main(int argc, char* argv[]) {
   // Global variables
   Globals globals;
   GameObject::globals = &globals;
+
+  // Load Options
+  ReadOptions(&globals);
 
   // Initialize window along with SDL2, SDL_gpu, SDL_ttf, SDL_net
   globals.window =
