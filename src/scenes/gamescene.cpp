@@ -88,7 +88,7 @@ void GameScene::Update() {
   // Check for active intersection
   for (int i = 0; i < ActiveObjects.size(); i++) {
     for (int j = 0; j < game->Players.size(); j++) {
-      if (ActiveObjects[i]->owner != i) {
+      if (ActiveObjects[i]->owner != i && !game->Players[j]->dead) {
         if (ActiveObjects[i]->Intersect(game->Players[j]->position))
           game->Players[j]->dead = true;
       }
@@ -139,13 +139,6 @@ void GameScene::Input(SDL_Event event) {
       if (player->poweredUp) {
         ActionStack.push_back("A1");
       } else {
-        /*
-        vec2 vel =
-            vec2(1000.0 * glm::cos((-90 + player->rotation) * 3.14159 / 180.0),
-                 1000.0 * glm::sin((-90 + player->rotation) * 3.14159 / 180.0));
-        ActiveObjects.push_back(new Fireball(
-            game->GetPlayerIndex(), player->position + (vel / 6.0f), vel));*/
-
         ActionStack.push_back("A0");
       }
       player->Cooldown();

@@ -40,7 +40,7 @@ void Fireball::Draw() {
 }
 
 bool Fireball::Intersect(vec2 playerPosition) {
-  if (glm::distance(position, playerPosition) < 143) {
+  if (glm::distance(position, playerPosition) < 85) {
     expired = true;
     return true;
   }
