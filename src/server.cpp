@@ -133,7 +133,7 @@ void Server::Update() {
     }
   }
   if (GameStarted) {
-    SDL_Delay(2);
+    SDL_Delay(4);
     SendGameUpdate();
   }
 }
@@ -169,7 +169,7 @@ void Server::StartGame() {
     SendMessage(i, "GS" + std::to_string(i + 1) + playersToString());
   }
   GameStarted = true;
-  SDL_Delay(30);
+  SDL_Delay(60);
 }
 
 Server::~Server() {
