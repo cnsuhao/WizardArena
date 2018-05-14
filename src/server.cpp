@@ -132,7 +132,21 @@ void Server::Update() {
       }
     }
   }
-  if (GameStarted) { SendGameUpdate(); }
+
+  // UDP: Check all clients
+  if (GameStarted) {
+    string msg;
+    for (int i = 0; i < connections.size(); i++) {
+      msg = connections[i]->CheckForData();
+      while (msg != "") {
+        cout << "Recieved: " << msg << endl;
+        processPlayerMessage(i, msg);
+        msg = connections[i]->CheckForData();
+      }
+    }
+    // Update clients
+    SendGameUpdate();
+  }
 }
 
 void Server::SendGameUpdate() { SendMessageAll(playersToString()); }

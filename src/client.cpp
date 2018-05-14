@@ -92,10 +92,7 @@ void Client::Update() {
       // Convert to c++ string
       string msg(buffer, msglen);
       if (msg[0] == 'C') playerCount = std::stoi(msg.substr(1, msg.size() - 1));
-      if (msg.substr(0, 2) == "GS") {
-        startGame(msg);
-        sendStatus();
-      }
+      if (msg.substr(0, 2) == "GS") { startGame(msg); }
     }
   }
 
@@ -107,6 +104,7 @@ void Client::Update() {
       ProcessMessage(msg);
       msg = connection->CheckForData();
     }
+    sendStatus();
   }
 }
 
@@ -119,11 +117,11 @@ void Client::SendMessage(string message) {
 }
 
 void Client::sendStatus() {
-  SendMessage(to_string(Players[playerIndex]->position.x) + "#" +
-              to_string(Players[playerIndex]->position.y) + "#" +
-              to_string(Players[playerIndex]->rotation) + "#" +
-              to_string(Players[playerIndex]->velocity.x) + "#" +
-              to_string(Players[playerIndex]->velocity.y));
+  connection->Send(to_string(Players[playerIndex]->position.x) + "#" +
+                   to_string(Players[playerIndex]->position.y) + "#" +
+                   to_string(Players[playerIndex]->rotation) + "#" +
+                   to_string(Players[playerIndex]->velocity.x) + "#" +
+                   to_string(Players[playerIndex]->velocity.y));
 }
 
 void Client::ProcessMessage(string message) {

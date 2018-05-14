@@ -28,7 +28,7 @@ GameScene::GameScene(Game* game) {
 
 GameScene::~GameScene() {
   delete game;
-  exit(0);
+  // exit(0); // Debugging purposes
 }
 
 void GameScene::Update() {
@@ -51,7 +51,6 @@ void GameScene::Update() {
   if (kb[A]) player->velocity.x -= 1;
   if (kb[S]) player->velocity.y += 1;
   if (kb[D]) player->velocity.x += 1;
-
 
   for (ubyte i = 0; i < game->Players.size(); i++) {
     game->Players[i]->Update();
