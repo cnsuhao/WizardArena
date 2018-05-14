@@ -146,7 +146,7 @@ void Server::processPlayerMessage(int id, string msg) {
 
   string buf = "";
   for (uint i = 0; i < msg.size(); i++) {
-    if (msg[i] == '|') {
+    if (msg[i] == '#') {
       parts.push_back(buf);
       buf = "";
     } else {
@@ -205,10 +205,10 @@ string Server::playersToString() {
     if (Players[i]->dead) {
       tmp += "P" + to_string(i) + "D";
     } else {
-      tmp += "P" + to_string(i) + to_string(Players[i]->position.x) + "|" +
-             to_string(Players[i]->position.y) + "|" +
-             to_string(Players[i]->rotation) + "|" +
-             to_string(Players[i]->velocity.x) + "|" +
+      tmp += "P" + to_string(i) + to_string(Players[i]->position.x) + "#" +
+             to_string(Players[i]->position.y) + "#" +
+             to_string(Players[i]->rotation) + "#" +
+             to_string(Players[i]->velocity.x) + "#" +
              to_string(Players[i]->velocity.y);
     }
   }

@@ -77,8 +77,6 @@ Client::Client(string ipAddress) {
 Client::~Client() { SDLNet_TCP_Close(clientSocket); }
 
 void Client::Update() {
-  if (GameStarted) sendStatus();
-
   // Check our socket set for activity.
   if (SDLNet_CheckSockets(socketSet, 0) != 0) {
     // Check if we got a response from the server
@@ -91,7 +89,10 @@ void Client::Update() {
       string msg(buffer, msglen);
       if (msg[0] == 'C') playerCount = std::stoi(msg.substr(1, msg.size() - 1));
       if (GameStarted) ProcessMessage(msg);
-      if (msg.substr(0, 2) == "GS") { startGame(msg); }
+      if (msg.substr(0, 2) == "GS") {
+        startGame(msg);
+        sendStatus();
+      }
     }
   }
 }
@@ -105,10 +106,10 @@ void Client::SendMessage(string message) {
 }
 
 void Client::sendStatus() {
-  SendMessage(to_string(Players[playerIndex]->position.x) + "|" +
-              to_string(Players[playerIndex]->position.y) + "|" +
-              to_string(Players[playerIndex]->rotation) + "|" +
-              to_string(Players[playerIndex]->velocity.x) + "|" +
+  SendMessage(to_string(Players[playerIndex]->position.x) + "#" +
+              to_string(Players[playerIndex]->position.y) + "#" +
+              to_string(Players[playerIndex]->rotation) + "#" +
+              to_string(Players[playerIndex]->velocity.x) + "#" +
               to_string(Players[playerIndex]->velocity.y));
 }
 
@@ -146,7 +147,7 @@ void Client::updatePlayer(string info) {
 
   buf = "";
   for (uint i = 1; i < info.size(); i++) {
-    if (info[i] == '|') {
+    if (info[i] == '#') {
       parts.push_back(buf);
       buf = "";
     } else {
@@ -180,7 +181,7 @@ void Client::addPlayer(string info) {
   vector<string> parts = vector<string>();
   string         buf   = "";
   for (uint i = 1; i < info.size(); i++) {
-    if (info[i] == '|') {
+    if (info[i] == '#') {
       parts.push_back(buf);
       buf = "";
     } else {
@@ -198,7 +199,7 @@ void Client::startGame(string message) {
   playerIndex = message[2] - '0';
 
   // playercount
-  playerCount = message[3] - '0';
+  // playerCount = message[3] - '0';
 
   string buf = "";
   // Add players to local vector
