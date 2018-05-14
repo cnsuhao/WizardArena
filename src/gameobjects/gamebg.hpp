@@ -1,6 +1,7 @@
 #ifndef GAMEBG_H
 #define GAMEBG_H
 #include "../gameobject.hpp"
+#include "../shader.hpp"
 #include "image.hpp"
 
 class GameBG : public GameObject {
@@ -10,7 +11,10 @@ class GameBG : public GameObject {
   void Draw();
 
  private:
-  Image* image;
+  Image*  image;
+  Shader* shader;
+
+  map<string, uint> uniforms;
 };
 
 #endif

@@ -32,6 +32,8 @@ class Client : public Game {
   void ProcessMessage(string message);
   void startGame(string message);
   void addPlayer(string info);
+  void updatePlayer(string info);
+  void sendStatus();
 };
 
 #endif

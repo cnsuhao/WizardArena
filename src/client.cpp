@@ -3,6 +3,7 @@
 
 using std::cout;
 using std::endl;
+using std::to_string;
 
 Client::Client(string ipAddress) {
   serverName  = ipAddress;
@@ -76,6 +77,8 @@ Client::Client(string ipAddress) {
 Client::~Client() { SDLNet_TCP_Close(clientSocket); }
 
 void Client::Update() {
+  if (GameStarted) sendStatus();
+
   // Check our socket set for activity.
   if (SDLNet_CheckSockets(socketSet, 0) != 0) {
     // Check if we got a response from the server
@@ -101,12 +104,58 @@ void Client::SendMessage(string message) {
   SDLNet_TCP_Send(clientSocket, (void*)buffer, strlen(buffer) + 1);
 }
 
-void Client::ProcessMessage(string message) {}
+void Client::sendStatus() {
+  SendMessage(to_string(Players[playerIndex]->position.x) + "|" +
+              to_string(Players[playerIndex]->position.y) + "|" +
+              to_string(Players[playerIndex]->rotation) + "|" +
+              to_string(Players[playerIndex]->velocity.x) + "|" +
+              to_string(Players[playerIndex]->velocity.y));
+}
+
+void Client::ProcessMessage(string message) {
+  string buf = "";
+  for (uint i = 0; i < message.size(); i++) {
+    if (message[i] == 'P') {
+      updatePlayer(buf);
+      buf = "";
+    } else {
+      buf += message[i];
+    }
+  }
+  updatePlayer(buf);
+}
+
+void Client::updatePlayer(string info) {
+  if (info == "") return;
+
+  string buf   = {info[0]};
+  int    index = std::stoi(buf);
+  if (index == playerIndex || index >= Players.size()) return;
+
+  vector<string> parts = vector<string>();
+
+  buf = "";
+  for (uint i = 1; i < info.size(); i++) {
+    if (info[i] == '|') {
+      parts.push_back(buf);
+      buf = "";
+    } else {
+      buf += info[i];
+    }
+  }
+  parts.push_back(buf);
+
+  Players[index]->position.x = std::stof(parts[0]);
+  Players[index]->position.y = std::stof(parts[1]);
+  Players[index]->rotation   = std::stof(parts[2]);
+  Players[index]->velocity.x = std::stof(parts[3]);
+  Players[index]->velocity.y = std::stof(parts[4]);
+}
 
 void Client::addPlayer(string info) {
   if (info == "") return;
-  vector<string> parts;
-  string         buf = "";
+  vector<string> parts = vector<string>();
+  string         buf   = "";
   for (uint i = 1; i < info.size(); i++) {
     if (info[i] == '|') {
       parts.push_back(buf);
@@ -137,4 +186,5 @@ void Client::startGame(string message) {
     }
   }
   addPlayer(buf);
+  sendStatus();
 }

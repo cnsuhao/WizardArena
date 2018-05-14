@@ -34,6 +34,7 @@ GameScene::~GameScene() {
 void GameScene::Update() {
   Scene::Update();
   game->Update();
+
   if (game->Disconnected) {
     Dead = true;
     Messages.push_back("Connect");
@@ -50,15 +51,10 @@ void GameScene::Update() {
   if (kb[A]) player->velocity.x -= 1;
   if (kb[S]) player->velocity.y += 1;
   if (kb[D]) player->velocity.x += 1;
-  if (player->velocity == vec2(0, 0)) {
-  } else {
-    player->velocity = glm::normalize(player->velocity);
-    player->velocity *= MAX_SPEED;
 
-    // Move player
-    player->position +=
-        player->velocity * (float)GameObject::globals->DeltaTime;
-    if (player->position.x > 1000) { player->position.x = 0; }
+
+  for (ubyte i = 0; i < game->Players.size(); i++) {
+    game->Players[i]->Update();
   }
 }
 

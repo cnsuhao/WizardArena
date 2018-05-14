@@ -125,9 +125,38 @@ void Server::Update() {
         if (!strcmp(buffer, "PC")) {
           SendMessage(clientNumber, "C" + std::to_string(GetPlayerCount()));
         }
+        string msg(buffer, receivedByteCount);
+        if (GameStarted) processPlayerMessage(clientNumber, msg);
       }
     }
   }
+  if (GameStarted) {
+    SDL_Delay(5);
+    SendGameUpdate();
+  }
+}
+
+void Server::SendGameUpdate() { SendMessageAll(playersToString()); }
+
+void Server::processPlayerMessage(int id, string msg) {
+  if (msg == "") return;
+  vector<string> parts = vector<string>();
+
+  string buf = "";
+  for (uint i = 0; i < msg.size(); i++) {
+    if (msg[i] == '|') {
+      parts.push_back(buf);
+      buf = "";
+    } else {
+      buf += msg[i];
+    }
+  }
+  parts.push_back(buf);
+  Players[id + 1]->position.x = std::stof(parts[0]);
+  Players[id + 1]->position.y = std::stof(parts[1]);
+  Players[id + 1]->rotation   = std::stof(parts[2]);
+  Players[id + 1]->velocity.x = std::stof(parts[3]);
+  Players[id + 1]->velocity.y = std::stof(parts[4]);
 }
 
 void Server::StartGame() {
@@ -138,6 +167,7 @@ void Server::StartGame() {
     SendMessage(i, "GS" + std::to_string(i + 1) + playersToString());
   }
   GameStarted = true;
+  SDL_Delay(30);
 }
 
 Server::~Server() {
