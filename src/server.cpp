@@ -54,7 +54,7 @@ Server::Server() {
 void Server::Update() {
   //  0: dont wait
   //  any other number is a number of milliseconds
-  SDLNet_CheckSockets(socketSet, 3);
+  SDLNet_CheckSockets(socketSet, 0);
 
   // Check if our server socket has received any data
   int serverSocketActivity = SDLNet_SocketReady(socket);
@@ -133,7 +133,7 @@ void Server::Update() {
     }
   }
   if (GameStarted) {
-    SDL_Delay(1);
+    SDL_Delay(5);
     SendGameUpdate();
   }
 }

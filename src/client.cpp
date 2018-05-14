@@ -80,7 +80,7 @@ void Client::Update() {
   if (GameStarted) sendStatus();
 
   // Check our socket set for activity.
-  if (SDLNet_CheckSockets(socketSet, 3) != 0) {
+  if (SDLNet_CheckSockets(socketSet, 0) != 0) {
     // Check if we got a response from the server
     if (SDLNet_SocketReady(clientSocket) != 0) {
       int msglen = SDLNet_TCP_Recv(clientSocket, buffer, BUFFER_SIZE);
