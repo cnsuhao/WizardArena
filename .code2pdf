@@ -1,0 +1,26 @@
+:directories:
+  - .git
+  - log
+  - public/system
+  - tmp
+  - vendor
+  - docs
+  - darwin-4.2.1
+  - bin/darwin-4.2.1
+  - bin/Content/Music
+  - bin/Content/Textures
+  - bin/Content/Sound
+  - bin/Content/UI
+  - .vscode
+:files:
+  - .DS_Store
+  - database.yml
+  - favicon.ico
+  - .code2pdf
+  - journal.txt
+  - Doxyfile
+  - project-cache.jam
+  - WizardArena
+  - config.log
+  - .clang-format
+  - .gitignore

@@ -10,3 +10,7 @@ msvc-*
 gcc-*
 .#*
 *#
+journal.txt
+tmp
+bin/Content/options.txt
+
