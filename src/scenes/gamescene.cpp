@@ -127,6 +127,16 @@ void GameScene::Input(SDL_Event event) {
     }
   }
 
+  // Escape to disconnect
+  if (event.type == SDL_KEYUP) {
+    if (event.key.keysym.sym == SDLK_ESCAPE) {
+      Dead = true;
+      Messages.push_back("Connect");
+      Messages.push_back("Message");
+      Messages.push_back("Disconnected");
+    }
+  }
+
   // Scroll to zoom
   if (event.type == SDL_MOUSEWHEEL) {
     cam.zoom += event.wheel.y / 15.0;
