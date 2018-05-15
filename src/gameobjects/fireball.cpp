@@ -30,7 +30,6 @@ void Fireball::Update() {
 }
 void Fireball::Draw() {
   float angle = 0;
-
   // Compute angle and save it
   if (velocity.x > 0) {
     angle = -glm::angle(vec2(0, 1), glm::normalize(velocity)) * TODEGREES + 180;
@@ -42,12 +41,12 @@ void Fireball::Draw() {
   GPU_SetUniformf(uniforms["velx"], velocity.x / 1000);
   GPU_SetUniformf(uniforms["vely"], velocity.y / 1000);
   GPU_BlitTransform(img, nullptr, globals->backbuffer, position.x, position.y,
-                    angle, 3.0f, 3.0f);
+                    angle, 2.0f, 2.0f);
   shader->Deactivate();
 }
 
 bool Fireball::Intersect(vec2 playerPosition) {
-  if (glm::distance(position, playerPosition) < 85) {
+  if (glm::distance(position, playerPosition) < 90) {
     expired = true;
     return true;
   }
