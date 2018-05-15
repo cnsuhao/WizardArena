@@ -1,6 +1,7 @@
 #ifndef FIREBALL_H
 #define FIREBALL_H
 #include "../active.hpp"
+#include "../shader.hpp"
 
 class Fireball : public Active {
  public:
@@ -15,6 +16,9 @@ class Fireball : public Active {
   GPU_Image* img;
 
   double birthTime;
+
+  Shader*           shader;
+  map<string, uint> uniforms;
 };
 
 #endif

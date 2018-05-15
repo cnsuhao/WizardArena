@@ -14,6 +14,9 @@ Fireball::Fireball(int owner, vec2 position, vec2 velocity) {
 
   birthTime = globals->Time;
   expired   = false;
+
+  shader   = new Shader("Fireball", {"velx", "vely"});
+  uniforms = shader->GetUniforms();
 }
 Fireball::~Fireball() { GPU_FreeImage(img); }
 
@@ -35,8 +38,12 @@ void Fireball::Draw() {
     angle = glm::angle(vec2(0, 1), glm::normalize(velocity)) * TODEGREES + 180;
   }
 
+  shader->Activate();
+  GPU_SetUniformf(uniforms["velx"], velocity.x / 1000);
+  GPU_SetUniformf(uniforms["vely"], velocity.y / 1000);
   GPU_BlitTransform(img, nullptr, globals->backbuffer, position.x, position.y,
-                    angle, 2.0f, 2.0f);
+                    angle, 3.0f, 3.0f);
+  shader->Deactivate();
 }
 
 bool Fireball::Intersect(vec2 playerPosition) {

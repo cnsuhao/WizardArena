@@ -7,7 +7,7 @@ class Active : public GameObject {
   Active() { owner = 0; }
   virtual ~Active() {}
 
-  virtual bool Intersect(vec2 playerPosition) {}
+  virtual bool Intersect(vec2 playerPosition) { return false; }
 
   // int  GetOwner() { return owner; }
   vec2 velocity;

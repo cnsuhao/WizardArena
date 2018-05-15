@@ -51,6 +51,9 @@ void InputManager::ProcessInput() {
     if (event.type == SDL_KEYDOWN) { sceneManager->Input(event); }
 
     // Quits the game on quit event
-    if (event.type == SDL_QUIT) { globals->gameState = QUIT; }
+    if (event.type == SDL_QUIT) {
+      globals->gameState = QUIT;
+      exit(0);
+    }
   }
 }
