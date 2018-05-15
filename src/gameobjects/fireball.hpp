@@ -12,6 +12,8 @@ class Fireball : public Active {
   void Draw();
   bool Intersect(vec2 playerPosition);
 
+  void UpdatePos(float iterations);
+
  private:
   GPU_Image* img;
 

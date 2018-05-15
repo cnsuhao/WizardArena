@@ -22,7 +22,7 @@ exe "WizardArena" : [ glob src/*.cpp ] [ glob src/gameobjects/*.cpp ] [ glob src
 <target-os>darwin:<cflags>-std=c++11
 <address-model>64
 <optimization>speed
-<define>RELEASE <variant>release ;
+<define>DEBUG <variant>debug ;
 
 install install-bin : WizardArena : <location>"./bin/" ;
 

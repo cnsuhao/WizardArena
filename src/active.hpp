@@ -9,6 +9,8 @@ class Active : public GameObject {
 
   virtual bool Intersect(vec2 playerPosition) { return false; }
 
+  virtual void UpdatePos(float iterations) {}
+
   // int  GetOwner() { return owner; }
   vec2 velocity;
   bool expired;

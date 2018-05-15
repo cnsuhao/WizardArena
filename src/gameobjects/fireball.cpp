@@ -18,16 +18,20 @@ Fireball::Fireball(int owner, vec2 position, vec2 velocity) {
   shader   = new Shader("Fireball", {"velx", "vely"});
   uniforms = shader->GetUniforms();
 }
+
 Fireball::~Fireball() { GPU_FreeImage(img); }
 
 void Fireball::Update() {
   if (globals->Time - birthTime > LIFETIME) { expired = true; }
+}
 
+void Fireball::UpdatePos(float iterations) {
   // Move
   if (velocity != vec2(0, 0)) {
-    position += velocity * (float)GameObject::globals->DeltaTime;
+    position += (velocity * (float)GameObject::globals->DeltaTime) / iterations;
   }
 }
+
 void Fireball::Draw() {
   float angle = 0;
   // Compute angle and save it

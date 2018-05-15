@@ -70,7 +70,7 @@ void GameScene::Update() {
   if (kb[D]) player->velocity.x += 1;
 
   // Update or delete active objects
-  for (int i = 0; i < ActiveObjects.size(); i++) {
+  for (uint i = 0; i < ActiveObjects.size(); i++) {
     if (ActiveObjects[i]->expired) {
       delete ActiveObjects[i];
       ActiveObjects.erase(ActiveObjects.begin() + i);
@@ -80,19 +80,34 @@ void GameScene::Update() {
     }
   }
 
+  // Check for active intersection
+  for (uint i = 0; i < ActiveObjects.size(); i++) {
+    // iterations
+    float it          = 10.0f;
+    bool  intersected = false;
+    for (float k = 0.0f; k < it; k++) {
+      ActiveObjects[i]->UpdatePos(it);
+      if (!intersected) {
+        for (int j = 0; j < game->Players.size(); j++) {
+          if (ActiveObjects[i]->owner != i && !game->Players[j]->dead) {
+            if (ActiveObjects[i]->Intersect(game->Players[j]->position)) {
+              game->Players[j]->dead = true;
+              intersected            = true;
+              delete ActiveObjects[i];
+              ActiveObjects.erase(ActiveObjects.begin() + i);
+              i--;
+              goto ENDOFLOOP;
+            }
+          }
+        }
+      }
+    }
+  ENDOFLOOP:;
+  }
+
   // Update players
   for (ubyte i = 0; i < game->Players.size(); i++) {
     game->Players[i]->Update();
-  }
-
-  // Check for active intersection
-  for (int i = 0; i < ActiveObjects.size(); i++) {
-    for (int j = 0; j < game->Players.size(); j++) {
-      if (ActiveObjects[i]->owner != i && !game->Players[j]->dead) {
-        if (ActiveObjects[i]->Intersect(game->Players[j]->position))
-          game->Players[j]->dead = true;
-      }
-    }
   }
 }
 
